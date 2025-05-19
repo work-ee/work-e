@@ -1,4 +1,4 @@
-import { Rubik, Nunito_Sans } from "next/font/google";
+import { Nunito_Sans, Rubik } from "next/font/google";
 
 export const rubik = Rubik({
   weight: ["500", "600", "700"],
