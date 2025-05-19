@@ -1,22 +1,8 @@
 import type { Metadata } from "next";
-import { Rubik, Nunito_Sans } from "next/font/google";
 import "./globals.css";
+import { nunitoSans, rubik } from "./fonts";
 import { Header } from "@/components/shared/header";
 import { Footer } from "@/components/shared/footer";
-
-export const rubik = Rubik({
-  weight: ["500", "600", "700"],
-  subsets: ["latin"],
-  variable: "--font-rubik",
-  display: "swap",
-});
-
-export const nunitoSans = Nunito_Sans({
-  weight: ["300", "400", "500"],
-  subsets: ["latin"],
-  variable: "--font-nunito-sans",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
