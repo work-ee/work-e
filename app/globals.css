@@ -3,27 +3,73 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #007bff;
+  --font-rubik: "Rubik", sans-serif;
+  --font-nunito-sans: "Nunito Sans", sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-rubik: var(--font-rubik);
+  --font-nunito-sans: var(--font-nunito-sans);
+
+  --color-prymary-900: #081f5c;
+  --color-prymary-800: #0b266e;
+  --color-prymary-700: #0f2f84;
+  --color-prymary-600: #2d468a;
+  --color-prymary-500: #2d52b3;
+  --color-prymary-400: #3861d0;
+  --color-prymary-300: #4b74e2;
+  --color-prymary-200: #68a8e9;
+  --color-prymary-100: #91c2f4;
+  --color-prymary-50: #d1e8ff;
+
+  --color-secondary-900: #2772a0;
+  --color-secondary-800: #3080b0;
+  --color-secondary-700: #4b94c1;
+  --color-secondary-600: #408cbb;
+  --color-secondary-500: #4095c9;
+  --color-secondary-400: #5095c0;
+  --color-secondary-300: #609de0;
+  --color-secondary-200: #78aae3;
+  --color-secondary-100: #99cded;
+  --color-secondary-50: #ecf4ff;
+
+  --color-accent-900: #983d00;
+  --color-accent-800: #b64a02;
+  --color-accent-700: #c95101;
+  --color-accent-600: #eb5f01;
+  --color-accent-500: #ff6600;
+  --color-accent-400: #f2731e;
+  --color-accent-300: #ff812e;
+  --color-accent-200: #ff9148;
+  --color-accent-100: #ffb07b;
+  --color-accent-50: #ffe2cf;
+
+  --color-neutral-900: #1f1f1f;
+  --color-neutral-800: #353333;
+  --color-neutral-700: #545454;
+  --color-neutral-600: #777777;
+  --color-neutral-500: #9d9d9d;
+  --color-neutral-400: #b7b7b7;
+  --color-neutral-300: #d3d0d0;
+  --color-neutral-200: #e3e2e2;
+  --color-neutral-100: #ececec;
+  --color-neutral-50: #ffffff;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
+.font-rubik {
+  font-family: var(--font-rubik);
+}
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-nunito-sans), sans-serif;
   font-size: 18px;
+  line-height: 150%;
+  font-weight: 400;
   @apply flex min-h-screen flex-col;
 
   footer {
@@ -39,29 +85,32 @@ body {
   @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
 }
 
-h1,
-.h1 {
-  @apply mb-4 text-4xl font-bold;
+/* Typography
+------------------------------------------ */
+.heading-h1 {
+  @apply font-rubik text-[48px] leading-[120%] font-bold;
 }
-h2,
-.h2 {
-  @apply mb-4 text-3xl font-bold;
+
+.heading-h2 {
+  @apply font-rubik text-[36px] leading-[130%] font-semibold;
 }
-h3,
-.h3 {
-  @apply mb-4 text-2xl font-bold;
+.heading-h3 {
+  @apply font-rubik text-[24px] leading-[130%] font-medium;
 }
-h4,
-.h4 {
-  @apply mb-4 text-xl font-bold;
+.text-body {
+  @apply font-nunito-sans text-[18px] leading-[150%] font-normal;
 }
-h5,
-.h5 {
-  @apply mb-4 text-lg font-bold;
+.text-micro {
+  @apply font-nunito-sans text-[14px] leading-[150%] font-light;
 }
-h6,
-.h6 {
-  @apply mb-4 text-base font-bold;
+.btn {
+  @apply font-rubik text-[20px] leading-[150%] font-medium;
+}
+.input-text {
+  @apply font-nunito-sans text-[16px] leading-[150%] font-normal;
+}
+.label-text {
+  @apply font-nunito-sans text-[14px] leading-[150%] font-normal;
 }
 
 .section {

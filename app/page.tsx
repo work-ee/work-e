@@ -4,8 +4,8 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <div className="text-center">
-            <h1 className="h1">Швидкий пошук роботи на Work - E</h1>
-            <p className="h3">Для всіх хто працює в IT</p>
+            <h1 className="heading-h1 mb-4">Швидкий пошук роботи на Work - E</h1>
+            <p className=".heading-h3 mb-4">Для всіх хто працює в IT</p>
           </div>
         </div>
       </section>
