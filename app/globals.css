@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  /* --foreground: #171717; */
   --primary: #007bff;
   --font-rubik: "Rubik", sans-serif;
   --font-nunito-sans: "Nunito Sans", sans-serif;
@@ -57,6 +57,11 @@
   --color-neutral-200: #e3e2e2;
   --color-neutral-100: #ececec;
   --color-neutral-50: #ffffff;
+  
+  --color-error-main: #DD1111;
+  --color-error-bg: #FFC4C4;
+  --color-success-main: #0FBB20;
+  --color-success-bg: #D8FEDC;
 }
 
 @utility container {
@@ -115,4 +120,21 @@ body {
 
 .section {
   @apply my-8;
+}
+
+.input-unlabeled-shadow-styles {
+  box-shadow: none;
+  transition: box-shadow 0.2s ease-in-out; 
+}
+
+.input-unlabeled-shadow-styles:hover {
+  box-shadow: 0px 0px 8px 0px rgba(120, 170, 227, 0.4);
+}
+
+.input-unlabeled-shadow-styles:focus-within {
+  box-shadow: 0px 0px 8px 0px rgba(120, 170, 227, 0.6);
+}
+
+.input-unlabeled-shadow-styles[disabled] {
+  box-shadow: none !important; 
 }
