@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
-import { Footer } from "@/components/shared/Footer";
-import { Header } from "@/components/shared/Header";
+import { Footer, Header } from "@/components/shared";
 
 import { nunitoSans, rubik } from "./fonts";
 import "./globals.css";
