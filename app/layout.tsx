@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import { nunitoSans, rubik } from "./fonts";
-import { Header } from "@/components/shared/header";
+
 import { Footer } from "@/components/shared/footer";
+import { Header } from "@/components/shared/header";
+
+import { nunitoSans, rubik } from "./fonts";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",

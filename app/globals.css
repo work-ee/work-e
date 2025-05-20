@@ -59,30 +59,12 @@
   --color-neutral-50: #ffffff;
 }
 
-.font-rubik {
-  font-family: var(--font-rubik);
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-nunito-sans), sans-serif;
-  font-size: 18px;
-  line-height: 150%;
-  font-weight: 400;
-  @apply flex min-h-screen flex-col;
-
-  footer {
-    @apply mt-auto;
-  }
-}
-
-.logo {
-  @apply inline-flex items-center justify-center text-2xl font-bold text-gray-900;
-}
-
 @utility container {
   @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+.font-rubik {
+  font-family: var(--font-rubik);
 }
 
 /* Typography
@@ -111,6 +93,24 @@ body {
 }
 .label-text {
   @apply font-nunito-sans text-[14px] leading-[150%] font-normal;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-nunito-sans), sans-serif;
+  font-size: 18px;
+  line-height: 150%;
+  font-weight: 400;
+  @apply flex min-h-screen flex-col;
+
+  footer {
+    @apply mt-auto;
+  }
+}
+
+.logo {
+  @apply inline-flex items-center justify-center text-2xl font-bold text-gray-900;
 }
 
 .section {
