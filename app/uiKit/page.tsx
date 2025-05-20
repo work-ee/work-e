@@ -1,34 +1,35 @@
-'use client';
-import Input from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
-import React, { useState } from 'react';
+"use client";
+
+import React, { useState } from "react";
+
+import { Button, Input } from "@/components/ui";
 
 export default function UiKit() {
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    searchQuery: '',
-    phone: '',
-    notes: '',
+    username: "",
+    email: "",
+    password: "",
+    searchQuery: "",
+    phone: "",
+    notes: "",
   });
 
   const [errors, setErrors] = useState({
-    username: '',
-    email: '',
-    password: '',
-    searchQuery: '',
-    phone: '',
-    notes: '',
+    username: "",
+    email: "",
+    password: "",
+    searchQuery: "",
+    phone: "",
+    notes: "",
   });
 
   const [successMessages, setSuccessMessages] = useState({
-    username: '',
-    email: '',
-    password: '',
-    searchQuery: '',
-    phone: '',
-    notes: '',
+    username: "",
+    email: "",
+    password: "",
+    searchQuery: "",
+    phone: "",
+    notes: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,103 +40,110 @@ export default function UiKit() {
     }));
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: '',
+      [name]: "",
     }));
     setSuccessMessages((prevSuccess) => ({
       ...prevSuccess,
-      [name]: '',
+      [name]: "",
     }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors = {
-      username: '',
-      email: '',
-      password: '',
-      searchQuery: '',
-      phone: '',
-      notes: '',
+      username: "",
+      email: "",
+      password: "",
+      searchQuery: "",
+      phone: "",
+      notes: "",
     };
     const newSuccessMessages = {
-      username: '',
-      email: '',
-      password: '',
-      searchQuery: '',
-      phone: '',
-      notes: '',
+      username: "",
+      email: "",
+      password: "",
+      searchQuery: "",
+      phone: "",
+      notes: "",
     };
     let isValid = true;
 
     if (!formData.username) {
-      newErrors.username = 'Ім\'я користувача є обов\'язковим.';
+      newErrors.username = "Ім'я користувача є обов'язковим.";
       isValid = false;
     } else {
-      newSuccessMessages.username = 'Ім\'я користувача введено!';
+      newSuccessMessages.username = "Ім'я користувача введено!";
     }
 
     if (!formData.email) {
-      newErrors.email = 'Email є обов\'язковим.';
+      newErrors.email = "Email є обов'язковим.";
       isValid = false;
     } else if (!/\S+@\S+\.\S/.test(formData.email)) {
-      newErrors.email = 'Недійсний формат Email.';
+      newErrors.email = "Недійсний формат Email.";
       isValid = false;
     } else {
-      newSuccessMessages.email = 'Email введено коректно!';
+      newSuccessMessages.email = "Email введено коректно!";
     }
 
     if (!formData.password) {
-      newErrors.password = 'Пароль є обов\'язковим.';
+      newErrors.password = "Пароль є обов'язковим.";
       isValid = false;
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Пароль має бути не менше 6 символів.';
+      newErrors.password = "Пароль має бути не менше 6 символів.";
       isValid = false;
     } else {
-      newSuccessMessages.password = 'Пароль введено!';
+      newSuccessMessages.password = "Пароль введено!";
     }
 
-    if (formData.notes === '') { 
-      newErrors.notes = 'Будь ласка, введіть повідомлення.';
-      
+    if (formData.notes === "") {
+      newErrors.notes = "Будь ласка, введіть повідомлення.";
     } else {
-      newSuccessMessages.notes = 'Повідомлення додано.';
+      newSuccessMessages.notes = "Повідомлення додано.";
     }
 
-    if (formData.searchQuery === '') {
-      newErrors.searchQuery = 'Поле пошуку порожнє.';
+    if (formData.searchQuery === "") {
+      newErrors.searchQuery = "Поле пошуку порожнє.";
     } else {
-      newSuccessMessages.searchQuery = 'Запит введено.';
+      newSuccessMessages.searchQuery = "Запит введено.";
     }
 
-    if (formData.phone === '') {
-      newErrors.phone = 'Номер телефону не вказано.';
-    } else if (!/^[0-9+()-\s]*$/.test(formData.phone)) { 
-        newErrors.phone = 'Недійсний формат номера телефону.';
+    if (formData.phone === "") {
+      newErrors.phone = "Номер телефону не вказано.";
+    } else if (!/^[0-9+()-\s]*$/.test(formData.phone)) {
+      newErrors.phone = "Недійсний формат номера телефону.";
+    } else {
+      newSuccessMessages.phone = "Телефон введено.";
     }
-    else {
-      newSuccessMessages.phone = 'Телефон введено.';
-    }
-
 
     setErrors(newErrors);
     setSuccessMessages(newSuccessMessages);
 
-    if (isValid) { 
-      console.log('Дані форми:', formData);
-      alert('Вся обов\'язкова частина форми відправлена успішно!');
+    if (isValid) {
+      // console.log("Дані форми:", formData);
+      alert("Вся обов'язкова частина форми відправлена успішно!");
       setFormData({
-        username: '',
-        email: '',
-        password: '',
-        searchQuery: '',
-        phone: '',
-        notes: '',
+        username: "",
+        email: "",
+        password: "",
+        searchQuery: "",
+        phone: "",
+        notes: "",
       });
       setErrors({
-        username: '', email: '', password: '', searchQuery: '', phone: '', notes: '',
+        username: "",
+        email: "",
+        password: "",
+        searchQuery: "",
+        phone: "",
+        notes: "",
       });
       setSuccessMessages({
-        username: '', email: '', password: '', searchQuery: '', phone: '', notes: '',
+        username: "",
+        email: "",
+        password: "",
+        searchQuery: "",
+        phone: "",
+        notes: "",
       });
     }
   };
@@ -145,9 +153,13 @@ export default function UiKit() {
       <section className="section flex flex-col items-center gap-y-4">
         <h3>Buttons</h3>
         <Button variant="main">Button</Button>
-        <Button variant="main" icon>Button</Button>
+        <Button variant="main" icon>
+          Button
+        </Button>
         <Button variant="secondary">Button</Button>
-        <Button variant="secondary" icon>Button</Button>
+        <Button variant="secondary" icon>
+          Button
+        </Button>
       </section>
       <section className="section">
         <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-8 rounded shadow-md">
@@ -227,14 +239,16 @@ export default function UiKit() {
             value={formData.phone}
             onChange={handleChange}
             error={errors.phone}
-            success={successMessages.phone}            
+            success={successMessages.phone}
             iconRight={
               <svg className="h-5 w-5 fill-current">
                 <use href="/sprite.svg#icon-eye"></use>
               </svg>
             }
           />
-          <Button variant="secondary" type="submit">Відправити форму</Button>
+          <Button variant="secondary" type="submit">
+            Відправити форму
+          </Button>
         </form>
       </section>
     </main>
