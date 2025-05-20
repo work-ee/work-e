@@ -9,7 +9,6 @@ import { auth } from "@/auth";
 
 export const Header = async () => {
   const session = await auth();
-  // console.log(session?.user);
 
   return (
     <header className="bg-[#E4E4E4]">
