@@ -57,11 +57,11 @@
   --color-neutral-200: #e3e2e2;
   --color-neutral-100: #ececec;
   --color-neutral-50: #ffffff;
-  
-  --color-error-main: #DD1111;
-  --color-error-bg: #FFC4C4;
-  --color-success-main: #0FBB20;
-  --color-success-bg: #D8FEDC;
+
+  --color-error-main: #dd1111;
+  --color-error-bg: #ffc4c4;
+  --color-success-main: #0fbb20;
+  --color-success-bg: #d8fedc;
 }
 
 @utility container {
@@ -124,7 +124,7 @@ body {
 
 .input-unlabeled-shadow-styles {
   box-shadow: none;
-  transition: box-shadow 0.2s ease-in-out; 
+  transition: box-shadow 0.2s ease-in-out;
 }
 
 .input-unlabeled-shadow-styles:hover {
@@ -136,5 +136,5 @@ body {
 }
 
 .input-unlabeled-shadow-styles[disabled] {
-  box-shadow: none !important; 
+  box-shadow: none !important;
 }

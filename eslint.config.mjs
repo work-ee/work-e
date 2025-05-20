@@ -1,5 +1,6 @@
 // eslint.config.mjs
 import js from "@eslint/js";
+
 import prettier from "eslint-config-prettier";
 import reactPlugin from "eslint-plugin-react";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
