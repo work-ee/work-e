@@ -1,5 +1,6 @@
-import React, { InputHTMLAttributes } from 'react';
-import clsx from 'clsx';
+import React, { InputHTMLAttributes } from "react";
+
+import clsx from "clsx";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
@@ -24,14 +25,14 @@ const SvgIcon = ({ id, className }: { id: string; className?: string }) => (
   </svg>
 );
 
-const Input: React.FC<InputProps> = ({
+export const Input: React.FC<InputProps> = ({
   id,
   label,
   name,
   value,
   onChange,
   placeholder,
-  type = 'text',
+  type = "text",
   error,
   success,
   iconLeft,
@@ -42,7 +43,7 @@ const Input: React.FC<InputProps> = ({
   disabled = false,
   ...rest
 }) => {
-  const hasIcons = iconLeft || iconRight; 
+  const hasIcons = iconLeft || iconRight;
   const showErrorMessage = error;
   const showSuccessMessage = !error && success;
 
@@ -57,13 +58,13 @@ const Input: React.FC<InputProps> = ({
     contentColorClass = "text-success-main";
   } else if (isUnlabeled) {
     if (disabled) {
-      contentColorClass = "text-neutral-200"; 
-    } else if (value !== '') {
-      contentColorClass = "text-secondary-200"; 
+      contentColorClass = "text-neutral-200";
+    } else if (value !== "") {
+      contentColorClass = "text-secondary-200";
     } else {
-      contentColorClass = "text-secondary-100"; 
+      contentColorClass = "text-secondary-100";
     }
-  } else { 
+  } else {
     contentColorClass = "text-secondary-100";
   }
 
@@ -75,13 +76,13 @@ const Input: React.FC<InputProps> = ({
     borderColorClass = "border-success-main";
   } else if (isUnlabeled) {
     if (disabled) {
-      borderColorClass = "border-neutral-200"; 
-    } else if (value !== '') {
-      borderColorClass = "border-secondary-200"; 
+      borderColorClass = "border-neutral-200";
+    } else if (value !== "") {
+      borderColorClass = "border-secondary-200";
     } else {
       borderColorClass = "border-secondary-100 focus:border-secondary-500";
     }
-  } else { 
+  } else {
     borderColorClass = "border-secondary-100";
   }
 
@@ -91,33 +92,32 @@ const Input: React.FC<InputProps> = ({
     iconBgClass = "bg-error-bg";
   } else if (success) {
     iconBgClass = "bg-success-bg";
-  } else if (disabled) { 
-      iconBgClass = "bg-neutral-100";
-  } else { 
-      iconBgClass = "bg-secondary-50";
+  } else if (disabled) {
+    iconBgClass = "bg-neutral-100";
+  } else {
+    iconBgClass = "bg-secondary-50";
   }
 
-  const unlabeledInputShadowClass = isUnlabeled && !disabled && !error && !success
-    ? "input-unlabeled-shadow-styles"
-    : "";
+  const unlabeledInputShadowClass =
+    isUnlabeled && !disabled && !error && !success ? "input-unlabeled-shadow-styles" : "";
 
   const inputContainerClasses = clsx(
     "relative flex items-stretch rounded-[8px] overflow-hidden border",
     borderColorClass,
-    contentColorClass, 
+    contentColorClass,
     unlabeledInputShadowClass,
     {
-      "shadow": shadow && !error,
+      shadow: shadow && !error,
     }
   );
 
   const inputClasses = clsx(
     "appearance-none outline-none flex-grow py-[10px] px-[32px] leading-tight",
-    "bg-neutral-50", 
+    "bg-neutral-50",
     "input-text",
-    "text-current", 
-    "placeholder-current", 
-    "disabled:bg-neutral-50 disabled:cursor-not-allowed", 
+    "text-current",
+    "placeholder-current",
+    "disabled:bg-neutral-50 disabled:cursor-not-allowed",
     {
       "rounded-r-[8px]": iconLeft,
       "rounded-l-[8px]": iconRight,
@@ -125,14 +125,13 @@ const Input: React.FC<InputProps> = ({
     }
   );
 
-  
   const iconSectionClasses = clsx(
     "flex items-center justify-center w-[44px] border-r pointer-events-none z-10",
-    iconBgClass, 
-    borderColorClass, 
-    contentColorClass, 
+    iconBgClass,
+    borderColorClass,
+    contentColorClass,
     {
-      "border-l": iconRight, 
+      "border-l": iconRight,
     }
   );
 
@@ -146,10 +145,10 @@ const Input: React.FC<InputProps> = ({
     });
 
     if (iconProp) {
-        const originalClassName = iconProp.props.className;
-        return React.cloneElement(iconProp, {
-          className: clsx(originalClassName, messageIconClasses),
-        });
+      const originalClassName = iconProp.props.className;
+      return React.cloneElement(iconProp, {
+        className: clsx(originalClassName, messageIconClasses),
+      });
     }
     return <SvgIcon id={defaultId} className={messageIconClasses} />;
   };
@@ -161,16 +160,8 @@ const Input: React.FC<InputProps> = ({
           {label}
         </label>
       )}
-      <div
-        className={inputContainerClasses}
-        style={error ? { boxShadow: '0px 0px 8px 0px #DD111166' } : undefined}
-      >
-        
-        {iconLeft && (
-          <div className={clsx(iconSectionClasses, "rounded-l-[8px]")}>
-            {iconLeft}
-          </div>
-        )}
+      <div className={inputContainerClasses} style={error ? { boxShadow: "0px 0px 8px 0px #DD111166" } : undefined}>
+        {iconLeft && <div className={clsx(iconSectionClasses, "rounded-l-[8px]")}>{iconLeft}</div>}
         <input
           id={id}
           name={name}
@@ -182,12 +173,8 @@ const Input: React.FC<InputProps> = ({
           disabled={disabled}
           {...rest}
         />
-        
-        {iconRight && (
-          <div className={clsx(iconSectionClasses, "rounded-r-[8px]")}>
-            {iconRight}
-          </div>
-        )}
+
+        {iconRight && <div className={clsx(iconSectionClasses, "rounded-r-[8px]")}>{iconRight}</div>}
       </div>
 
       {showErrorMessage && (
@@ -206,5 +193,3 @@ const Input: React.FC<InputProps> = ({
     </div>
   );
 };
-
-export default Input;

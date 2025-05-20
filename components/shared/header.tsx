@@ -2,9 +2,15 @@ import React from "react";
 
 import Link from "next/link";
 
-import { Button } from "../ui/Button";
+import { SignIn, SignOut } from "@/components/AuthBtn";
+import { Button } from "@/components/ui";
 
-export const Header = () => {
+import { auth } from "@/auth";
+
+export const Header = async () => {
+  const session = await auth();
+  // console.log(session?.user);
+
   return (
     <header className="bg-[#E4E4E4]">
       <div className="container">
@@ -13,10 +19,20 @@ export const Header = () => {
             <i>Work- E</i>
           </Link>
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2">
-              <Button variant="secondary">Увійти</Button>
-              <Button variant="secondary">Зареєструватись</Button>
-            </div>
+            {!session ? (
+              <div className="flex items-center gap-2">
+                <SignIn variant="secondary" title="Увійти" />
+                <Button variant="secondary">Зареєструватись</Button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-6">
+                <Link href="/profile" className="flex items-center gap-2">
+                  <img src={session.user?.image || ""} alt="User Avatar" className="h-8 w-8 rounded-full" />
+                  <span>{session.user?.name}</span>
+                </Link>
+                <SignOut title="Вийти" />
+              </div>
+            )}
 
             <ul className="ml-4 flex items-center gap-4">
               <li>

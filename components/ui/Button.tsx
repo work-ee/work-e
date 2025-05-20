@@ -1,7 +1,8 @@
 import React from "react";
+
 import clsx from "clsx";
 
-type Variant = "main" | "secondary";
+export type Variant = "main" | "secondary";
 type Props = {
   children: React.ReactNode;
   variant?: Variant;

@@ -15,9 +15,11 @@
   "importOrder": [
     "^react$",
     "next/(.*)$",
+    "^[a-z]",
     "^@/components/(.*)$",
     "^@/lib/(.*)$",
     "^@/hooks/(.*)$",
+    "^@/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true,
