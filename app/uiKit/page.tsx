@@ -119,7 +119,7 @@ export default function UiKit() {
     setSuccessMessages(newSuccessMessages);
 
     if (isValid) {
-      // console.log("Дані форми:", formData);
+      console.log("Дані форми:", formData);
       alert("Вся обов'язкова частина форми відправлена успішно!");
       setFormData({
         username: "",
