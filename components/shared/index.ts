@@ -1,2 +1,2 @@
-export { Header } from "@/components/shared/Header";
-export { Footer } from "@/components/shared/Footer";
+export { Header } from "@/components/shared/_Header";
+export { Footer } from "@/components/shared/_Footer";
