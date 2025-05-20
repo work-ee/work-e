@@ -17,8 +17,8 @@ export const Header = () => {
               <li>УКР</li>
             </ul>
 
-            <Button>Увійти</Button>
-            <Button>Зареєструватись</Button>
+            <Button variant="secondary">Увійти</Button>
+            <Button variant="secondary">Зареєструватись</Button>
           </div>
         </div>
       </div>
