@@ -49,7 +49,7 @@ export default function UiKit() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    let newErrors = {
+    const newErrors = {
       username: '',
       email: '',
       password: '',
@@ -57,7 +57,7 @@ export default function UiKit() {
       phone: '',
       notes: '',
     };
-    let newSuccessMessages = {
+    const newSuccessMessages = {
       username: '',
       email: '',
       password: '',
@@ -139,12 +139,6 @@ export default function UiKit() {
       });
     }
   };
-
-  const SvgIcon = ({ id, className }: { id: string; className?: string }) => (
-    <svg className={className}>
-      <use href={`/sprite.svg#${id}`}></use>
-    </svg>
-  );
 
   return (
     <main className="py-8">
