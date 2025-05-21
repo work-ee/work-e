@@ -25,10 +25,10 @@ export const Header = async () => {
               </div>
             ) : (
               <div className="flex items-center gap-6">
-                <Link href="/profile" className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
                   <img src={session.user?.image || ""} alt="User Avatar" className="h-8 w-8 rounded-full" />
                   <span>{session.user?.name}</span>
-                </Link>
+                </div>
                 <SignOut title="Вийти" />
               </div>
             )}
