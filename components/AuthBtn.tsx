@@ -29,7 +29,7 @@ export const SignOut = ({ title, variant }: Props) => {
     <form
       action={async () => {
         "use server";
-        await signOut();
+        await signOut({ redirectTo: "/" });
       }}
     >
       <Button variant={variant} type="submit">
