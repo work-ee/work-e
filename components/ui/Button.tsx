@@ -21,21 +21,20 @@ export const Button = ({
   type = "button",
 }: Props) => {
   const base =
-    "group rounded-[8px] py-4 px-8 font-bold inline-flex items-center gap-2 border transition-colors duration-200 btn";
+    "group rounded-[8px] py-3.5 px-8 btn inline-flex items-center gap-2 border-2 transition-colors duration-200 ";
 
   const variants = {
     main: clsx(
-      "text-neutral-50 border",
+      "text-neutral-50",
       "bg-prymary-500 border-prymary-500",
-      "hover:bg-prymary-600 hover:border-prymary-600",
-      "active:bg-prymary-800 active:border-prymary-800",
+      "hover:bg-prymary-600 hover:border-prymary-600 hover:shadow-[4px_4px_10px_0px_rgba(75,116,226,0.4)]",
+      "active:bg-prymary-800 active:border-prymary-800 active:shadow-[4px_4px_10px_0px_rgba(4, 23, 75, 0.4)]",
       "disabled:bg-neutral-200 disabled:border-neutral-200 disabled:text-neutral-50"
     ),
     secondary: clsx(
-      "bg-neutral-50 border",
-      "text-prymary-300 border-prymary-300",
-      "hover:text-prymary-700 hover:border-prymary-700",
-      "active:text-prymary-900 active:border-prymary-900",
+      "bg-neutral-50 border-prymary-300 bg-neutral-50 text-prymary-500",
+      "hover:text-prymary-700 hover:border-prymary-700 hover:shadow-[4px_4px_10px_0px_rgba(80,149,192,0.4)]",
+      "active:text-prymary-900 active:border-prymary-900 active:shadow-[4px_4px_10px_0px_rgba(39, 114, 160, 0.4)]",
       "disabled:text-neutral-50 disabled:border-neutral-200"
     ),
   };

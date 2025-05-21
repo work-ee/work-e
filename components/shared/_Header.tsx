@@ -11,15 +11,15 @@ export const Header = async () => {
   const session = await auth();
 
   return (
-    <header className="bg-[#E4E4E4]">
+    <header className="bg-secondary-300">
       <div className="container">
         <div className="flex items-center justify-between py-4">
-          <Link href="/" className="logo">
-            <i>Work- E</i>
+          <Link href="/" className="logo heading-h2 text-prymary-900">
+            Work- E
           </Link>
           <div className="flex items-center gap-2">
             {!session ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-4">
                 <SignIn variant="secondary" title="Увійти" />
                 <Button variant="secondary">Зареєструватись</Button>
               </div>

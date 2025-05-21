@@ -115,7 +115,7 @@ body {
 }
 
 .logo {
-  @apply inline-flex items-center justify-center text-2xl font-bold text-gray-900;
+  @apply inline-flex items-center justify-center;
 }
 
 .section {
