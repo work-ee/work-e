@@ -21,7 +21,7 @@ export const Button = ({
   type = "button",
 }: Props) => {
   const base =
-    "group rounded-[8px] py-4 px-8 btn inline-flex items-center gap-2 border-2 transition-colors duration-200 ";
+    "group rounded-[8px] py-3.5 px-8 btn inline-flex items-center gap-2 border-2 transition-colors duration-200 ";
 
   const variants = {
     main: clsx(
