@@ -266,15 +266,7 @@ export default function UiKit() {
             errorMessageText={hasError ? "Потрібно погодитись з умовами" : ""}
             successMessageText="Дякуємо за згоду"
           />
-          <Checkbox
-            name="terms"
-            labelMessage="Я погоджуюсь з умовами"
-            disabled
-            checked={checked}
-            onChange={() => {}}
-            errorMessageText={hasError ? "Потрібно погодитись з умовами" : ""}
-            successMessageText="Дякуємо за згоду"
-          />
+          <Checkbox name="terms" labelMessage="Я погоджуюсь з умовами" disabled onChange={() => {}} />
         </div>
       </section>
     </main>
