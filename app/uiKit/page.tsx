@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { Button, Input } from "@/components/ui";
+import { Button, Checkbox, Input } from "@/components/ui";
 
 export default function UiKit() {
   const [formData, setFormData] = useState({
@@ -119,7 +119,6 @@ export default function UiKit() {
     setSuccessMessages(newSuccessMessages);
 
     if (isValid) {
-      // console.log("Дані форми:", formData);
       alert("Вся обов'язкова частина форми відправлена успішно!");
       setFormData({
         username: "",
@@ -147,6 +146,9 @@ export default function UiKit() {
       });
     }
   };
+
+  const [checked, setChecked] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   return (
     <main className="py-8">
@@ -250,6 +252,30 @@ export default function UiKit() {
             Відправити форму
           </Button>
         </form>
+      </section>
+      <section className="section flex flex-col items-center gap-y-4">
+        <div className="space-y-6">
+          <Checkbox
+            name="terms"
+            labelMessage="Я погоджуюсь з умовами"
+            checked={checked}
+            onChange={(e) => {
+              setChecked(e.target.checked);
+              setHasError(!e.target.checked);
+            }}
+            errorMessageText={hasError ? "Потрібно погодитись з умовами" : ""}
+            successMessageText="Дякуємо за згоду"
+          />
+          <Checkbox
+            name="terms"
+            labelMessage="Я погоджуюсь з умовами"
+            disabled
+            checked={checked}
+            onChange={() => {}}
+            errorMessageText={hasError ? "Потрібно погодитись з умовами" : ""}
+            successMessageText="Дякуємо за згоду"
+          />
+        </div>
       </section>
     </main>
   );

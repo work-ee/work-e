@@ -14,7 +14,7 @@ export const Header = async () => {
     <header className="bg-secondary-300">
       <div className="container">
         <div className="flex items-center justify-between py-4">
-          <Link href="/" className="logo heading-h2 text-prymary-900">
+          <Link href="/" className="logo heading-h2 text-primary-900">
             Work- E
           </Link>
           <div className="flex items-center gap-2">

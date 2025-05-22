@@ -14,16 +14,16 @@
   --font-rubik: var(--font-rubik);
   --font-nunito-sans: var(--font-nunito-sans);
 
-  --color-prymary-900: #081f5c;
-  --color-prymary-800: #0b266e;
-  --color-prymary-700: #0f2f84;
-  --color-prymary-600: #2d468a;
-  --color-prymary-500: #2d52b3;
-  --color-prymary-400: #3861d0;
-  --color-prymary-300: #4b74e2;
-  --color-prymary-200: #68a8e9;
-  --color-prymary-100: #91c2f4;
-  --color-prymary-50: #d1e8ff;
+  --color-primary-900: #081f5c;
+  --color-primary-800: #0b266e;
+  --color-primary-700: #0f2f84;
+  --color-primary-600: #2d468a;
+  --color-primary-500: #2d52b3;
+  --color-primary-400: #3861d0;
+  --color-primary-300: #4b74e2;
+  --color-primary-200: #68a8e9;
+  --color-primary-100: #91c2f4;
+  --color-primary-50: #d1e8ff;
 
   --color-secondary-900: #2772a0;
   --color-secondary-800: #3080b0;
