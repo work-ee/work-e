@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { Button, Checkbox, Input } from "@/components/ui";
+import { Button, Checkbox, Input, RadioButton } from "@/components/ui";
 
 export default function UiKit() {
   const [formData, setFormData] = useState({
@@ -150,10 +150,35 @@ export default function UiKit() {
   const [checked, setChecked] = useState(false);
   const [hasError, setHasError] = useState(false);
 
+  const [selected, setSelected] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChangeRadio = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelected(e.target.value);
+    setSubmitted(false); // Скидаємо повідомлення при зміні
+  };
+
+  const handleSubmitRadio = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
+  const getStatus = (value: string) => {
+    if (!submitted) return "default";
+    if (!selected) return "error";
+    return selected === value ? "success" : "default";
+  };
+
+  const getMessage = (value: string) => {
+    if (!submitted) return undefined;
+    if (!selected) return "Оберіть хоча б один варіант";
+    if (selected === value) return "Успішно обрано";
+    return undefined;
+  };
+
   return (
     <main className="py-8">
       <section className="section flex flex-col items-center gap-y-4">
-        <h3>Buttons</h3>
         <Button variant="main">Button</Button>
         <Button variant="main" icon>
           Button
@@ -268,6 +293,42 @@ export default function UiKit() {
           />
           <Checkbox name="terms" labelMessage="Я погоджуюсь з умовами" disabled onChange={() => {}} />
         </div>
+      </section>
+      <section className="section flex flex-col items-center gap-y-4">
+        <form onSubmit={handleSubmitRadio} className="max-w-md mx-auto bg-white p-8 rounded shadow-md space-y-4">
+          <RadioButton
+            name="answer"
+            value="yes"
+            checked={selected === "yes"}
+            onChange={handleChangeRadio}
+            labelMessage="Так"
+            status={getStatus("yes")}
+            messageText={getMessage("yes")}
+          />
+          <RadioButton
+            name="answer"
+            value="no"
+            checked={selected === "no"}
+            onChange={handleChangeRadio}
+            labelMessage="Ні"
+            status={getStatus("no")}
+            messageText={getMessage("no")}
+          />
+          <RadioButton
+            name="answer"
+            value="disabled"
+            disabled
+            checked={selected === "disabled"}
+            onChange={handleChangeRadio}
+            labelMessage="Не обирається"
+            status={getStatus("disabled")}
+            messageText={getMessage("disabled")}
+          />
+
+          <Button variant="secondary" type="submit">
+            Відправити форму
+          </Button>
+        </form>
       </section>
     </main>
   );

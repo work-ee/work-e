@@ -74,12 +74,12 @@ export const Checkbox: FC<Props> = ({
         {labelMessage && <span className="text-body select-none">{labelMessage}</span>}
       </label>
       {hasError && (
-        <p className="text-micro text-error-main text-[10px]" role="alert">
+        <p className="text-micro2 text-error-main" role="alert">
           {errorMessageText}
         </p>
       )}
       {hasSuccess && successMessageText && (
-        <p className="text-micro text-success-main text-[10px]" role="status">
+        <p className="text-micro2 text-success-main" role="status">
           {successMessageText}
         </p>
       )}

@@ -90,6 +90,9 @@
 .text-micro {
   @apply font-nunito-sans text-[14px] leading-[150%] font-light;
 }
+.text-micro2 {
+  @apply font-nunito-sans text-[10px] leading-[150%] font-light;
+}
 .btn {
   @apply font-rubik text-[20px] leading-[150%] font-medium;
 }
