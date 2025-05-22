@@ -126,12 +126,13 @@ export const Input: React.FC<InputProps> = ({
   );
 
   const iconSectionClasses = clsx(
-    "flex items-center justify-center w-[44px] border-r pointer-events-none z-10",
+    "flex items-center justify-center w-[44px] pointer-events-none z-10",
     iconBgClass,
     borderColorClass,
     contentColorClass,
     {
       "border-l": iconRight,
+      "border-r": iconLeft,
     }
   );
 
@@ -178,14 +179,14 @@ export const Input: React.FC<InputProps> = ({
       </div>
 
       {showErrorMessage && (
-        <p className="text-error-main text-xs italic mt-1 flex items-center">
+        <p className="text-error-main text-micro mt-1 flex items-center">
           {renderMessageIcon(errorIcon, "icon-danger")}
           {error}
         </p>
       )}
 
       {showSuccessMessage && (
-        <p className="text-success-main text-xs italic mt-1 flex items-center">
+        <p className="text-success-main text-micro mt-1 flex items-center">
           {renderMessageIcon(successIcon, "icon-check")}
           {success}
         </p>
