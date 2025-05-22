@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { Button, Checkbox, Input, RadioButton } from "@/components/ui";
+import { Button, Checkbox, Input, RadioButton, Toggle } from "@/components/ui";
 
 export default function UiKit() {
   const [formData, setFormData] = useState({
@@ -155,7 +155,7 @@ export default function UiKit() {
 
   const handleChangeRadio = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelected(e.target.value);
-    setSubmitted(false); // Скидаємо повідомлення при зміні
+    setSubmitted(false);
   };
 
   const handleSubmitRadio = (e: React.FormEvent) => {
@@ -174,6 +174,12 @@ export default function UiKit() {
     if (!selected) return "Оберіть хоча б один варіант";
     if (selected === value) return "Успішно обрано";
     return undefined;
+  };
+
+  const [toggled, setToggled] = useState(false);
+
+  const handleToggle = () => {
+    setToggled((prev) => !prev);
   };
 
   return (
@@ -329,6 +335,15 @@ export default function UiKit() {
             Відправити форму
           </Button>
         </form>
+      </section>
+      <section className="section flex flex-col items-center gap-y-4">
+        <div className="p-4 space-y-4">
+          <Toggle name="toggle-example" isChecked={toggled} onChange={handleToggle} />
+          <p className="text-sm">
+            Стан перемикача: <strong>{toggled ? "Увімкнено" : "Вимкнено"}</strong>
+          </p>
+          <Toggle name="toggle-example" disabled onChange={handleToggle} />
+        </div>
       </section>
     </main>
   );
