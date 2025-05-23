@@ -2,10 +2,10 @@ import React from "react";
 
 import Link from "next/link";
 
-import { SignIn, SignOut } from "@/components/AuthBtn";
+import { SignOut } from "@/components/auth/SignOut";
 import { Button } from "@/components/ui";
 
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 
 export const Header = async () => {
   const session = await auth();
@@ -20,8 +20,14 @@ export const Header = async () => {
           <div className="flex items-center gap-2">
             {!session ? (
               <div className="flex items-center gap-4">
-                <SignIn variant="secondary" title="Увійти" />
-                <Button variant="secondary">Зареєструватись</Button>
+                <Link href="sign-in">
+                  <Button type="submit" variant="secondary">
+                    Увійти
+                  </Button>
+                </Link>
+                <Link href="/sign-up">
+                  <Button variant="secondary">Зареєструватись</Button>
+                </Link>
               </div>
             ) : (
               <div className="flex items-center gap-6">
@@ -29,7 +35,7 @@ export const Header = async () => {
                   <img src={session.user?.image || ""} alt="User Avatar" className="h-8 w-8 rounded-full" />
                   <span>{session.user?.name}</span>
                 </div>
-                <SignOut title="Вийти" />
+                <SignOut />
               </div>
             )}
 

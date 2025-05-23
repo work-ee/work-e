@@ -8,7 +8,7 @@
   --font-nunito-sans: "Nunito Sans", sans-serif;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-rubik: var(--font-rubik);
@@ -103,28 +103,6 @@
   @apply font-nunito-sans text-[14px] leading-[150%] font-normal;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-nunito-sans), sans-serif;
-  font-size: 18px;
-  line-height: 150%;
-  font-weight: 400;
-  @apply flex min-h-screen flex-col;
-
-  footer {
-    @apply mt-auto;
-  }
-}
-
-.logo {
-  @apply inline-flex items-center justify-center;
-}
-
-.section {
-  @apply my-8;
-}
-
 .input-unlabeled-shadow-styles {
   box-shadow: none;
   transition: box-shadow 0.2s ease-in-out;
@@ -140,4 +118,39 @@ body {
 
 .input-unlabeled-shadow-styles[disabled] {
   box-shadow: none !important;
+}
+
+/* 
+------------------------------------------ */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-nunito-sans), sans-serif;
+  font-size: 18px;
+  line-height: 150%;
+  font-weight: 400;
+  @apply flex min-h-screen flex-col;
+
+  > footer {
+    @apply mt-auto;
+  }
+}
+
+@layer components {
+  .center-page {
+    @apply flex min-h-[calc(100vh-12rem)] flex-col justify-center;
+  }
+  .section {
+    @apply my-8;
+  }
+  .logo {
+    @apply inline-flex items-center justify-center;
+  }
+  .text-link {
+    @apply inline-flex cursor-pointer font-black text-black hover:underline;
+  }
+}
+
+a[aria-disabled="true"] {
+  @apply pointer-events-none opacity-40 hover:shadow-none;
 }
