@@ -1,4 +1,10 @@
+import { DialogMsg } from "@/components/ui/DialogMsg";
+
+import { auth } from "@/lib/auth";
+
 export default async function Home() {
+  const session = await auth();
+
   return (
     <main className="center-page">
       <section className="section">
@@ -59,6 +65,8 @@ export default async function Home() {
           </ul>
         </div>
       </section>
+
+      {session && <DialogMsg showOnMount />}
     </main>
   );
 }
