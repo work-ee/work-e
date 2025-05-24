@@ -264,3 +264,7 @@
 a[aria-disabled="true"] {
   @apply pointer-events-none opacity-40 hover:shadow-none;
 }
+
+.test {
+  @apply border border-neutral-200;
+}
