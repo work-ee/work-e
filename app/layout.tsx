@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
+import { Toaster } from "@/components/feedback/sonner";
 import { Footer, Header } from "@/components/shared";
-import { Toaster } from "@/components/ui/sonner";
 
 import { nunitoSans, rubik } from "./fonts";
 import "./globals.css";

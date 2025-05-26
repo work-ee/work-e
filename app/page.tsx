@@ -1,4 +1,4 @@
-import { DialogMsg } from "@/components/ui/DialogMsg";
+import { DialogMsg } from "@/components/feedback/DialogMsg";
 
 import { auth } from "@/lib/auth";
 
@@ -66,7 +66,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {session && <DialogMsg showOnMount />}
+      {session && <DialogMsg showOnMount backdrop />}
     </main>
   );
 }
