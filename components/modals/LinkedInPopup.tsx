@@ -18,7 +18,7 @@ export default function LinkedInPopup({ onClose }: LinkedInPopupProps) {
           пошуку.
         </p>
         <div className="flex justify-between mt-6">
-          <button className="btn underline ">LinkedIn</button>
+          <button className="btn border-b-1 ">LinkedIn</button>
           <button className="btn">Немає LinkedIn</button>
         </div>
       </div>
