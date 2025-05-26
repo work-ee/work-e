@@ -1,3 +1,5 @@
+import LinkedInShowDialog from "@/components/LinkedInShowDialog";
+
 export default async function Home() {
   return (
     <main className="center-page">
@@ -59,6 +61,7 @@ export default async function Home() {
           </ul>
         </div>
       </section>
+      <LinkedInShowDialog />
     </main>
   );
 }
