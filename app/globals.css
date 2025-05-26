@@ -154,3 +154,54 @@ body {
 a[aria-disabled="true"] {
   @apply pointer-events-none opacity-40 hover:shadow-none;
 }
+
+/* src/styles/range-slider.css */
+
+/* Basic reset for range input appearance */
+input[type="range"] {
+  -webkit-appearance: none; /* Safari and Chrome */
+  -moz-appearance: none; /* Firefox */
+  appearance: none; /* Standard */
+  background: transparent; /* Hide default track background */
+  outline: none; /* Remove focus outline */
+  border: none; /* Remove default border */
+  /* Important for touch/click area for the invisible input */
+  width: 100%; /* Ensure it spans the full width */
+  height: 24px; /* Give it a clickable height */
+  position: absolute; /* Allows custom elements to layer over it */
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* Allow events to pass through to custom thumb/track */
+  z-index: 30; /* Place it above the default track, below custom thumb */
+}
+
+/* Hide the native thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: transparent; /* Make it completely invisible */
+  border: none;
+  height: 24px; /* Maintain clickability */
+  width: 24px; /* Maintain clickability */
+  cursor: pointer; /* Restore cursor behavior when pointer-events: none is not used on parent */
+  pointer-events: all; /* Allow interactions on the thumb itself */
+}
+
+input[type="range"]::-moz-range-thumb {
+  background-color: transparent;
+  border: none;
+  height: 24px;
+  width: 24px;
+  cursor: pointer;
+  pointer-events: all;
+}
+
+/* Hide the native track */
+input[type="range"]::-webkit-slider-runnable-track {
+  background: transparent; /* Make the default track invisible */
+  border: none;
+}
+
+input[type="range"]::-moz-range-track {
+  background: transparent;
+  border: none;
+}

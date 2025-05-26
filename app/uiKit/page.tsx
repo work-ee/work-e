@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { Button, Checkbox, Input, RadioButton, Toggle } from "@/components/ui";
+import { Button, Checkbox, Input, RadioButton, Slider, Toggle } from "@/components/ui";
 
 export default function UiKit() {
   const [formData, setFormData] = useState({
@@ -182,6 +182,8 @@ export default function UiKit() {
     setToggled((prev) => !prev);
   };
 
+  const [range, setRange] = useState({ from: 20, to: 80 });
+
   return (
     <main className="py-8">
       <section className="section flex flex-col items-center gap-y-4">
@@ -343,6 +345,36 @@ export default function UiKit() {
             Стан перемикача: <strong>{toggled ? "Увімкнено" : "Вимкнено"}</strong>
           </p>
           <Toggle name="toggle-example" disabled onChange={handleToggle} />
+        </div>
+      </section>
+      <section className="section flex flex-col items-center gap-y-4">
+        <div className="p-8 space-y-8 max-w-lg mx-auto bg-gray-50 rounded-lg shadow-xl">
+          <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6">Кастомні слайдери</h2>
+
+          <div className="bg-white p-6 rounded-md shadow-sm border border-gray-200">
+            {/* <h3 className="mb-4 text-xl font-bold text-gray-700">Температура (відключено):</h3> */}
+            {/* <p className="mb-4 text-lg text-gray-600">
+              Обрана температура: <span className="font-semibold text-neutral-500">{temperatureRange.min}°C</span> до{" "}
+              <span className="font-semibold text-neutral-500">{temperatureRange.max}°C</span>
+            </p>
+            <Slider
+              name="temperature"
+              min={-50}
+              max={50}
+              initialMin={temperatureRange.min}
+              initialMax={temperatureRange.max}
+              step={1}
+              onChange={setTemperatureRange}
+              disabled={true}
+            /> */}
+            <Slider
+              min={0}
+              max={100}
+              fromValue={range.from}
+              toValue={range.to}
+              onChange={(from, to) => setRange({ from, to })}
+            />
+          </div>
         </div>
       </section>
     </main>
