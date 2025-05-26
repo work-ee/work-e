@@ -19,7 +19,7 @@ export const Backdrop = () => {
 
   return createPortal(
     <div
-      className={clsx("fixed inset-0 z-[9998] bg-black transition duration-300", visible ? "opacity-50" : "opacity-0")}
+      className={clsx("fixed inset-0 z-[9998] bg-black transition duration-300", visible ? "opacity-30" : "opacity-0")}
       aria-hidden="true"
     />,
     document.body
