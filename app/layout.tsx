@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { Toaster } from "@/components/feedback/sonner";
 import { Footer, Header } from "@/components/shared";
 
 import { nunitoSans, rubik } from "./fonts";
@@ -21,6 +22,16 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+
+        <Toaster
+          expand={false}
+          position="top-right"
+          toastOptions={{
+            style: {
+              width: "600px",
+            },
+          }}
+        />
       </body>
     </html>
   );
