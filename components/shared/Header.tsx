@@ -10,6 +10,8 @@ import { auth } from "@/lib/auth";
 export const Header = async () => {
   const session = await auth();
 
+  // console.log(session);
+
   return (
     <header className="bg-secondary-300">
       <div className="container">
