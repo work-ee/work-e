@@ -209,7 +209,7 @@ export default function UiKit() {
         </Button>
       </section>
       <section className="section">
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-8 rounded shadow-md">
+        <form onSubmit={handleSubmit} noValidate className="max-w-md mx-auto bg-white p-8 rounded shadow-md">
           <Input
             id="username"
             name="username"
@@ -219,6 +219,7 @@ export default function UiKit() {
             onChange={handleChange}
             error={errors.username}
             success={successMessages.username}
+            required
           />
 
           <Input
@@ -230,6 +231,7 @@ export default function UiKit() {
             onChange={handleChange}
             error={errors.email}
             success={successMessages.email}
+            required
             iconLeft={
               <svg className="h-5 w-5 fill-current">
                 <use href="/sprite.svg#icon-search"></use>
@@ -246,6 +248,7 @@ export default function UiKit() {
             onChange={handleChange}
             error={errors.password}
             success={successMessages.password}
+            required
             iconRight={
               <svg className="h-5 w-5 fill-current">
                 <use href="/sprite.svg#icon-eye"></use>
@@ -261,6 +264,7 @@ export default function UiKit() {
             onChange={handleChange}
             error={errors.notes}
             success={successMessages.notes}
+            required
           />
 
           <Input
@@ -271,6 +275,7 @@ export default function UiKit() {
             onChange={handleChange}
             error={errors.searchQuery}
             success={successMessages.searchQuery}
+            required
             iconLeft={
               <svg className="h-5 w-5 fill-current">
                 <use href="/sprite.svg#icon-search"></use>
@@ -287,6 +292,97 @@ export default function UiKit() {
             onChange={handleChange}
             error={errors.phone}
             success={successMessages.phone}
+            required
+            iconRight={
+              <svg className="h-5 w-5 fill-current">
+                <use href="/sprite.svg#icon-eye"></use>
+              </svg>
+            }
+          />
+          <p>disabled</p>
+          <Input
+            id="username"
+            name="username"
+            label="Ім'я користувача"
+            type="text"
+            value={formData.username}
+            onChange={handleChange}
+            error={""}
+            success={""}
+            disabled
+          />
+
+          <Input
+            id="email"
+            name="email"
+            label="Email адреса"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            error={""}
+            success={""}
+            disabled
+            iconLeft={
+              <svg className="h-5 w-5 fill-current">
+                <use href="/sprite.svg#icon-search"></use>
+              </svg>
+            }
+          />
+
+          <Input
+            id="password"
+            name="password"
+            label="Пароль"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+            error={""}
+            success={""}
+            disabled
+            iconRight={
+              <svg className="h-5 w-5 fill-current">
+                <use href="/sprite.svg#icon-eye"></use>
+              </svg>
+            }
+          />
+
+          <Input
+            id="notes"
+            name="notes"
+            placeholder="Введіть повідомлення"
+            value={formData.notes}
+            onChange={handleChange}
+            error={""}
+            success={""}
+            disabled
+          />
+
+          <Input
+            id="searchQuery"
+            name="searchQuery"
+            placeholder="Введіть пошуковий запит"
+            value={formData.searchQuery}
+            onChange={handleChange}
+            error={""}
+            success={""}
+            disabled
+            iconLeft={
+              <svg className="h-5 w-5 fill-current">
+                <use href="/sprite.svg#icon-search"></use>
+              </svg>
+            }
+          />
+
+          <Input
+            id="phone"
+            name="phone"
+            type="tel"
+            placeholder="Номер телефону"
+            value={formData.phone}
+            onChange={handleChange}
+            error={""}
+            success={""}
+            disabled
             iconRight={
               <svg className="h-5 w-5 fill-current">
                 <use href="/sprite.svg#icon-eye"></use>

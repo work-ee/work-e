@@ -16,7 +16,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   iconRight?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
   errorIcon?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
   successIcon?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
-  shadow?: boolean;
+  required?: boolean;
 }
 
 const SvgIcon = ({ id, className }: { id: string; className?: string }) => (
@@ -39,31 +39,25 @@ export const Input: React.FC<InputProps> = ({
   iconRight,
   errorIcon,
   successIcon,
-  shadow = false,
   disabled = false,
+  required,
   ...rest
 }) => {
   const hasIcons = iconLeft || iconRight;
-  const showErrorMessage = error;
-  const showSuccessMessage = !error && success;
-
-  const showPlaceholder = !label && placeholder;
   const isUnlabeled = !label;
-
+  const showPlaceholder = isUnlabeled && placeholder;
+  const showErrorMessage = Boolean(error?.trim());
+  const showSuccessMessage = !showErrorMessage && Boolean(success?.trim());
   let contentColorClass: string;
 
   if (error) {
     contentColorClass = "text-error-main";
   } else if (success) {
     contentColorClass = "text-success-main";
+  } else if (disabled) {
+    contentColorClass = "text-neutral-200";
   } else if (isUnlabeled) {
-    if (disabled) {
-      contentColorClass = "text-neutral-200";
-    } else if (value !== "") {
-      contentColorClass = "text-secondary-200";
-    } else {
-      contentColorClass = "text-secondary-100";
-    }
+    contentColorClass = value !== "" ? "text-secondary-200" : "text-secondary-100";
   } else {
     contentColorClass = "text-secondary-100";
   }
@@ -74,14 +68,10 @@ export const Input: React.FC<InputProps> = ({
     borderColorClass = "border-error-main";
   } else if (success) {
     borderColorClass = "border-success-main";
+  } else if (disabled) {
+    borderColorClass = "border-neutral-200";
   } else if (isUnlabeled) {
-    if (disabled) {
-      borderColorClass = "border-neutral-200";
-    } else if (value !== "") {
-      borderColorClass = "border-secondary-200";
-    } else {
-      borderColorClass = "border-secondary-100 focus:border-secondary-500";
-    }
+    borderColorClass = value !== "" ? "border-secondary-200" : "border-secondary-100 focus:border-secondary-500";
   } else {
     borderColorClass = "border-secondary-100";
   }
@@ -105,10 +95,7 @@ export const Input: React.FC<InputProps> = ({
     "relative flex items-stretch rounded-[8px] overflow-hidden border",
     borderColorClass,
     contentColorClass,
-    unlabeledInputShadowClass,
-    {
-      shadow: shadow && !error,
-    }
+    unlabeledInputShadowClass
   );
 
   const inputClasses = clsx(
@@ -172,9 +159,9 @@ export const Input: React.FC<InputProps> = ({
           {...(showPlaceholder && { placeholder })}
           className={inputClasses}
           disabled={disabled}
+          required={required}
           {...rest}
         />
-
         {iconRight && <div className={clsx(iconSectionClasses, "rounded-r-[8px]")}>{iconRight}</div>}
       </div>
 
