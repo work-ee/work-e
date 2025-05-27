@@ -195,6 +195,18 @@ export default function UiKit() {
         <Button variant="secondary" icon>
           Button
         </Button>
+        <Button variant="main" disabled>
+          Button
+        </Button>
+        <Button variant="main" disabled icon>
+          Button
+        </Button>
+        <Button variant="secondary" disabled>
+          Button
+        </Button>
+        <Button variant="secondary" icon disabled>
+          Button
+        </Button>
       </section>
       <section className="section">
         <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-8 rounded shadow-md">
@@ -351,22 +363,7 @@ export default function UiKit() {
         <div className="p-8 space-y-8 max-w-lg mx-auto bg-gray-50 rounded-lg shadow-xl">
           <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6">Кастомні слайдери</h2>
 
-          <div className="bg-white p-6 rounded-md shadow-sm border border-gray-200">
-            {/* <h3 className="mb-4 text-xl font-bold text-gray-700">Температура (відключено):</h3> */}
-            {/* <p className="mb-4 text-lg text-gray-600">
-              Обрана температура: <span className="font-semibold text-neutral-500">{temperatureRange.min}°C</span> до{" "}
-              <span className="font-semibold text-neutral-500">{temperatureRange.max}°C</span>
-            </p>
-            <Slider
-              name="temperature"
-              min={-50}
-              max={50}
-              initialMin={temperatureRange.min}
-              initialMax={temperatureRange.max}
-              step={1}
-              onChange={setTemperatureRange}
-              disabled={true}
-            /> */}
+          <div className="bg-white p-10 rounded-md shadow-sm border border-gray-200">
             <Slider
               min={0}
               max={100}
@@ -374,6 +371,9 @@ export default function UiKit() {
               toValue={range.to}
               onChange={(from, to) => setRange({ from, to })}
             />
+          </div>
+          <div className="bg-white p-10 rounded-md shadow-sm border border-gray-200">
+            <Slider min={0} max={100} fromValue={10} toValue={60} onChange={() => {}} disabled />
           </div>
         </div>
       </section>

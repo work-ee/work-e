@@ -11,9 +11,11 @@ interface Props {
   fromValue: number;
   toValue: number;
   onChange: (from: number, to: number) => void;
+  disabled?: boolean;
+  activeThumb?: "from" | "to" | null;
 }
 
-export const Slider: FC<Props> = ({ min, max, step = 1, fromValue, toValue, onChange }) => {
+export const Slider: FC<Props> = ({ min, max, step = 1, fromValue, toValue, onChange, disabled = false }) => {
   const handleFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newFrom = Number(e.target.value);
     if (newFrom <= toValue) {
@@ -28,23 +30,46 @@ export const Slider: FC<Props> = ({ min, max, step = 1, fromValue, toValue, onCh
     }
   };
 
+  const range = max - min;
+  const leftPercent = ((fromValue - min) / range) * 100;
+  const rightPercent = ((toValue - min) / range) * 100;
+
   return (
     <div className="w-full max-w-md mx-auto">
-      <div className="relative h-2 bg-neutral-200 rounded-full">
+      <div className="flex justify-between mb-2 px-2" style={{ marginBottom: "8px", gap: "19px" }}>
         <div
-          className="absolute h-2 bg-primary-400 rounded-full"
+          className="text-secondary-200 border border-secondary-200 rounded-lg text-sm flex items-center justify-center"
           style={{
-            left: `${((fromValue - min) / (max - min)) * 100}%`,
-            width: `${((toValue - fromValue) / (max - min)) * 100}%`,
+            width: 96,
+            height: 44,
+            padding: "10px 32px",
+          }}
+        >
+          {fromValue}
+        </div>
+        <div
+          className="text-secondary-200 border border-secondary-200 rounded-lg text-sm flex items-center justify-center"
+          style={{
+            width: 96,
+            height: 44,
+            padding: "10px 32px",
+          }}
+        >
+          {toValue}
+        </div>
+      </div>
+
+      <div className={clsx("relative h-0.5 rounded-full mt-4.5", disabled ? "bg-neutral-100" : "bg-primary-100")}>
+        <div
+          className={clsx("absolute h-0.5 rounded-full", disabled ? "bg-neutral-300" : "bg-primary-400")}
+          style={{
+            left: `${leftPercent}%`,
+            width: `${rightPercent - leftPercent}%`,
           }}
         />
       </div>
 
       <div className="relative -mt-3">
-        <div className="flex justify-between mt-2 text-sm text-neutral-700">
-          <span>{fromValue}</span>
-          <span>{toValue}</span>
-        </div>
         <input
           type="range"
           min={min}
@@ -52,7 +77,15 @@ export const Slider: FC<Props> = ({ min, max, step = 1, fromValue, toValue, onCh
           step={step}
           value={fromValue}
           onChange={handleFromChange}
-          className={clsx("absolute w-full appearance-none pointer-events-auto bg-transparent", "z-10")}
+          disabled={disabled}
+          className={clsx(
+            "absolute w-full appearance-none bg-transparent z-10 pointer-events-auto",
+            disabled && "cursor-not-allowed"
+          )}
+          style={{
+            WebkitAppearance: "none",
+            appearance: "none",
+          }}
         />
         <input
           type="range"
@@ -61,36 +94,17 @@ export const Slider: FC<Props> = ({ min, max, step = 1, fromValue, toValue, onCh
           step={step}
           value={toValue}
           onChange={handleToChange}
-          className={clsx("absolute w-full appearance-none pointer-events-auto bg-transparent", "z-20")}
+          disabled={disabled}
+          className={clsx(
+            "absolute w-full appearance-none bg-transparent z-20 pointer-events-auto",
+            disabled && "cursor-not-allowed"
+          )}
+          style={{
+            WebkitAppearance: "none",
+            appearance: "none",
+          }}
         />
       </div>
-
-      <style jsx>{`
-        input[type="range"]::-webkit-slider-thumb {
-          appearance: none;
-          height: 20px;
-          width: 20px;
-          border-radius: 50%;
-          background: #3b82f6; /* primary-400 */
-          border: 2px solid white;
-          box-shadow: 0 0 0 2px #3b82f6;
-          cursor: pointer;
-        }
-
-        input[type="range"]::-moz-range-thumb {
-          height: 20px;
-          width: 20px;
-          border-radius: 50%;
-          background: #3b82f6;
-          border: 2px solid white;
-          box-shadow: 0 0 0 2px #3b82f6;
-          cursor: pointer;
-        }
-
-        input[type="range"] {
-          height: 26px;
-        }
-      `}</style>
     </div>
   );
 };
