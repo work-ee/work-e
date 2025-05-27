@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { Button, Checkbox, Input, RadioButton, Toggle } from "@/components/ui";
+import { Button, Checkbox, Input, RadioButton, Slider, Toggle } from "@/components/ui";
 
 export default function UiKit() {
   const [formData, setFormData] = useState({
@@ -182,6 +182,8 @@ export default function UiKit() {
     setToggled((prev) => !prev);
   };
 
+  const [range, setRange] = useState({ from: 20, to: 80 });
+
   return (
     <main className="py-8">
       <section className="section flex flex-col items-center gap-y-4">
@@ -193,9 +195,21 @@ export default function UiKit() {
         <Button variant="secondary" icon>
           Button
         </Button>
+        <Button variant="main" disabled>
+          Button
+        </Button>
+        <Button variant="main" disabled icon>
+          Button
+        </Button>
+        <Button variant="secondary" disabled>
+          Button
+        </Button>
+        <Button variant="secondary" icon disabled>
+          Button
+        </Button>
       </section>
       <section className="section">
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-8 rounded shadow-md">
+        <form onSubmit={handleSubmit} noValidate className="max-w-md mx-auto bg-white p-8 rounded shadow-md">
           <Input
             id="username"
             name="username"
@@ -205,6 +219,7 @@ export default function UiKit() {
             onChange={handleChange}
             error={errors.username}
             success={successMessages.username}
+            required
           />
 
           <Input
@@ -216,6 +231,7 @@ export default function UiKit() {
             onChange={handleChange}
             error={errors.email}
             success={successMessages.email}
+            required
             iconLeft={
               <svg className="h-5 w-5 fill-current">
                 <use href="/sprite.svg#icon-search"></use>
@@ -232,6 +248,7 @@ export default function UiKit() {
             onChange={handleChange}
             error={errors.password}
             success={successMessages.password}
+            required
             iconRight={
               <svg className="h-5 w-5 fill-current">
                 <use href="/sprite.svg#icon-eye"></use>
@@ -247,6 +264,7 @@ export default function UiKit() {
             onChange={handleChange}
             error={errors.notes}
             success={successMessages.notes}
+            required
           />
 
           <Input
@@ -257,6 +275,7 @@ export default function UiKit() {
             onChange={handleChange}
             error={errors.searchQuery}
             success={successMessages.searchQuery}
+            required
             iconLeft={
               <svg className="h-5 w-5 fill-current">
                 <use href="/sprite.svg#icon-search"></use>
@@ -273,6 +292,97 @@ export default function UiKit() {
             onChange={handleChange}
             error={errors.phone}
             success={successMessages.phone}
+            required
+            iconRight={
+              <svg className="h-5 w-5 fill-current">
+                <use href="/sprite.svg#icon-eye"></use>
+              </svg>
+            }
+          />
+          <p>disabled</p>
+          <Input
+            id="username"
+            name="username"
+            label="Ім'я користувача"
+            type="text"
+            value={formData.username}
+            onChange={handleChange}
+            error={""}
+            success={""}
+            disabled
+          />
+
+          <Input
+            id="email"
+            name="email"
+            label="Email адреса"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            error={""}
+            success={""}
+            disabled
+            iconLeft={
+              <svg className="h-5 w-5 fill-current">
+                <use href="/sprite.svg#icon-search"></use>
+              </svg>
+            }
+          />
+
+          <Input
+            id="password"
+            name="password"
+            label="Пароль"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+            error={""}
+            success={""}
+            disabled
+            iconRight={
+              <svg className="h-5 w-5 fill-current">
+                <use href="/sprite.svg#icon-eye"></use>
+              </svg>
+            }
+          />
+
+          <Input
+            id="notes"
+            name="notes"
+            placeholder="Введіть повідомлення"
+            value={formData.notes}
+            onChange={handleChange}
+            error={""}
+            success={""}
+            disabled
+          />
+
+          <Input
+            id="searchQuery"
+            name="searchQuery"
+            placeholder="Введіть пошуковий запит"
+            value={formData.searchQuery}
+            onChange={handleChange}
+            error={""}
+            success={""}
+            disabled
+            iconLeft={
+              <svg className="h-5 w-5 fill-current">
+                <use href="/sprite.svg#icon-search"></use>
+              </svg>
+            }
+          />
+
+          <Input
+            id="phone"
+            name="phone"
+            type="tel"
+            placeholder="Номер телефону"
+            value={formData.phone}
+            onChange={handleChange}
+            error={""}
+            success={""}
+            disabled
             iconRight={
               <svg className="h-5 w-5 fill-current">
                 <use href="/sprite.svg#icon-eye"></use>
@@ -343,6 +453,24 @@ export default function UiKit() {
             Стан перемикача: <strong>{toggled ? "Увімкнено" : "Вимкнено"}</strong>
           </p>
           <Toggle name="toggle-example" disabled onChange={handleToggle} />
+        </div>
+      </section>
+      <section className="section flex flex-col items-center gap-y-4">
+        <div className="p-8 space-y-8 max-w-lg mx-auto bg-gray-50 rounded-lg shadow-xl">
+          <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6">Кастомні слайдери</h2>
+
+          <div className="bg-white p-10 rounded-md shadow-sm border border-gray-200">
+            <Slider
+              min={0}
+              max={100}
+              fromValue={range.from}
+              toValue={range.to}
+              onChange={(from, to) => setRange({ from, to })}
+            />
+          </div>
+          <div className="bg-white p-10 rounded-md shadow-sm border border-gray-200">
+            <Slider min={0} max={100} fromValue={10} toValue={60} onChange={() => {}} disabled />
+          </div>
         </div>
       </section>
     </main>

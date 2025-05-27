@@ -18,7 +18,7 @@ export const Button = ({
   icon = false,
   disabled = false,
   onClick,
-  type = "button",
+  type = "submit",
 }: Props) => {
   const base =
     "group rounded-[8px] py-3.5 px-8 btn inline-flex items-center gap-2 border-2 transition-colors duration-200 cursor-pointer ";
@@ -29,13 +29,13 @@ export const Button = ({
       "bg-primary-500 border-primary-500",
       "hover:bg-primary-600 hover:border-primary-600 hover:shadow-[4px_4px_10px_0px_rgba(75,116,226,0.4)]",
       "active:bg-primary-800 active:border-primary-800 active:shadow-[4px_4px_10px_0px_rgba(4, 23, 75, 0.4)]",
-      "disabled:bg-neutral-200 disabled:border-neutral-200 disabled:text-neutral-50"
+      "disabled:bg-neutral-200 disabled:border-neutral-200 disabled:text-neutral-50 disabled:cursor-not-allowed"
     ),
     secondary: clsx(
       "bg-neutral-50 border-primary-300 bg-neutral-50 text-primary-500",
       "hover:text-primary-700 hover:border-primary-700 hover:shadow-[4px_4px_10px_0px_rgba(80,149,192,0.4)]",
       "active:text-primary-900 active:border-primary-900 active:shadow-[4px_4px_10px_0px_rgba(39, 114, 160, 0.4)]",
-      "disabled:text-neutral-50 disabled:border-neutral-200"
+      "disabled:text-neutral-300 disabled:border-neutral-200 disabled:cursor-not-allowed"
     ),
   };
 

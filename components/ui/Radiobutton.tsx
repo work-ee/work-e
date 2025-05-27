@@ -33,8 +33,8 @@ export const RadioButton: FC<Props> = ({
       <label
         htmlFor={id}
         className={clsx(
-          "flex items-center gap-2 cursor-pointer select-none",
-          disabled && "cursor-not-allowed opacity-50"
+          "flex items-center gap-2 select-none",
+          disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
         )}
       >
         <input
