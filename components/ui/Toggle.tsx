@@ -11,9 +11,14 @@ interface Props {
 }
 
 export const Toggle: FC<Props> = ({ name, compId = "toggleId", isChecked = false, disabled = false, onChange }) => {
+  const handleChange = () => {
+    if (!disabled) {
+      onChange();
+    }
+  };
+
   return (
     <label
-      htmlFor={compId}
       className={clsx("relative inline-block w-[50px] h-[26px]", disabled ? "cursor-not-allowed" : "cursor-pointer")}
     >
       <input
@@ -22,7 +27,7 @@ export const Toggle: FC<Props> = ({ name, compId = "toggleId", isChecked = false
         type="checkbox"
         checked={isChecked}
         disabled={disabled}
-        onChange={onChange}
+        onChange={handleChange}
         className="sr-only peer"
       />
 

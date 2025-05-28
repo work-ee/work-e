@@ -452,7 +452,7 @@ export default function UiKit() {
           <p className="text-sm">
             Стан перемикача: <strong>{toggled ? "Увімкнено" : "Вимкнено"}</strong>
           </p>
-          <Toggle name="toggle-example" disabled onChange={handleToggle} />
+          <Toggle name="toggle-disabled" disabled onChange={() => {}} />
         </div>
       </section>
       <section className="section flex flex-col items-center gap-y-4">
