@@ -119,6 +119,8 @@ export const PaginationBlock: FC<Props> = ({
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === totalPages;
 
+  const SPRITE_PATH = "/icons/sprite.svg";
+
   return (
     <Pagination className={clsx(disabled && "opacity-50 pointer-events-none")}>
       <PaginationContent className="flex items-center">
@@ -131,12 +133,16 @@ export const PaginationBlock: FC<Props> = ({
                 "w-[50px] h-[50px] rounded-[8px]",
                 "bg-secondary-50 text-secondary-500",
                 "flex items-center justify-center p-0",
+                "transition-colors duration-200",
                 disabled || currentPage === 1
                   ? "pointer-events-none text-gray-400"
                   : "cursor-pointer hover:bg-secondary-100"
               )}
             >
               <span className="sr-only">Previous</span>
+              <svg className="w-[30px] h-[30px] rotate-[-90deg]" fill="currentColor" aria-hidden="true">
+                <use href={`${SPRITE_PATH}#icon-arrow-right`} />
+              </svg>
             </PaginationPrevious>
           </PaginationItem>
         )}
@@ -149,13 +155,21 @@ export const PaginationBlock: FC<Props> = ({
                 index < pageNumbers.length - 1 &&
                 pageNumbers[index + 1] !== "ellipsis" &&
                 "mr-4",
-              typeof page === "number" && pageNumbers[index + 1] === "ellipsis" && "mr-8" // Відстань 32px до трикрапки
+              typeof page === "number" && pageNumbers[index + 1] === "ellipsis" && "mr-8",
+              page === "ellipsis" &&
+                index < pageNumbers.length - 1 &&
+                typeof pageNumbers[index + 1] === "number" &&
+                "mr-8"
             )}
           >
             {page === "ellipsis" ? (
               <PaginationEllipsis
                 className={clsx("w-[26px] h-[30px] flex items-center justify-center", "text-secondary-500")}
-              />
+              >
+                <svg className="w-[26px] h-[30px]" fill="currentColor" aria-hidden="true">
+                  <use href={`${SPRITE_PATH}#icon-dots`} />
+                </svg>
+              </PaginationEllipsis>
             ) : (
               <PaginationLink
                 onClick={() => handlePageClick(page)}
@@ -188,12 +202,16 @@ export const PaginationBlock: FC<Props> = ({
                 "w-[50px] h-[50px] rounded-[8px]",
                 "bg-secondary-50 text-secondary-500",
                 "flex items-center justify-center p-0",
+                "transition-colors duration-200",
                 disabled || currentPage === totalPages
                   ? "pointer-events-none text-gray-400"
                   : "cursor-pointer hover:bg-secondary-100"
               )}
             >
               <span className="sr-only">Next</span>
+              <svg className="w-[30px] h-[30px] rotate-90" fill="currentColor" aria-hidden="true">
+                <use href={`${SPRITE_PATH}#icon-arrow-right`} />
+              </svg>
             </PaginationNext>
           </PaginationItem>
         )}
