@@ -13,7 +13,7 @@ export const Header = async () => {
   // console.log(session);
 
   return (
-    <header className="bg-secondary-300">
+    <header className="bg-primary-100">
       <div className="container">
         <div className="flex items-center justify-between py-4">
           <Link href="/" className="logo heading-h2 text-primary-900">
