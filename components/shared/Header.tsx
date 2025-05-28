@@ -41,7 +41,7 @@ export const Header = async () => {
               </div>
             )}
 
-            <ul className="ml-4 flex items-center gap-4">
+            <ul className="ml-4 flex items-center gap-4 font-black text-primary-900">
               <li>
                 <a href="#" className="flex items-center gap-2">
                   <i>
@@ -50,7 +50,7 @@ export const Header = async () => {
                       <path d="M16 1C7.7 1 1 7.7 1 16H31C31 7.7 24.3 1 16 1Z" fill="#428BC1" />
                     </svg>
                   </i>
-                  УКР
+                  UA
                 </a>
               </li>
             </ul>
