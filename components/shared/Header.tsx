@@ -13,9 +13,9 @@ export const Header = async () => {
   // console.log(session);
 
   return (
-    <header className="bg-primary-100">
+    <header className="bg-primary-100 min-h-[94px] flex items-center justify-between py-4">
       <div className="container">
-        <div className="flex items-center justify-between py-4">
+        <div className="flex items-center justify-between">
           <Link href="/" className="logo heading-h2 text-primary-900">
             Work- E
           </Link>
