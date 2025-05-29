@@ -5,3 +5,4 @@ export { RadioButton } from "@/components/ui/Radiobutton";
 export { Toggle } from "@/components/ui/Toggle";
 export { Slider } from "@/components/ui/Slider";
 export { PaginationBlock } from "@/components/ui/PaginationBlock";
+export { DropdownBlock } from "@/components/ui/DropdownBlock";

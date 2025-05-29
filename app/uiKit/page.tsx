@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { Button, Checkbox, Input, PaginationBlock, RadioButton, Slider, Toggle } from "@/components/ui";
+import { Button, Checkbox, DropdownBlock, Input, PaginationBlock, RadioButton, Slider, Toggle } from "@/components/ui";
 
 export default function UiKit() {
   const [formData, setFormData] = useState({
@@ -192,6 +192,21 @@ export default function UiKit() {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
+
+  const [selectedItem, setSelectedItem] = useState<{ value: string; label: string } | null>(null);
+
+  const handleOptionSelect = (value: string, label: string) => {
+    setSelectedItem({ value, label });
+    alert(`Вибрано: ${label}`);
+  };
+
+  const menuOptions = [
+    { value: "profile", label: "Мій Профіль" },
+    { value: "billing", label: "Оплата" },
+    { value: "team", label: "Команда розробників" },
+    { value: "subscription", label: "Підписка на послуги" },
+    { value: "logout", label: "Вийти з облікового запису" },
+  ];
 
   return (
     <main className="py-8">
@@ -499,6 +514,17 @@ export default function UiKit() {
         <div className="mt-8">
           <h2 className="text-xl mb-2">На останній сторінці (стрілка справа прихована)</h2>
           <PaginationBlock totalPages={5} currentPage={5} onPageChange={handlePageChange} />
+        </div>
+      </section>
+      <section className="section flex flex-col items-center gap-y-4">
+        <div>
+          <h2 className="text-xl font-semibold mb-2">Основний Dropdown</h2>
+          <DropdownBlock
+            triggerText="Обрати опцію"
+            options={menuOptions}
+            onSelect={handleOptionSelect}
+            selectedLabel={selectedItem?.label}
+          />
         </div>
       </section>
     </main>
