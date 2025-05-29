@@ -4,7 +4,7 @@ import { FC, useState } from "react";
 
 import { clsx } from "clsx";
 
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./Dropdown";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./dropdown-menu";
 
 interface DropdownMenuItemOption {
   value: string;

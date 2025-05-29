@@ -498,6 +498,18 @@ export default function UiKit() {
         </div>
       </section>
       <section className="section flex flex-col items-center gap-y-4">
+        <div>
+          <h2 className="text-xl font-semibold mb-2">Основний Dropdown</h2>
+          <DropdownBlock
+            triggerText="Обрати опцію"
+            options={menuOptions}
+            onSelect={handleOptionSelect}
+            selectedLabel={selectedItem?.label}
+          />
+        </div>
+      </section>
+      <section className="section flex flex-col items-center gap-y-4">
+        <h2 className="text-xl mb-2">Пагінація</h2>
         <PaginationBlock
           totalPages={totalPages}
           currentPage={currentPage}
@@ -514,17 +526,6 @@ export default function UiKit() {
         <div className="mt-8">
           <h2 className="text-xl mb-2">На останній сторінці (стрілка справа прихована)</h2>
           <PaginationBlock totalPages={5} currentPage={5} onPageChange={handlePageChange} />
-        </div>
-      </section>
-      <section className="section flex flex-col items-center gap-y-4">
-        <div>
-          <h2 className="text-xl font-semibold mb-2">Основний Dropdown</h2>
-          <DropdownBlock
-            triggerText="Обрати опцію"
-            options={menuOptions}
-            onSelect={handleOptionSelect}
-            selectedLabel={selectedItem?.label}
-          />
         </div>
       </section>
     </main>
