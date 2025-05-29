@@ -500,6 +500,11 @@ export default function UiKit() {
           <h2 className="text-xl mb-2">На останній сторінці (стрілка справа прихована)</h2>
           <PaginationBlock totalPages={5} currentPage={5} onPageChange={handlePageChange} />
         </div>
+
+        <div className="mt-8">
+          <h2 className="text-xl mb-2">На першій сторінці (стрілка вліво прихована)</h2>
+          <PaginationBlock totalPages={1} currentPage={5} onPageChange={handlePageChange} />
+        </div>
       </section>
     </main>
   );
