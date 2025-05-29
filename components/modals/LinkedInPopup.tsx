@@ -1,5 +1,3 @@
-import "../../app/globals.css";
-
 interface LinkedInPopupProps {
   onClose: () => void;
 }
