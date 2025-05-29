@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { Button, Checkbox, Input, RadioButton, Slider, Toggle } from "@/components/ui";
+import { Button, Checkbox, Input, PaginationBlock, RadioButton, Slider, Toggle } from "@/components/ui";
 
 export default function UiKit() {
   const [formData, setFormData] = useState({
@@ -183,6 +183,15 @@ export default function UiKit() {
   };
 
   const [range, setRange] = useState({ from: 20, to: 80 });
+
+  const totalItems = 123;
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <main className="py-8">
@@ -452,7 +461,7 @@ export default function UiKit() {
           <p className="text-sm">
             Стан перемикача: <strong>{toggled ? "Увімкнено" : "Вимкнено"}</strong>
           </p>
-          <Toggle name="toggle-example" disabled onChange={handleToggle} />
+          <Toggle name="toggle-disabled" disabled onChange={() => {}} />
         </div>
       </section>
       <section className="section flex flex-col items-center gap-y-4">
@@ -471,6 +480,30 @@ export default function UiKit() {
           <div className="bg-white p-10 rounded-md shadow-sm border border-gray-200">
             <Slider min={0} max={100} fromValue={10} toValue={60} onChange={() => {}} disabled />
           </div>
+        </div>
+      </section>
+      <section className="section flex flex-col items-center gap-y-4">
+        <PaginationBlock
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+          showEllipsis={true}
+          disabled={false}
+        />
+
+        <div className="mt-8">
+          <h2 className="text-xl mb-2">Приклад вимкненої пагінації</h2>
+          <PaginationBlock totalPages={5} currentPage={1} onPageChange={handlePageChange} disabled={true} />
+        </div>
+
+        <div className="mt-8">
+          <h2 className="text-xl mb-2">На останній сторінці (стрілка справа прихована)</h2>
+          <PaginationBlock totalPages={5} currentPage={5} onPageChange={handlePageChange} />
+        </div>
+
+        <div className="mt-8">
+          <h2 className="text-xl mb-2">На першій сторінці (стрілка вліво прихована)</h2>
+          <PaginationBlock totalPages={1} currentPage={5} onPageChange={handlePageChange} />
         </div>
       </section>
     </main>

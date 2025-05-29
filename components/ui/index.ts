@@ -4,3 +4,4 @@ export { Checkbox } from "@/components/ui/Checkbox";
 export { RadioButton } from "@/components/ui/Radiobutton";
 export { Toggle } from "@/components/ui/Toggle";
 export { Slider } from "@/components/ui/Slider";
+export { PaginationBlock } from "@/components/ui/PaginationBlock";
