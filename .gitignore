@@ -44,3 +44,6 @@ next-env.d.ts
 .temp
 *.local
 *.dev
+
+# temporary files
+_temp
