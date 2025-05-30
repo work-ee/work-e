@@ -33,10 +33,10 @@ export const Header = async () => {
               </div>
             ) : (
               <div className="flex items-center gap-6">
-                <div className="flex items-center gap-2">
+                <button className="flex items-center gap-2 rounded-full outline outline-secondary-300 p-3 bg-accent-50 hover:outline-3 cursor-pointer transition-all">
                   <img src={session.user?.image || ""} alt="User Avatar" className="h-8 w-8 rounded-full" />
-                  <span>{session.user?.name}</span>
-                </div>
+                  {/* <span>{session.user?.name}</span> */}
+                </button>
                 <SignOut />
               </div>
             )}
