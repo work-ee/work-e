@@ -23,7 +23,6 @@ export default function CVUploadDialog({ open, onClose }: CVUploadDialog) {
     if (file && file.type === "application/pdf") {
       setUploading(true);
       setUploadedFileName(file.name);
-      // Симуляція завантаження
       setTimeout(() => {
         setUploading(false);
       }, 2000);

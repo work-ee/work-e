@@ -1,4 +1,3 @@
-import CVUploadShowDialog from "@/components/CVUploadShowDialog";
 import { DialogMsg } from "@/components/feedback/DialogMsg";
 
 import { auth } from "@/lib/auth";
@@ -68,7 +67,6 @@ export default async function Home() {
       </section>
 
       {session && <DialogMsg showOnMount backdrop />}
-      <CVUploadShowDialog />
     </main>
   );
 }
