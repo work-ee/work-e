@@ -65,7 +65,6 @@ export default async function Home() {
           </ul>
         </div>
       </section>
-
       {session && <DialogMsg showOnMount backdrop />}
     </main>
   );
