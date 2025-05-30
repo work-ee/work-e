@@ -1,5 +1,5 @@
-import { Button } from "../ui";
-import { Modal } from "./Modal";
+import { Button } from "../../ui";
+import { Modal } from "../Modal";
 
 interface LinkedInPopupProps {
   onClose: () => void;
