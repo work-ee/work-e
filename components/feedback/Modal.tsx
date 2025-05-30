@@ -9,7 +9,7 @@ export const Modal = ({ onClose, title, children, actions }: ModalProps) => {
     <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-100 ">
       <div className="w-[600px] rounded-[16px] p-6 shadow-xl bg-white relative">
         <button className="absolute top-6 right-6" onClick={onClose} aria-label="Close">
-          <img src="img/material-symbols_close.svg" />
+          <img src="icons/close.svg" />
         </button>
         {title && <h3 className="heading-h3 text-neutral-900 pb-2">{title}</h3>}
         <div>{children}</div>
