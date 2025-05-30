@@ -10,6 +10,7 @@ interface Props {
   errorMessageText?: string;
   successMessageText?: string;
   disabled?: boolean;
+  className?: string;
 }
 
 export const Checkbox: FC<Props> = ({
@@ -20,6 +21,7 @@ export const Checkbox: FC<Props> = ({
   errorMessageText,
   successMessageText,
   disabled = false,
+  className,
 }) => {
   const id = useId();
 
@@ -57,7 +59,7 @@ export const Checkbox: FC<Props> = ({
   );
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className={clsx("flex flex-col gap-1", className)}>
       <label htmlFor={id} className={baseWrapper}>
         <span className={checkboxBase}>
           <input
