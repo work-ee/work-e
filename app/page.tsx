@@ -1,4 +1,5 @@
-import CVUploadShowDialog from "@/components/CVUploadShowDialog";
+
+import LinkedInShowPopup from "@/components/LinkedInShowPopup";
 import { DialogMsg } from "@/components/feedback/DialogMsg";
 
 import { auth } from "@/lib/auth";
@@ -66,7 +67,7 @@ export default async function Home() {
           </ul>
         </div>
       </section>
-
+      <LinkedInShowPopup />
       {session && <DialogMsg showOnMount backdrop />}
       <CVUploadShowDialog />
     </main>
