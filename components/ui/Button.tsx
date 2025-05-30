@@ -10,6 +10,7 @@ type Props = {
   disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type?: "button" | "submit" | "reset";
+  className?: string;
 };
 
 export const Button = ({
@@ -19,6 +20,7 @@ export const Button = ({
   disabled = false,
   onClick,
   type = "submit",
+  className,
 }: Props) => {
   const base =
     "group rounded-[8px] py-3.5 px-8 btn inline-flex items-center gap-2 border-2 transition-colors duration-200 cursor-pointer ";
@@ -72,7 +74,7 @@ export const Button = ({
   return (
     <button
       type={type}
-      className={clsx(base, variants[variant])}
+      className={clsx(base, variants[variant], className)}
       disabled={disabled}
       onClick={onClick}
       aria-disabled={disabled}
