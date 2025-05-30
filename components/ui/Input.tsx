@@ -17,6 +17,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   errorIcon?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
   successIcon?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
   required?: boolean;
+  className?: string;
 }
 
 const SvgIcon = ({ id, className }: { id: string; className?: string }) => (
@@ -41,6 +42,7 @@ export const Input: React.FC<InputProps> = ({
   successIcon,
   disabled = false,
   required,
+  className,
   ...rest
 }) => {
   const hasIcons = iconLeft || iconRight;
@@ -95,7 +97,8 @@ export const Input: React.FC<InputProps> = ({
     "relative flex items-stretch rounded-[8px] overflow-hidden border",
     borderColorClass,
     contentColorClass,
-    unlabeledInputShadowClass
+    unlabeledInputShadowClass,
+    className
   );
 
   const inputClasses = clsx(
