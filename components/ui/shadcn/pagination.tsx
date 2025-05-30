@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
 
-import { ButtonArrow, buttonVariants } from "@/components/ui/button-arrow";
+import { ButtonArrow, buttonVariants } from "@/components/ui/shadcn/button-arrow";
 
 import { cn } from "@/lib/utils";
 
