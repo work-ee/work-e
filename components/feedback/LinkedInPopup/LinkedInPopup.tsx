@@ -1,5 +1,5 @@
-import { Button } from "../ui";
-import { Modal } from "./Modal";
+import { Button } from "../../ui";
+import { Modal } from "../Modal";
 
 interface LinkedInPopupProps {
   onClose: () => void;
@@ -10,9 +10,11 @@ export default function LinkedInPopup({ onClose }: LinkedInPopupProps) {
     <Modal
       onClose={onClose}
       actions={
-        <div className="flex justify-between w-full p-[10px] mt-4">
-          <Button variant="secondary">LinkedIn</Button>
-          <Button>Немає LinkedIn</Button>
+        <div className="flex gap-18 w-full mt-4">
+          <Button variant="secondary" className="flex-1 flex justify-center">
+            Немає LinkedIn
+          </Button>
+          <Button className="flex-1 flex justify-center">LinkedIn</Button>
         </div>
       }
     >
