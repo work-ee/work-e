@@ -2,6 +2,8 @@ import React from "react";
 
 import clsx from "clsx";
 
+import { SvgIcon } from "@/lib/svgIcons";
+
 export type Variant = "main" | "secondary";
 type Props = {
   children: React.ReactNode;
@@ -56,21 +58,6 @@ export const Button = ({
     },
   };
 
-  const Icon = () => (
-    <svg
-      className={clsx(
-        "h-5 w-5 stroke-current",
-        fillClasses[variant].default,
-        fillClasses[variant].hover,
-        fillClasses[variant].active,
-        fillClasses[variant].disabled
-      )}
-      aria-hidden="true"
-    >
-      <use xlinkHref="/sprite.svg#icon-off" />
-    </svg>
-  );
-
   return (
     <button
       type={type}
@@ -80,7 +67,18 @@ export const Button = ({
       aria-disabled={disabled}
       aria-label={typeof children === "string" ? children : "button"}
     >
-      {icon && <Icon />}
+      {icon && (
+        <SvgIcon
+          id="icon-off"
+          className={clsx(
+            "h-5 w-5 stroke-current",
+            fillClasses[variant].default,
+            fillClasses[variant].hover,
+            fillClasses[variant].active,
+            fillClasses[variant].disabled
+          )}
+        />
+      )}
       {children}
     </button>
   );
