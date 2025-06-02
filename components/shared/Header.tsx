@@ -32,15 +32,19 @@ export const Header = async () => {
                 </Link>
               </div>
             ) : (
-              <div className="flex items-center gap-6">
-                <div className="flex items-center gap-2">
-                  {session.user?.image && (
-                    <>
-                      <img src={`${session.user?.image}`} alt="User Avatar" className="h-8 w-8 rounded-full" />
-                    </>
-                  )}
-                  <span>{session.user?.name}</span>
-                </div>
+              <div className="flex items-center gap-4">
+                <button className="flex items-center justify-center gap-2 hover:bg-secondary-100 rounded-full p-2 transition-colors cursor-pointer group">
+                  <div className="flex justify-center items-center gap-2 outline outline-secondary-300 h-10 w-10 rounded-full overflow-hidden bg-accent-50 group-hover:outline-3 transition-all">
+                    {session.user?.image ? (
+                      <>
+                        <img src={`${session.user?.image}`} alt="User Avatar" className="" />
+                      </>
+                    ) : (
+                      <span className="heading-h3 flex-inline text-secondary-900">{session.user?.name?.charAt(0)}</span>
+                    )}
+                  </div>
+                  <span className="flex-initial">{session.user?.name}</span>
+                </button>
                 <SignOut />
               </div>
             )}
