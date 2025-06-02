@@ -34,8 +34,12 @@ export const Header = async () => {
             ) : (
               <div className="flex items-center gap-6">
                 <div className="flex items-center gap-2">
-                  <img src={session.user?.image || ""} alt="User Avatar" className="h-8 w-8 rounded-full" />
-                  <span>{session.user?.name}</span>
+                  {session.user?.image && (
+                    <>
+                      <img src={`${session.user?.image}`} alt="User Avatar" className="h-8 w-8 rounded-full" />
+                      <span>{session.user?.name}</span>
+                    </>
+                  )}
                 </div>
                 <SignOut />
               </div>

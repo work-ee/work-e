@@ -1,7 +1,7 @@
 import { SvgProgressCircle } from "@/components/SvgProgressCircle";
 import { Button } from "@/components/ui";
 
-export default async function Home() {
+export default async function OnboardingPage() {
   return (
     <main className="center-page">
       <section className="section">
