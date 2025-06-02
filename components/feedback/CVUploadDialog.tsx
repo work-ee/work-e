@@ -19,7 +19,6 @@ export default function CVUploadDialog({ open, onClose }: CVUploadDialog) {
   const [fileName, setFileName] = useState<string | null>(null);
   const [status, setStatus] = useState<"success" | "error" | "idle">("idle");
   const [message, setMessage] = useState<string | null>(null);
-  const [showPreviewBlock, setShowPreviewBlock] = useState(false);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -31,35 +30,35 @@ export default function CVUploadDialog({ open, onClose }: CVUploadDialog) {
     if (file.type !== "application/pdf") {
       setStatus("error");
       setMessage("Упс, сталася помилка, переконайся що CV у форматі pdf і спробуй ще раз");
-      setShowPreviewBlock(true);
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
       setStatus("error");
       setMessage("Файл завеликий. Максимальний розмір — 5MB.");
-      setShowPreviewBlock(true);
       return;
     }
 
-    setShowPreviewBlock(true);
     setFileName(file.name);
 
     setTimeout(() => {
       setStatus("success");
       setMessage("Ще декілька кроків і робота мрії — твоя");
     }, 2000);
+    e.target.value = "";
   };
 
   const handleManualTrigger = () => {
-    fileInputRef.current?.click();
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+      fileInputRef.current.click();
+    }
   };
 
   const handleRemoveFile = () => {
     setFileName(null);
     setStatus("idle");
     setMessage(null);
-    setShowPreviewBlock(false);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -96,44 +95,49 @@ export default function CVUploadDialog({ open, onClose }: CVUploadDialog) {
               className="mx-auto w-12 h-12 text-primary-500 mb-4 fill-neutral-50 stroke-primary-500"
             />
             <p className="text-micro pb-4">Завантаж CV у форматі PDF</p>
-            <button type="button" onClick={handleManualTrigger} className="btn text-primary-500 underline">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleManualTrigger();
+              }}
+              className="btn text-primary-500 underline"
+            >
               Натиснути тут
             </button>
             <input type="file" accept=".pdf" ref={fileInputRef} onChange={handleFileUpload} hidden />
           </div>
 
-          {showPreviewBlock && (
-            <>
-              <div
-                className="flex items-center gap-3 mt-6 border rounded-lg px-4 py-4 w-[736px] h-[72px] mx-auto relative"
-                style={{ borderWidth: 1, borderRadius: 8 }}
-              >
-                <SvgIcon id="icon-pdf" className="w-6 h-6 text-neutral-900" />
-                <div className="flex-1">
-                  <div className="text-sm mb-1">{fileName || "Назва файлу"}</div>
-                  <div className={clsx("h-1 rounded", getLineColor())}></div>
-                </div>
-                <button
-                  onClick={handleRemoveFile}
-                  className="text-neutral-500 hover:text-neutral-900 transition-colors"
-                  aria-label="Видалити файл"
-                >
-                  &times;
-                </button>
+          <>
+            <div
+              className="flex items-center gap-3 mt-6 border rounded-lg px-4 py-4 w-[736px] h-[72px] mx-auto relative"
+              style={{ borderWidth: 1, borderRadius: 8 }}
+            >
+              <SvgIcon id="icon-pdf" className="w-6 h-6 text-neutral-900" />
+              <div className="flex-1">
+                <div className="text-sm mb-1">{fileName || "Назва файлу"}</div>
+                <div className={clsx("h-1 rounded", getLineColor())}></div>
               </div>
+              <button
+                onClick={handleRemoveFile}
+                className="text-neutral-500 hover:text-neutral-900 transition-colors"
+                aria-label="Видалити файл"
+              >
+                &times;
+              </button>
+            </div>
 
-              {message && (
-                <div
-                  className={clsx(
-                    "text-sm mt-2 mx-auto text-center",
-                    status === "error" ? "text-error-main" : "text-neutral-900"
-                  )}
-                >
-                  {message}
-                </div>
-              )}
-            </>
-          )}
+            {message && (
+              <div
+                className={clsx(
+                  "text-sm mt-2 mx-auto text-center",
+                  status === "error" ? "text-error-main" : "text-neutral-900"
+                )}
+              >
+                {message}
+              </div>
+            )}
+          </>
 
           <div className="flex justify-between gap-4 pt-6">
             <Button variant="secondary">Створити CV</Button>
