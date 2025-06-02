@@ -2,6 +2,8 @@ import React, { InputHTMLAttributes } from "react";
 
 import clsx from "clsx";
 
+import { SvgIcon } from "@/lib/svgIcons";
+
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
   label?: string;
@@ -19,12 +21,6 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   required?: boolean;
   className?: string;
 }
-
-const SvgIcon = ({ id, className }: { id: string; className?: string }) => (
-  <svg className={className}>
-    <use href={`/sprite.svg#${id}`}></use>
-  </svg>
-);
 
 export const Input: React.FC<InputProps> = ({
   id,

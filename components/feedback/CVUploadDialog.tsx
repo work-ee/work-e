@@ -3,7 +3,8 @@
 import { useRef, useState } from "react";
 
 import clsx from "clsx";
-import { UploadIcon } from "lucide-react";
+
+// import { UploadIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/shadcn/dialog";
@@ -53,7 +54,10 @@ export default function CVUploadDialog({ open, onClose }: CVUploadDialog) {
             )}
             onClick={handleManualTrigger}
           >
-            <UploadIcon className="mx-auto w-8 h-8 text-primary-500 mb-2" />
+            <svg className="mx-auto w-8 h-8 text-primary-500 mb-2">
+              <use xlinkHref="/sprite.svg#icon-uploading-filed" />
+            </svg>
+            {/* <UploadIcon className="mx-auto w-8 h-8 text-primary-500 mb-2" /> */}
             <p className="font-medium">Завантаж CV у форматі PDF</p>
             <button type="button" onClick={handleManualTrigger} className="mt-2 text-primary-600 underline">
               Натиснути тут
