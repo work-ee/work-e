@@ -1,4 +1,5 @@
 import { SvgProgressCircle } from "@/components/SvgProgressCircle";
+import { CVUploadTrigger } from "@/components/feedback/CVUploadTrigger";
 import { Button } from "@/components/ui";
 
 export default async function OnboardingPage() {
@@ -32,7 +33,8 @@ export default async function OnboardingPage() {
                 </svg>
                 Підв'яжи свій Linkedin
               </Button>
-              <Button>Завантаж своє CV</Button>
+              {/* <Button>Завантаж своє CV</Button> */}
+              <CVUploadTrigger />
             </div>
 
             <div className="mt-12">
