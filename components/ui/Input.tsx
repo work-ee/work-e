@@ -2,7 +2,7 @@ import React, { InputHTMLAttributes } from "react";
 
 import clsx from "clsx";
 
-import { SvgIcon } from "@/lib/svgIcons";
+import { SvgIcon } from "@/components/ui/SvgIcon";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;

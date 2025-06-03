@@ -5,9 +5,8 @@ import { useRef, useState } from "react";
 import clsx from "clsx";
 
 import { Button } from "@/components/ui/Button";
+import { SvgIcon } from "@/components/ui/SvgIcon";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/shadcn/dialog";
-
-import { SvgIcon } from "@/lib/svgIcons";
 
 interface CVUploadDialog {
   open: boolean;

@@ -2,7 +2,7 @@ import { ChangeEvent, FC, useId } from "react";
 
 import clsx from "clsx";
 
-import { SvgIcon } from "@/lib/svgIcons";
+import { SvgIcon } from "@/components/ui/SvgIcon";
 
 interface Props {
   name: string;

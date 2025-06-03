@@ -2,6 +2,7 @@ import { FC } from "react";
 
 import { clsx } from "clsx";
 
+import { SvgIcon } from "@/components/ui/SvgIcon";
 import {
   Pagination,
   PaginationContent,
@@ -11,8 +12,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/shadcn/pagination";
-
-import { SvgIcon } from "@/lib/svgIcons";
 
 interface Props {
   totalPages: number;
