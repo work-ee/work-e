@@ -1,9 +1,9 @@
-import { DialogMsg } from "@/components/feedback/DialogMsg";
+// import { DialogMsg } from "@/components/feedback/DialogMsg";
 
-import { auth } from "@/lib/auth";
+// import { auth } from "@/lib/auth";
 
 export default async function Home() {
-  const session = await auth();
+  // const session = await auth();
 
   return (
     <main className="center-page">
@@ -65,7 +65,7 @@ export default async function Home() {
           </ul>
         </div>
       </section>
-      {session && <DialogMsg showOnMount backdrop />}
+      {/* {session && <DialogMsg showOnMount backdrop />} */}
     </main>
   );
 }

@@ -1,17 +1,15 @@
 "use client";
 
-import { signOut } from "next-auth/react";
-
 import { Button } from "@/components/ui/Button";
 
+import { useAuth } from "@/hooks/useAuth";
+
 const SignOut = () => {
-  const handleSignOut = async () => {
-    await signOut();
-  };
+  const { logout } = useAuth();
 
   return (
     <div className="flex justify-center">
-      <Button variant="secondary" onClick={handleSignOut}>
+      <Button variant="secondary" onClick={logout}>
         Вийти
       </Button>
     </div>

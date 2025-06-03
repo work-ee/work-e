@@ -1,16 +1,19 @@
+"use client";
+
 import React from "react";
 
+// import Image from "next/image";
 import Link from "next/link";
 
 import { SignOut } from "@/components/auth/SignOut";
 import { Button } from "@/components/ui";
 
-import { auth } from "@/lib/auth";
+// import { LogoutButton } from "@/components/ui/LogoutButton";
 
-export const Header = async () => {
-  const session = await auth();
+import { useAuth } from "@/hooks/useAuth";
 
-  // console.log(session);
+export const Header = () => {
+  const { user, isLoggedIn } = useAuth();
 
   return (
     <header className="bg-primary-100 min-h-[94px] flex items-center justify-between py-4">
@@ -20,10 +23,10 @@ export const Header = async () => {
             Work- E
           </Link>
           <div className="flex items-center gap-2">
-            {!session ? (
+            {!isLoggedIn ? (
               <div className="flex items-center gap-4">
-                <Link href="sign-in">
-                  <Button type="submit" variant="secondary">
+                <Link href="/sign-in">
+                  <Button type="button" variant="secondary">
                     Увійти
                   </Button>
                 </Link>
@@ -35,15 +38,19 @@ export const Header = async () => {
               <div className="flex items-center gap-4">
                 <button className="flex items-center justify-center gap-2 hover:bg-secondary-100 rounded-full p-2 transition-colors cursor-pointer group">
                   <div className="flex justify-center items-center gap-2 outline outline-secondary-300 h-10 w-10 rounded-full overflow-hidden bg-accent-50 group-hover:outline-3 transition-all">
-                    {session.user?.image ? (
-                      <>
-                        <img src={`${session.user?.image}`} alt="User Avatar" className="" />
-                      </>
+                    {user?.avatar_url ? (
+                      <img
+                        src={user?.avatar_url}
+                        alt="User Avatar"
+                        width={40}
+                        height={40}
+                        className="rounded-full object-cover"
+                      />
                     ) : (
-                      <span className="heading-h3 flex-inline text-secondary-900">{session.user?.name?.charAt(0)}</span>
+                      <span className="heading-h3 text-secondary-900">{user?.first_name?.charAt(0)}</span>
                     )}
                   </div>
-                  <span className="flex-initial">{session.user?.name}</span>
+                  <span className="flex-initial">{user?.first_name}</span>
                 </button>
                 <SignOut />
               </div>

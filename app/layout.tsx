@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/shadcn/sonner";
 
 import { nunitoSans, rubik } from "./fonts";
 import "./globals.css";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,9 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${rubik.variable} ${nunitoSans.variable} antialiased`}>
-        <Header />
-        {children}
-        <Footer />
+        <Providers>
+          <Header />
+          {children}
+          <Footer />
+        </Providers>
 
         <Toaster
           expand={false}

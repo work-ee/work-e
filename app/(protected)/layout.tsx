@@ -1,13 +1,5 @@
-import { redirect } from "next/navigation";
+import ProtectedLayout from "@/components/shared/ProtectedLayout";
 
-import { auth } from "@/lib/auth";
-
-export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
-  const session = await auth();
-
-  if (!session?.user) {
-    redirect("/sign-in");
-  }
-
-  return <>{children}</>;
+export default function ProtectedLayoutWrapper({ children }: { children: React.ReactNode }) {
+  return <ProtectedLayout>{children}</ProtectedLayout>;
 }
