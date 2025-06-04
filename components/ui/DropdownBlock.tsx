@@ -4,6 +4,8 @@ import { FC, useState } from "react";
 
 import { clsx } from "clsx";
 
+import { SpriteSvg } from "@/components/icons/SpriteSvg";
+
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./shadcn/dropdown-menu";
 
 interface DropdownMenuItemOption {
@@ -19,8 +21,6 @@ interface DropdownBlockProps {
   onSelect?: (value: string, label: string) => void;
   selectedLabel?: string;
 }
-
-const SPRITE_PATH = "/sprite.svg";
 
 export const DropdownBlock: FC<DropdownBlockProps> = ({ triggerText, options, onSelect, selectedLabel }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,10 +52,10 @@ export const DropdownBlock: FC<DropdownBlockProps> = ({ triggerText, options, on
           )}
         >
           <div className="absolute left-0 w-px h-full bg-secondary-100" />
-
-          <svg className="w-[24px] h-[24px] fill-secondary-50 stroke-secondary-100" aria-hidden="true">
-            <use href={`${SPRITE_PATH}#${isOpen ? "icon-arrow-up" : "icon-arrow"}`} />
-          </svg>
+          <SpriteSvg
+            id={isOpen ? "icon-arrow-up" : "icon-arrow"}
+            className="w-[24px] h-[24px] fill-secondary-50 stroke-secondary-100"
+          />
         </div>
       </DropdownMenuTrigger>
 

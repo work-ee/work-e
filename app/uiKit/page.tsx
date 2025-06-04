@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 
+import CVUploadDialog from "@/components/feedback/CVUploadPopup/CVUploadDialog";
 import { Button, Checkbox, DropdownBlock, Input, PaginationBlock, RadioButton, Slider, Toggle } from "@/components/ui";
 
 export default function UiKit() {
@@ -207,6 +208,8 @@ export default function UiKit() {
     { value: "subscription", label: "Підписка на послуги" },
     { value: "logout", label: "Вийти з облікового запису" },
   ];
+
+  const [openCV, setOpenCV] = useState(false);
 
   return (
     <main className="py-8">
@@ -522,16 +525,11 @@ export default function UiKit() {
           <h2 className="text-xl mb-2">Приклад вимкненої пагінації</h2>
           <PaginationBlock totalPages={5} currentPage={1} onPageChange={handlePageChange} disabled={true} />
         </div>
+      </section>
+      <section className="section flex flex-col items-center gap-y-4">
+        <Button onClick={() => setOpenCV(true)}>Завантажити CV</Button>
 
-        <div className="mt-8">
-          <h2 className="text-xl mb-2">На останній сторінці (стрілка справа прихована)</h2>
-          <PaginationBlock totalPages={5} currentPage={5} onPageChange={handlePageChange} />
-        </div>
-
-        <div className="mt-8">
-          <h2 className="text-xl mb-2">На першій сторінці (стрілка вліво прихована)</h2>
-          <PaginationBlock totalPages={5} currentPage={1} onPageChange={handlePageChange} />
-        </div>
+        <CVUploadDialog open={openCV} onClose={() => setOpenCV(false)} />
       </section>
     </main>
   );

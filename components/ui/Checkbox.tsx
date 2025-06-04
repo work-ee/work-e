@@ -2,6 +2,8 @@ import { ChangeEvent, FC, useId } from "react";
 
 import clsx from "clsx";
 
+import { SpriteSvg } from "@/components/icons/SpriteSvg";
+
 interface Props {
   name: string;
   checked?: boolean;
@@ -46,16 +48,14 @@ export const Checkbox: FC<Props> = ({
   );
 
   const icon = (
-    <svg
+    <SpriteSvg
+      id="icon-checkbox-check"
       className={clsx("w-4 h-4", {
         "fill-success-main": status === "success",
         "fill-error-main": status === "error",
         "fill-primary-300": status === "default",
       })}
-      aria-hidden="true"
-    >
-      <use xlinkHref="/sprite.svg#icon-checkbox-check" />
-    </svg>
+    />
   );
 
   return (

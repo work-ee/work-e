@@ -2,6 +2,7 @@ import { FC } from "react";
 
 import { clsx } from "clsx";
 
+import { SpriteSvg } from "@/components/icons/SpriteSvg";
 import {
   Pagination,
   PaginationContent,
@@ -119,8 +120,6 @@ export const PaginationBlock: FC<Props> = ({
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === totalPages;
 
-  const SPRITE_PATH = "/icons/sprite.svg";
-
   return (
     <Pagination className={clsx(disabled && "opacity-50 pointer-events-none")}>
       <PaginationContent className="flex items-center">
@@ -140,9 +139,7 @@ export const PaginationBlock: FC<Props> = ({
               )}
             >
               <span className="sr-only">Previous</span>
-              <svg className="w-[30px] h-[30px] rotate-[-90deg]" fill="currentColor" aria-hidden="true">
-                <use href={`${SPRITE_PATH}#icon-arrow-right`} />
-              </svg>
+              <SpriteSvg id="icon-arrow-right" className="w-[30px] h-[30px] rotate-[-90deg] fill-current" />
             </PaginationPrevious>
           </PaginationItem>
         )}
@@ -166,9 +163,7 @@ export const PaginationBlock: FC<Props> = ({
               <PaginationEllipsis
                 className={clsx("w-[26px] h-[30px] flex items-center justify-center", "text-secondary-500")}
               >
-                <svg className="w-[26px] h-[30px]" fill="currentColor" aria-hidden="true">
-                  <use href={`${SPRITE_PATH}#icon-dots`} />
-                </svg>
+                <SpriteSvg id="icon-dots" className="w-[26px] h-[30px] fill-current" />
               </PaginationEllipsis>
             ) : (
               <PaginationLink
@@ -209,9 +204,7 @@ export const PaginationBlock: FC<Props> = ({
               )}
             >
               <span className="sr-only">Next</span>
-              <svg className="w-[30px] h-[30px] rotate-90" fill="currentColor" aria-hidden="true">
-                <use href={`${SPRITE_PATH}#icon-arrow-right`} />
-              </svg>
+              <SpriteSvg id="icon-arrow-right" className="w-[30px] h-[30px] rotate-90 fill-current" />
             </PaginationNext>
           </PaginationItem>
         )}
