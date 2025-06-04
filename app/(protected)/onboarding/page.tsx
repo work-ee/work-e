@@ -1,5 +1,5 @@
 import { SvgProgressCircle } from "@/components/SvgProgressCircle";
-import { CVUploadTrigger } from "@/components/feedback/CVUploadTrigger";
+import { CVUploadTrigger } from "@/components/feedback/CVUploadPopup/CVUploadTrigger";
 import { Button } from "@/components/ui";
 
 export default async function OnboardingPage() {

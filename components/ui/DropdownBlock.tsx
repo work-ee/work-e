@@ -4,7 +4,7 @@ import { FC, useState } from "react";
 
 import { clsx } from "clsx";
 
-import { SvgIcon } from "@/components/ui/SvgIcon";
+import { SpriteSvg } from "@/components/icons/SpriteSvg";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./shadcn/dropdown-menu";
 
@@ -52,7 +52,7 @@ export const DropdownBlock: FC<DropdownBlockProps> = ({ triggerText, options, on
           )}
         >
           <div className="absolute left-0 w-px h-full bg-secondary-100" />
-          <SvgIcon
+          <SpriteSvg
             id={isOpen ? "icon-arrow-up" : "icon-arrow"}
             className="w-[24px] h-[24px] fill-secondary-50 stroke-secondary-100"
           />

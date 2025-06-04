@@ -2,7 +2,7 @@ import React from "react";
 
 import clsx from "clsx";
 
-import { SvgIcon } from "@/components/ui/SvgIcon";
+import { SpriteSvg } from "@/components/icons/SpriteSvg";
 
 export type Variant = "main" | "secondary";
 type Props = {
@@ -68,7 +68,7 @@ export const Button = ({
       aria-label={typeof children === "string" ? children : "button"}
     >
       {icon && (
-        <SvgIcon
+        <SpriteSvg
           id="icon-off"
           className={clsx(
             "h-5 w-5 stroke-current",

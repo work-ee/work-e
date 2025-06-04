@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import CVUploadDialog from "@/components/feedback/CVUploadDialog";
+import CVUploadDialog from "@/components/feedback/CVUploadPopup/CVUploadDialog";
 import { Button, Checkbox, DropdownBlock, Input, PaginationBlock, RadioButton, Slider, Toggle } from "@/components/ui";
 
 export default function UiKit() {

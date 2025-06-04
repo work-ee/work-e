@@ -4,8 +4,8 @@ import { useRef, useState } from "react";
 
 import clsx from "clsx";
 
+import { SpriteSvg } from "@/components/icons/SpriteSvg";
 import { Button } from "@/components/ui/Button";
-import { SvgIcon } from "@/components/ui/SvgIcon";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/shadcn/dialog";
 
 interface CVUploadDialog {
@@ -32,9 +32,9 @@ export default function CVUploadDialog({ open, onClose }: CVUploadDialog) {
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > 1 * 1024 * 1024) {
       setStatus("error");
-      setMessage("Файл завеликий. Максимальний розмір — 5MB.");
+      setMessage("Файл завеликий. Максимальний розмір — 1MB.");
       return;
     }
 
@@ -89,7 +89,7 @@ export default function CVUploadDialog({ open, onClose }: CVUploadDialog) {
             )}
             onClick={handleManualTrigger}
           >
-            <SvgIcon
+            <SpriteSvg
               id="icon-uploading-filed"
               className="mx-auto w-12 h-12 text-primary-500 mb-4 fill-neutral-50 stroke-primary-500"
             />
@@ -112,7 +112,7 @@ export default function CVUploadDialog({ open, onClose }: CVUploadDialog) {
               className="flex items-center gap-3 mt-6 border rounded-lg px-4 py-4 w-[736px] h-[72px] mx-auto relative"
               style={{ borderWidth: 1, borderRadius: 8 }}
             >
-              <SvgIcon id="icon-pdf" className="w-6 h-6 text-neutral-900" />
+              <SpriteSvg id="icon-pdf" className="w-6 h-6 text-neutral-900" />
               <div className="flex-1">
                 <div className="text-sm mb-1">{fileName || "Назва файлу"}</div>
                 <div className={clsx("h-1 rounded", getLineColor())}></div>

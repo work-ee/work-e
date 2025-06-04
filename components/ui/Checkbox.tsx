@@ -2,7 +2,7 @@ import { ChangeEvent, FC, useId } from "react";
 
 import clsx from "clsx";
 
-import { SvgIcon } from "@/components/ui/SvgIcon";
+import { SpriteSvg } from "@/components/icons/SpriteSvg";
 
 interface Props {
   name: string;
@@ -48,7 +48,7 @@ export const Checkbox: FC<Props> = ({
   );
 
   const icon = (
-    <SvgIcon
+    <SpriteSvg
       id="icon-checkbox-check"
       className={clsx("w-4 h-4", {
         "fill-success-main": status === "success",
