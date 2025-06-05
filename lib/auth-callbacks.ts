@@ -26,7 +26,7 @@ export const handleGoogleLogin = async ({ user, account }: Props) => {
       id_token: account.id_token,
     }),
   });
-  // console.log("✅", await response.text(), "🏁"); // return response text end finish
+  console.log("✅", await response.text(), "🏁"); // return response text end finish
 
   if (response.ok) {
     const data = await response.json();
