@@ -1,13 +1,12 @@
-import Google from "@auth/core/providers/google";
-import LinkedIn from "@auth/core/providers/linkedin";
-
 import NextAuth from "next-auth";
 import type { Provider } from "next-auth/providers";
+import GoogleProvider from "next-auth/providers/google";
+import LinkedinProvider from "next-auth/providers/linkedin";
 
 import { handleGoogleLogin, handleLinkedInLogin } from "./auth-callbacks";
 
 const providers: Provider[] = [
-  Google({
+  GoogleProvider({
     clientId: process.env.GOOGLE_CLIENT_ID!,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     // authorization: {
@@ -18,7 +17,7 @@ const providers: Provider[] = [
     //   },
     // },
   }),
-  LinkedIn({
+  LinkedinProvider({
     clientId: process.env.LINKEDIN_CLIENT_ID!,
     clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
   }),
