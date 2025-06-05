@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import clsx from "clsx";
 import { signIn } from "next-auth/react";
@@ -16,6 +16,7 @@ interface Props {
 }
 export const LinkedinSignIn = ({ className = "", children, callbackUrl = "/onboarding" }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleLinkedinSignIn = async () => {
     setIsLoading(true);
@@ -25,7 +26,7 @@ export const LinkedinSignIn = ({ className = "", children, callbackUrl = "/onboa
     });
 
     if (res?.ok) {
-      redirect(res.url!);
+      router.push(res.url!);
     } else {
       setIsLoading(false);
       alert("Problem with Linkedin sign in. Please try again later.");
