@@ -1,19 +1,16 @@
-import { Button } from "@/components/ui/Button";
+"use client";
 
-import { signOut } from "@/lib/auth";
+import { signOut } from "next-auth/react";
+
+import { Button } from "@/components/ui/Button";
 
 const SignOut = () => {
   return (
-    <form
-      action={async () => {
-        "use server";
-        await signOut({ redirectTo: "/sign-in" });
-      }}
-    >
-      <div className="flex justify-center">
-        <Button variant="secondary">Вийти</Button>
-      </div>
-    </form>
+    <div className="flex justify-center">
+      <Button variant="secondary" onClick={() => signOut({ callbackUrl: "/sign-in" })}>
+        Вийти
+      </Button>
+    </div>
   );
 };
 
