@@ -33,7 +33,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
       try {
-        if (account?.provider === "google" && account.id_token) {
+        if (account?.provider === "google") {
           return await handleGoogleLogin({ user, account });
         }
 
