@@ -17,7 +17,7 @@ export const handleGoogleLogin = async ({ user, account }: Props) => {
   }
 
   // -> Sending id_token to Django backend
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/google-login/`, {
+  const response = await fetch(`${process.env.API_URL}/api/users/google-login/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
