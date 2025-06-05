@@ -12,9 +12,7 @@ export const handleGoogleLogin = async ({ user, account }: Props) => {
   // console.log(account.id_token);
 
   // TODO: FIX ERROR without promise: {"id_token":["Invalid Google ID token: Token used too early, ..."]}
-  if (process.env.NODE_ENV !== "production") {
-    await new Promise((res) => setTimeout(res, 5000));
-  }
+  await new Promise((res) => setTimeout(res, 5000));
 
   // -> Sending id_token to Django backend
   const response = await fetch(`${process.env.API_URL}/api/users/google-login/`, {
@@ -26,7 +24,7 @@ export const handleGoogleLogin = async ({ user, account }: Props) => {
       id_token: account.id_token,
     }),
   });
-  console.log("✅", await response.text(), "🏁"); // return response text end finish
+  // console.log("✅", await response.text(), "🏁"); // return response text end finish
 
   if (response.ok) {
     const data = await response.json();
