@@ -13,10 +13,8 @@ interface Props {
 export const handleGoogleLogin = async ({ user, account }: Props) => {
   // console.log(account.id_token);
 
-  // TODO: FIX ERROR without promise: {"id_token":["Invalid Google ID token: Token used too early, ..."]}
-  await new Promise((res) => setTimeout(res, 5000));
-
   try {
+    // TODO: -> Fetch GoogleToken with retry, if don't need replace to simple fetch request
     const data = await fetchGoogleTokenWithRetry(`${process.env.API_URL}/api/users/google-login/`, account.id_token!);
     // console.log("🚨", data, "🏁");
 
