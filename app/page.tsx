@@ -1,4 +1,5 @@
 import { DialogMsg } from "@/components/feedback/DialogMsg";
+import { CheckArrowSvg, ClockSvg, SafetySvg } from "@/components/icons";
 
 import { auth } from "@/lib/auth";
 
@@ -49,17 +50,20 @@ export default async function Home() {
           <ul className="grid xl:grid-cols-3 gap-12 justify-around">
             <li className="flex flex-col items-center gap-4 text-center px-4 py-6 rounded-2xl bg-secondary-50">
               <b>Чому Work-e?</b>
-              <img src="./icons/checked.svg" alt="" />
+              {/* <img src="./icons/checked.svg" alt="" /> */}
+              <CheckArrowSvg />
               <p>За допомогою AI створіть ідеальне резюме та супроводжуючий лист, підберіть вакансії для тебе.</p>
             </li>
             <li className="flex flex-col items-center gap-4 text-center px-4 py-6 rounded-2xl bg-secondary-50">
               <b>Як швидко я отримаю вакансії?</b>
-              <img src="./icons/time.svg" alt="" />
+              {/* <img src="./icons/time.svg" alt="" /> */}
+              <ClockSvg />
               <p>Залежить від вашого досвіду, але наш AI швидко підбере найкращі варіанти.</p>
             </li>
             <li className="flex flex-col items-center gap-4 text-center px-4 py-6 rounded-2xl bg-secondary-50">
               <b>Чи можна залишитися анонімним?</b>
-              <img src="./icons/incognito.svg" alt="" />
+              {/* <img src="./icons/incognito.svg" alt="" /> */}
+              <SafetySvg />
               <p>Ваші дані захищені. Ви можете вибрати, коли і кому показувати ваші контакти</p>
             </li>
           </ul>

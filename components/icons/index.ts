@@ -1,0 +1,9 @@
+export { default as BuildingSvg } from "./BuildingSvg";
+export { default as CheckArrowSvg } from "./CheckArrowSvg";
+export { default as ClockSvg } from "./ClockSvg";
+export { default as FlagUkrSvg } from "./FlagUkrSvg";
+export { default as GoogleSvg } from "./GoogleSvg";
+export { default as LinkedinSvg } from "./LinkedinSvg";
+export { default as SafetySvg } from "./SafetySvg";
+export { default as SearchJobSvg } from "./SearchJobSvg";
+export { default as DownloadDocSvg } from "./DownloadDocSvg";

@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 
 import { SignOut } from "@/components/auth/SignOut";
-import { FlagUkrSvg } from "@/components/icons/FlagUkrSvg";
+import { FlagUkrSvg } from "@/components/icons";
 import { Button } from "@/components/ui";
 
 import { auth } from "@/lib/auth";

@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 
 import { GoogleSignIn } from "@/components/auth/GoogleSignIn";
 import { LinkedinSignIn } from "@/components/auth/LinkedinSignIn";
+import { BuildingSvg, SearchJobSvg } from "@/components/icons";
 
 import { auth } from "@/lib/auth";
 
@@ -29,7 +30,7 @@ export default async function Register() {
                   href="#"
                   className="p-5 flex flex-col min-w-[18rem] items-center gap-3 text-primary-900 border border-primary-900 rounded hover:shadow-lg transition"
                 >
-                  <img src="/img/exa/x.svg" width={65} height={65} alt="icon" />
+                  <SearchJobSvg />
                   <h3 className="heading-h3">Шукаю роботу</h3>
                 </a>
               </li>
@@ -40,7 +41,7 @@ export default async function Register() {
                   aria-disabled="true"
                   className="p-5 flex flex-col min-w-[18rem] items-center gap-3 text-primary-900 border border-primary-900 rounded hover:shadow-lg transition"
                 >
-                  <img src="/img/exa/x.svg" width={65} height={65} alt="icon" />
+                  <BuildingSvg />
                   <h3 className="heading-h3">Шукаю спеціаліста</h3>
                 </a>
               </li>

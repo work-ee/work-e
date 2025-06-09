@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import { signIn } from "next-auth/react";
 
-import { LinkedinSvg } from "@/components/icons/LinkedinSvg";
+import { LinkedinSvg } from "@/components/icons";
 
 interface Props {
   className?: string;
