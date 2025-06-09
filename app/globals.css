@@ -236,6 +236,10 @@
   @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
 }
 
+@utility section {
+  @apply mx-auto max-w-5xl pt-8 pr-10 pb-8 pl-10;
+}
+
 @layer components {
   .heading-h1 {
     @apply font-rubik text-[48px] leading-[120%] font-bold;
@@ -273,9 +277,9 @@
   .center-page {
     @apply flex min-h-[calc(100vh-12rem)] flex-col justify-center;
   }
-  .section {
+  /* .section {
     @apply my-8;
-  }
+  } */
   .logo {
     @apply inline-flex items-center justify-center;
   }

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 
 import CVUploadDialog from "@/components/feedback/CVUploadPopup/CVUploadDialog";
+import { CoverLetter } from "@/components/shared";
 import { Button, Checkbox, DropdownBlock, Input, PaginationBlock, RadioButton, Slider, Toggle } from "@/components/ui";
 
 export default function UiKit() {
@@ -328,7 +329,7 @@ export default function UiKit() {
           />
           <p>disabled</p>
           <Input
-            id="username"
+            id="username2"
             name="username"
             label="Ім'я користувача"
             type="text"
@@ -340,7 +341,7 @@ export default function UiKit() {
           />
 
           <Input
-            id="email"
+            id="email2"
             name="email"
             label="Email адреса"
             type="email"
@@ -357,7 +358,7 @@ export default function UiKit() {
           />
 
           <Input
-            id="password"
+            id="password2"
             name="password"
             label="Пароль"
             type="password"
@@ -374,7 +375,7 @@ export default function UiKit() {
           />
 
           <Input
-            id="notes"
+            id="notes2"
             name="notes"
             placeholder="Введіть повідомлення"
             value={formData.notes}
@@ -385,7 +386,7 @@ export default function UiKit() {
           />
 
           <Input
-            id="searchQuery"
+            id="searchQuery2"
             name="searchQuery"
             placeholder="Введіть пошуковий запит"
             value={formData.searchQuery}
@@ -401,7 +402,7 @@ export default function UiKit() {
           />
 
           <Input
-            id="phone"
+            id="phone2"
             name="phone"
             type="tel"
             placeholder="Номер телефону"
@@ -531,6 +532,7 @@ export default function UiKit() {
 
         <CVUploadDialog open={openCV} onClose={() => setOpenCV(false)} />
       </section>
+      <CoverLetter />
     </main>
   );
 }

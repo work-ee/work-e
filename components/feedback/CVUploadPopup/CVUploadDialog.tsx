@@ -10,14 +10,17 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 
 interface CVUploadDialog {
   open: boolean;
+  email?: string | null;
   onClose: () => void;
 }
 
-export default function CVUploadDialog({ open, onClose }: CVUploadDialog) {
+export default function CVUploadDialog({ open, email, onClose }: CVUploadDialog) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [status, setStatus] = useState<"success" | "error" | "idle">("idle");
   const [message, setMessage] = useState<string | null>(null);
+
+  console.log(email);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
