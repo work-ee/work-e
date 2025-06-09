@@ -5,13 +5,9 @@ import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/Button";
 
 const SignOut = () => {
-  const handleSignOut = async () => {
-    await signOut();
-  };
-
   return (
     <div className="flex justify-center">
-      <Button variant="secondary" onClick={handleSignOut}>
+      <Button variant="secondary" onClick={() => signOut({ callbackUrl: "/sign-in" })}>
         Вийти
       </Button>
     </div>
