@@ -17,10 +17,9 @@ interface CVUploadDialog {
 export default function CVUploadDialog({ open, email, onClose }: CVUploadDialog) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [status, setStatus] = useState<"success" | "error" | "idle">("idle");
   const [message, setMessage] = useState<string | null>(null);
-
-  console.log(email);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -41,12 +40,10 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialog)
       return;
     }
 
+    setSelectedFile(file);
     setFileName(file.name);
-
-    setTimeout(() => {
-      setStatus("success");
-      setMessage("Ще декілька кроків і робота мрії — твоя");
-    }, 2000);
+    setStatus("success");
+    setMessage("Ще декілька кроків і робота мрії — твоя");
     e.target.value = "";
   };
 
@@ -59,6 +56,7 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialog)
 
   const handleRemoveFile = () => {
     setFileName(null);
+    setSelectedFile(null);
     setStatus("idle");
     setMessage(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
@@ -72,6 +70,34 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialog)
         return "bg-error-main";
       default:
         return "bg-neutral-900";
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!selectedFile || !email) return;
+
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("cv_file", selectedFile);
+
+    try {
+      const res = await fetch("/api/cvs", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Помилка при збереженні CV");
+
+      // const data = await res.json();
+      // console.log("CV збережено:", data);
+      setMessage("CV успішно збережено!");
+      setStatus("success");
+      setSelectedFile(null);
+      setFileName(null);
+    } catch (error) {
+      console.error(error);
+      setMessage("Сталася помилка при збереженні CV");
+      setStatus("error");
     }
   };
 
@@ -110,40 +136,40 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialog)
             <input type="file" accept=".pdf" ref={fileInputRef} onChange={handleFileUpload} hidden />
           </div>
 
-          <>
-            <div
-              className="flex items-center gap-3 mt-6 border rounded-lg px-4 py-4 w-[736px] h-[72px] mx-auto relative"
-              style={{ borderWidth: 1, borderRadius: 8 }}
-            >
-              <SpriteSvg id="icon-pdf" className="w-6 h-6 text-neutral-900" />
-              <div className="flex-1">
-                <div className="text-sm mb-1">{fileName || "Назва файлу"}</div>
-                <div className={clsx("h-1 rounded", getLineColor())}></div>
-              </div>
-              <button
-                onClick={handleRemoveFile}
-                className="text-neutral-500 hover:text-neutral-900 transition-colors"
-                aria-label="Видалити файл"
-              >
-                &times;
-              </button>
+          <div
+            className="flex items-center gap-3 mt-6 border rounded-lg px-4 py-4 w-[736px] h-[72px] mx-auto relative"
+            style={{ borderWidth: 1, borderRadius: 8 }}
+          >
+            <SpriteSvg id="icon-pdf" className="w-6 h-6 text-neutral-900" />
+            <div className="flex-1">
+              <div className="text-sm mb-1">{fileName || "Назва файлу"}</div>
+              <div className={clsx("h-1 rounded", getLineColor())}></div>
             </div>
+            <button
+              onClick={handleRemoveFile}
+              className="text-neutral-500 hover:text-neutral-900 transition-colors"
+              aria-label="Видалити файл"
+            >
+              &times;
+            </button>
+          </div>
 
-            {message && (
-              <div
-                className={clsx(
-                  "text-sm mt-2 mx-auto text-center",
-                  status === "error" ? "text-error-main" : "text-neutral-900"
-                )}
-              >
-                {message}
-              </div>
-            )}
-          </>
+          {message && (
+            <div
+              className={clsx(
+                "text-sm mt-2 mx-auto text-center",
+                status === "error" ? "text-error-main" : "text-neutral-900"
+              )}
+            >
+              {message}
+            </div>
+          )}
 
           <div className="flex justify-between gap-4 pt-6">
             <Button variant="secondary">Створити CV</Button>
-            <Button disabled={status !== "success"}>Зберегти CV</Button>
+            <Button disabled={status !== "success"} onClick={handleSubmit}>
+              Зберегти CV
+            </Button>
           </div>
         </div>
       </DialogContent>

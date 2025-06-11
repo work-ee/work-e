@@ -20,28 +20,33 @@ export async function GET() {
   }
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
-    const body = await req.json();
+    const formData = await req.formData();
+    const email = formData.get("email") as string | null;
+    const file = formData.get("cv_file") as File | null;
+
+    if (!email || !file) {
+      return NextResponse.json({ error: "Missing email or file" }, { status: 400 });
+    }
+
+    const backendFormData = new FormData();
+    backendFormData.append("email", email);
+    backendFormData.append("cv_file", file);
+
     const res = await fetch(`${process.env.API_URL}/api/cvs/`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: backendFormData,
     });
-    if (!res.ok) {
-      const error = await res.json();
-      throw new Error(error.message || "Error creating CV");
-    }
-    const data = await res.json();
-    return NextResponse.json(data, { status: res.status });
-  } catch (err) {
-    console.error("POST /api/cvs/ error:", err);
-    return NextResponse.json(
-      {
-        message: "Не вдалося створити CV",
-        internalError: process.env.NODE_ENV === "development" ? String(err) : undefined,
-      },
-      { status: 500 }
-    );
+
+    const data = (await res.json()) as CV;
+
+    return new NextResponse(JSON.stringify(data), {
+      status: res.status,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error uploading CV:", error);
+    return NextResponse.json({ error: "Failed to upload CV" }, { status: 500 });
   }
 }
