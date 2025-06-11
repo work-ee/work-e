@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { GoogleSignIn } from "@/components/auth/GoogleSignIn";
 import { LinkedinSignIn } from "@/components/auth/LinkedinSignIn";
 import { BuildingSvg, SearchJobSvg } from "@/components/icons";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs";
 
 import { auth } from "@/lib/auth";
 
@@ -19,49 +20,66 @@ export default async function Register() {
     <main className="center-page">
       <section className="section">
         <div className="container">
-          <div className="flex items-center justify-center gap-6 flex-col">
+          <div className="flex items-center gap-8 flex-col min-h-[420px]">
             <div className="flex flex-col text-center">
               <h1 className="heading-h2">Зареєструватись на Work - E</h1>
             </div>
 
-            <ul className="flex gap-4">
-              <li>
-                <a
-                  href="#"
-                  className="p-5 flex flex-col min-w-[18rem] items-center gap-3 text-primary-900 border border-primary-900 rounded hover:shadow-lg transition"
+            <Tabs defaultValue="sign-in" className="gap-8">
+              <TabsList className="bg-white h-auto rounded-none p-0 flex justify-between">
+                <TabsTrigger
+                  value="sign-in"
+                  className="min-w-[18rem] data-[state=active]:bg-secondary-50 p-5 h-auto outline data-[state=active]:outline-primary-700 rounded-none transition duration-300"
                 >
-                  <SearchJobSvg />
-                  <h3 className="heading-h3">Шукаю роботу</h3>
-                </a>
-              </li>
+                  <div className="flex flex-col items-center gap-3 text-primary-900">
+                    <SearchJobSvg className="size-12" />
+                    <h3 className="heading-h3">Шукаю роботу</h3>
+                  </div>
+                </TabsTrigger>
 
-              <li>
-                <a
-                  href="#"
-                  aria-disabled="true"
-                  className="p-5 flex flex-col min-w-[18rem] items-center gap-3 text-primary-900 border border-primary-900 rounded hover:shadow-lg transition"
+                <TabsTrigger
+                  value="sign-up"
+                  className="min-w-[18rem] data-[state=active]:bg-secondary-50 p-5 h-auto outline data-[state=active]:outline-primary-700 rounded-none transition duration-300"
                 >
-                  <BuildingSvg />
-                  <h3 className="heading-h3">Шукаю спеціаліста</h3>
-                </a>
-              </li>
-            </ul>
+                  <div className="flex flex-col items-center gap-3 text-primary-900">
+                    <BuildingSvg className="size-12" />
+                    <h3 className="heading-h3">Шукаю спеціаліста</h3>
+                  </div>
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent
+                value="sign-in"
+                className="data-[state=active]:animate-in data-[state=active]:fade-in data-[state=active]:zoom-in data-[state=inactive]:animate-fade-out data-[state=inactive]:fade-out data-[state=inactive]:zoom-out"
+              >
+                <div className="flex flex-col justify-center items-center">
+                  <div className="text-center my-4 flex flex-col gap-4">
+                    <div className="text-center gap-2 flex flex-col">
+                      <GoogleSignIn />
+                      <LinkedinSignIn />
+                    </div>
+                  </div>
 
-            <div className="text-center my-4 flex flex-col gap-4">
-              <h2 className="heading-h3">Продовжити з</h2>
-              <div className="text-center gap-2 flex flex-col">
-                <GoogleSignIn />
-                <LinkedinSignIn />
-              </div>
-            </div>
+                  <div className="text-neutral-800">
+                    <Link className="text-link font-medium font-rubik text-primary-500" href="/sign-in">
+                      Увійти в існуючий
+                    </Link>
+                  </div>
+                </div>
+              </TabsContent>
 
-            <div className="text-neutral-800">
-              або{" "}
-              <Link className="text-link underline" href="sign-in">
-                увійти
-              </Link>{" "}
-              в існуючий
-            </div>
+              <TabsContent
+                value="sign-up"
+                className="data-[state=active]:animate-in data-[state=active]:fade-in data-[state=active]:zoom-in data-[state=inactive]:animate-fade-out data-[state=inactive]:fade-out data-[state=inactive]:zoom-out"
+              >
+                <div className="flex flex-col justify-center items-center">
+                  <div className="text-center my-4 flex flex-col gap-4">
+                    <p className="text-2xl ">
+                      Ця функція буде доступна зовсім скоро! <br /> Ми вже працюємо над нею
+                    </p>
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </section>

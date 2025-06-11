@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { GoogleSignIn } from "@/components/auth/GoogleSignIn";
@@ -23,11 +24,10 @@ const Page = async () => {
               <LinkedinSignIn />
             </div>
 
-            <p className="text-neutral-800">
-              або{" "}
-              <a href="/sign-up" className="text-link underline">
+            <p>
+              <Link href="/sign-up" className="text-link font-medium font-rubik text-primary-500">
                 зареєструватись
-              </a>{" "}
+              </Link>
             </p>
           </div>
         </div>
