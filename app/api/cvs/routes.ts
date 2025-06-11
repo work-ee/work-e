@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { CV } from "@/types/cvs";
+
 export async function GET() {
   try {
     const res = await fetch(`${process.env.API_URL}/api/cvs/`, {
@@ -10,17 +12,11 @@ export async function GET() {
       const error = await res.json();
       throw new Error(error.message || "Error fetching CVs");
     }
-    const data = await res.json();
+    const data: CV[] = await res.json();
     return NextResponse.json(data);
   } catch (err) {
     console.error("GET /api/cvs/ error:", err);
-    return NextResponse.json(
-      {
-        message: "Не вдалося отримати список CV",
-        internalError: process.env.NODE_ENV === "development" ? String(err) : undefined,
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Failed to fetch CVs", err }, { status: 500 });
   }
 }
 
