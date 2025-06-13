@@ -9,6 +9,7 @@ type Props = {
   children: React.ReactNode;
   variant?: Variant;
   icon?: boolean;
+  iconSvg?: React.ReactNode;
   disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type?: "button" | "submit" | "reset";
@@ -19,6 +20,7 @@ export const Button = ({
   children,
   variant = "main",
   icon = false,
+  iconSvg,
   disabled = false,
   onClick,
   type = "submit",
@@ -79,6 +81,7 @@ export const Button = ({
           )}
         />
       )}
+      {iconSvg && <span>{iconSvg}</span>}
       {children}
     </button>
   );

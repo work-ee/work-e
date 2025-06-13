@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 
 import CVUploadDialog from "@/components/feedback/CVUploadPopup/CVUploadDialog";
+import { LinkedInShowPopup } from "@/components/feedback/LinkedInPopup/LinkedInShowPopup";
 import { Button, Checkbox, DropdownBlock, Input, PaginationBlock, RadioButton, Slider, Toggle } from "@/components/ui";
 
 export default function UiKit() {
@@ -531,6 +532,7 @@ export default function UiKit() {
 
         <CVUploadDialog open={openCV} onClose={() => setOpenCV(false)} />
       </section>
+      <LinkedInShowPopup variant="withHeader" />
     </main>
   );
 }
