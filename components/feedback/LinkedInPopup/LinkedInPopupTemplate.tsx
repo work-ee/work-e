@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Button } from "@/components/ui";
 
 import { Modal } from "../Modal";
@@ -24,7 +26,15 @@ export const LinkedInPopupTemplate = ({ onClose, title, text }: LinkedInPopupPro
         </div>
       }
     >
-      <p className="text-neutral-900 pr-15">{text}</p>
+      <p className="text-neutral-900 pr-15">
+        {" "}
+        {text.split("\n").map((line, i) => (
+          <React.Fragment key={i}>
+            {line}
+            <br />
+          </React.Fragment>
+        ))}
+      </p>
     </Modal>
   );
 };
