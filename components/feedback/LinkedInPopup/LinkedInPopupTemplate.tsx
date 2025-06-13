@@ -18,7 +18,9 @@ export const LinkedInPopupTemplate = ({ onClose, title, text }: LinkedInPopupPro
           <Button variant="secondary" className="flex-1 flex justify-center">
             Немає LinkedIn
           </Button>
-          <Button className="flex-1 flex justify-center">LinkedIn</Button>
+          <Button iconSvg={<img src="icons/linkedin.svg" />} className="flex-1 flex justify-center">
+            LinkedIn
+          </Button>
         </div>
       }
     >
