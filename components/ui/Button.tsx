@@ -2,7 +2,7 @@ import React from "react";
 
 import clsx from "clsx";
 
-import { SpriteSvg } from "../icons/SpriteSvg";
+import { SpriteSvg } from "@/components/icons/SpriteSvg";
 
 export type Variant = "main" | "secondary";
 type Props = {

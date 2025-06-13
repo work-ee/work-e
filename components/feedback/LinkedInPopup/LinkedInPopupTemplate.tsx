@@ -27,7 +27,6 @@ export const LinkedInPopupTemplate = ({ onClose, title, text }: LinkedInPopupPro
       }
     >
       <p className="text-neutral-900 pr-15">
-        {" "}
         {text.split("\n").map((line, i) => (
           <React.Fragment key={i}>
             {line}
