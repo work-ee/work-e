@@ -34,7 +34,7 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialog)
       return;
     }
 
-    if (file.size > 1 * 1024 * 1024) {
+    if (file.size > 10 * 1024 * 1024) {
       setStatus("error");
       setMessage("Файл завеликий. Максимальний розмір — 1MB.");
       return;
@@ -81,15 +81,40 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialog)
     formData.append("cv_file", selectedFile);
 
     try {
-      const res = await fetch("/api/cvs", {
+      const getRes = await fetch("/api/cvs/by-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!getRes.ok) throw new Error("Не вдалося отримати список CV");
+
+      const existingCVs = await getRes.json();
+
+      if (Array.isArray(existingCVs) && existingCVs.length > 0) {
+        for (const cv of existingCVs) {
+          const deleteRes = await fetch(`/api/cvs/${cv.id}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!deleteRes.ok) {
+            throw new Error(`Помилка при видаленні CV з id: ${cv.id}`);
+          }
+        }
+      }
+
+      const uploadRes = await fetch("/api/cvs", {
         method: "POST",
         body: formData,
       });
 
-      if (!res.ok) throw new Error("Помилка при збереженні CV");
+      if (!uploadRes.ok) throw new Error("Помилка при збереженні нового CV");
 
-      // const data = await res.json();
-      // console.log("CV збережено:", data);
       setMessage("CV успішно збережено!");
       setStatus("success");
       setSelectedFile(null);
@@ -167,7 +192,12 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialog)
 
           <div className="flex justify-between gap-4 pt-6">
             <Button variant="secondary">Створити CV</Button>
-            <Button disabled={status !== "success"} onClick={handleSubmit}>
+            <Button
+              disabled={status !== "success"}
+              onClick={() => {
+                handleSubmit();
+              }}
+            >
               Зберегти CV
             </Button>
           </div>
