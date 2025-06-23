@@ -12,16 +12,22 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify(body),
     });
-
-    if (!res.ok) {
+    if (res.ok) {
+      const data = (await res.json()) as CV[];
+      return NextResponse.json(data, { status: 200 });
+    } else if (res.status === 404 || res.status === 204) {
+      return NextResponse.json([], { status: 200 });
+    } else {
       const error = await res.json();
-      throw new Error(error.message || "Помилка отримання CV за email");
-    }
+      console.error("Error from external API for /api/cvs/by-email/:", error);
 
-    const data = (await res.json()) as CV[];
-    return NextResponse.json(data, { status: 200 });
+      return NextResponse.json(
+        { message: error.message || "Помилка отримання CV за email від зовнішнього API" },
+        { status: res.status }
+      );
+    }
   } catch (error) {
-    console.error("POST /api/cvs/by-email/ error:", error);
+    console.error("POST /api/cvs/by-email/ Next.js API route error:", error);
     return NextResponse.json({ message: "Не вдалося отримати CV за email" }, { status: 500 });
   }
 }
