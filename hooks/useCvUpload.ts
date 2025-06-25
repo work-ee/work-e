@@ -1,85 +1,94 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
-type UploadStatus = "idle" | "loading" | "success" | "error";
+import { deleteCVs, getExistingCVs, uploadCV } from "@/lib/api/cvs";
+import { validateCVFile } from "@/lib/utils/pdfFileValidation";
 
-interface UseCvUploadResult {
-  uploadCv: (file: File, email: string) => Promise<void>;
-  status: UploadStatus;
-  message: string | null;
-  resetUploadState: () => void;
-}
+export type UploadStatus = "idle" | "success" | "error" | "uploading";
 
-export const useCvUpload = (): UseCvUploadResult => {
+export function useCvUpload(email?: string | null, onClose?: () => void) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [status, setStatus] = useState<UploadStatus>("idle");
   const [message, setMessage] = useState<string | null>(null);
 
-  const resetUploadState = useCallback(() => {
+  const resetState = useCallback(() => {
+    setFileName(null);
+    setSelectedFile(null);
     setStatus("idle");
     setMessage(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
   }, []);
 
-  const uploadCv = useCallback(async (file: File, email: string) => {
-    if (!email) {
-      setMessage("Email is required for upload.");
+  const handleManualTrigger = () => fileInputRef.current?.click();
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    resetState();
+
+    if (!file) return;
+
+    const error = validateCVFile(file);
+    if (error) {
+      setStatus("error");
+      setMessage(error);
+      return;
+    }
+
+    setSelectedFile(file);
+    setFileName(file.name);
+    setStatus("success");
+    setMessage("Ще декілька кроків — і робота мрії твоя!");
+  };
+
+  const handleRemoveFile = () => resetState();
+
+  const handleSubmit = async () => {
+    if (!selectedFile || !email) {
+      setMessage("Оберіть файл і переконайтесь, що вказано email.");
       setStatus("error");
       return;
     }
 
-    setStatus("loading");
-    setMessage("Завантаження CV...");
-
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("cv_file", file);
+    setStatus("uploading");
+    setMessage("Завантаження...");
 
     try {
-      const getRes = await fetch("/api/cvs/by-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
+      const existing = await getExistingCVs(email);
+      if (existing.length) await deleteCVs(existing);
+      await uploadCV(selectedFile, email);
 
-      if (!getRes.ok) {
-        throw new Error("Не вдалося отримати список CV.");
-      }
-
-      const existingCVs = await getRes.json();
-
-      if (Array.isArray(existingCVs) && existingCVs.length > 0) {
-        await Promise.all(
-          existingCVs.map(async (cv) => {
-            const deleteRes = await fetch(`/api/cvs/${cv.id}`, {
-              method: "DELETE",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            });
-            if (!deleteRes.ok) {
-              console.error(`Помилка при видаленні CV з id: ${cv.id}`);
-            }
-          })
-        );
-      }
-
-      const uploadRes = await fetch("/api/cvs", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!uploadRes.ok) {
-        throw new Error("Помилка при збереженні нового CV.");
-      }
-
-      setMessage("CV успішно збережено!");
       setStatus("success");
-    } catch (error) {
+      setMessage("CV успішно збережено!");
+      onClose?.();
+      resetState();
+    } catch (error: unknown) {
       console.error("Помилка при завантаженні CV:", error);
-      setMessage("Сталася помилка при збереженні CV. Спробуйте ще раз.");
+
+      let errorMessage = "Сталася помилка. Спробуйте ще раз.";
+
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === "string") {
+        errorMessage = error;
+      }
+
+      setMessage(errorMessage);
       setStatus("error");
     }
-  }, []);
+  };
 
-  return { uploadCv, status, message, resetUploadState };
-};
+  return {
+    fileInputRef,
+    fileName,
+    selectedFile,
+    status,
+    message,
+    isSubmitDisabled: !selectedFile || status === "error" || status === "uploading",
+    handleManualTrigger,
+    handleFileUpload,
+    handleRemoveFile,
+    handleSubmit,
+    resetState,
+  };
+}

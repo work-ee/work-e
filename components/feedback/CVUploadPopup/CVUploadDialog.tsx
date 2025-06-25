@@ -1,12 +1,12 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
-
 import clsx from "clsx";
 
 import { SpriteSvg } from "@/components/icons/SpriteSvg";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/shadcn/dialog";
+
+import { useCvUpload } from "@/hooks/useCvUpload";
 
 interface CVUploadDialogProps {
   open: boolean;
@@ -14,169 +14,26 @@ interface CVUploadDialogProps {
   onClose: () => void;
 }
 
-const MAX_FILE_SIZE_MB = 10;
-const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-const MIN_FILE_SIZE_BYTES = 100;
-const ALLOWED_FILE_TYPE = "application/pdf";
-
 export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogProps) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [fileName, setFileName] = useState<string | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [status, setStatus] = useState<"success" | "error" | "idle" | "uploading">("idle");
-  const [message, setMessage] = useState<string | null>(null);
+  const {
+    fileInputRef,
+    fileName,
+    status,
+    message,
+    handleManualTrigger,
+    handleFileUpload,
+    handleRemoveFile,
+    handleSubmit,
+    isSubmitDisabled,
+    resetState,
+  } = useCvUpload(email, onClose);
 
-  const resetState = useCallback(() => {
-    setFileName(null);
-    setSelectedFile(null);
-    setStatus("idle");
-    setMessage(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  }, []);
-
-  const handleFileUpload = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      resetState();
-
-      if (!file) {
-        setStatus("idle");
-        setMessage(null);
-        return;
-      }
-
-      if (file.type !== ALLOWED_FILE_TYPE) {
-        setStatus("error");
-        setMessage("Невірний формат файлу. Будь ласка, завантажте CV у форматі PDF, натиснувши тут");
-        return;
-      }
-
-      if (file.size > MAX_FILE_SIZE_BYTES) {
-        setStatus("error");
-        setMessage("Розмір файлу перевищує 10 МБ. Будь ласка, зменште розмір CV та спробуйте знову, натиснувши тут");
-        return;
-      }
-
-      if (file.size < MIN_FILE_SIZE_BYTES) {
-        setStatus("error");
-        setMessage(`Файл замалий. Мінімальний розмір CV — ${MIN_FILE_SIZE_BYTES} байтів.`);
-        return;
-      }
-
-      setSelectedFile(file);
-      setFileName(file.name);
-      setStatus("success");
-      setMessage("Ще декілька кроків і робота мрії — твоя!");
-    },
-    [resetState]
-  );
-
-  const handleManualTrigger = useCallback(() => {
-    fileInputRef.current?.click();
-  }, []);
-
-  const handleRemoveFile = useCallback(() => {
-    resetState();
-  }, [resetState]);
-
-  const getLineColor = useMemo(() => {
-    switch (status) {
-      case "success":
-        return "bg-success-main";
-      case "error":
-        return "bg-error-main";
-      case "uploading":
-        return "bg-success-main animate-pulse";
-      case "idle":
-      default:
-        return "bg-neutral-500";
-    }
-  }, [status]);
-
-  const handleSubmit = useCallback(async () => {
-    if (!selectedFile || !email) {
-      setMessage("Будь ласка, оберіть файл та переконайтеся, що ваш email вказано.");
-      setStatus("error");
-      return;
-    }
-
-    setStatus("uploading");
-    setMessage("Завантаження CV...");
-
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("cv_file", selectedFile);
-
-    try {
-      const getRes = await fetch("/api/cvs/by-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      let existingCVs = [];
-      if (getRes.ok) {
-        existingCVs = await getRes.json();
-      } else if (getRes.status === 404 || getRes.status === 204) {
-        existingCVs = [];
-      } else {
-        const errorBody = await getRes.json();
-        throw new Error(errorBody.message || "Не вдалося отримати список CV для перевірки.");
-      }
-
-      if (Array.isArray(existingCVs) && existingCVs.length > 0) {
-        await Promise.all(
-          existingCVs.map(async (cv) => {
-            const deleteRes = await fetch(`/api/cvs/${cv.id}`, {
-              method: "DELETE",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            });
-            if (!deleteRes.ok) {
-              console.error(`Помилка при видаленні CV з id: ${cv.id}`);
-            }
-          })
-        );
-      }
-
-      const uploadRes = await fetch("/api/cvs", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!uploadRes.ok) {
-        const uploadErrorBody = await uploadRes.json();
-        throw new Error(uploadErrorBody.message || "Помилка при збереженні нового CV.");
-      }
-
-      setMessage("CV успішно збережено!");
-      setStatus("success");
-      onClose();
-      resetState();
-    } catch (error) {
-      console.error("Помилка при завантаженні CV:", error);
-
-      let errorMessage = "Сталася помилка при збереженні CV. Спробуйте ще раз.";
-
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      } else if (typeof error === "string") {
-        errorMessage = error;
-      }
-
-      setMessage(errorMessage);
-      setStatus("error");
-    }
-  }, [selectedFile, email, onClose, resetState]);
-
-  const isSubmitDisabled = useMemo(() => {
-    return !selectedFile || status === "error" || status === "uploading";
-  }, [selectedFile, status]);
+  const getStatusColor = {
+    success: "bg-success-main",
+    error: "bg-error-main",
+    uploading: "bg-success-main animate-pulse",
+    idle: "bg-neutral-500",
+  }[status];
 
   return (
     <Dialog
@@ -200,6 +57,7 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
         >
           <SpriteSvg id="icon-close" className="w-[32px] h-[32px] fill-primary-300 cursor-pointer" />
         </button>
+
         <DialogHeader>
           <DialogTitle className="heading-h2 text-neutral-900 text-center text-[36px]">Завантаж своє CV</DialogTitle>
           <DialogDescription className="text-body text-neutral-700 text-center text-[18px]">
@@ -210,7 +68,7 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
         <div>
           <div
             className={clsx(
-              "border-2 border border-primary-500 rounded-xl text-center cursor-pointer w-[322px] h-[244px] m-auto p-8",
+              "border-2 border-primary-500 rounded-xl text-center cursor-pointer w-[322px] h-[244px] m-auto p-8",
               "hover:border-primary-500 transition-colors"
             )}
             onClick={handleManualTrigger}
@@ -250,7 +108,7 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
             <SpriteSvg id="icon-pdf" className="w-10 h-10 text-neutral-900 fill-primary-500" />
             <div className="flex-1">
               <div className="text-sm mb-1">{fileName || "Назва файлу"}</div>
-              <div className={clsx("h-1 rounded", getLineColor)}></div>
+              <div className={clsx("h-1 rounded", getStatusColor)} />
             </div>
             <button
               onClick={handleRemoveFile}
