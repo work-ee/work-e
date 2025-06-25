@@ -1,19 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
+type Context = {
+  params: {
+    id: string;
+  };
+};
+
+export async function GET(_: NextRequest, context: Context) {
+  const { id } = context.params;
+
   try {
-    const res = await fetch(`${process.env.API_URL}/api/cvs/${params.id}/`, {
+    const res = await fetch(`${process.env.API_URL}/api/cvs/${id}/`, {
       headers: { "Content-Type": "application/json" },
       cache: "no-store",
     });
+
     if (!res.ok) {
       const error = await res.json();
       throw new Error(error.message || "Error fetching CV by id");
     }
+
     const data = await res.json();
     return NextResponse.json(data);
   } catch (err) {
-    console.error(`GET /api/cvs/${params.id}/ error:`, err);
+    console.error(`GET /api/cvs/${id}/ error:`, err);
     return NextResponse.json(
       {
         message: "Не вдалося отримати CV",
