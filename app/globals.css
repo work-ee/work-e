@@ -378,3 +378,7 @@ input[type="range"]:disabled::-moz-range-thumb {
   border-color: var(--color-neutral-300);
   cursor: not-allowed;
 }
+
+div[role="dialog"] > button:last-of-type {
+  display: none;
+}
