@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 
-type Context = {
-  params: {
-    id: string;
-  };
-};
+export async function GET(req: NextRequest) {
+  const url = new URL(req.url);
+  const pathSegments = url.pathname.split("/");
+  const id = pathSegments[pathSegments.length - 1];
 
-export async function GET(_: NextRequest, context: Context) {
-  const { id } = context.params;
+  if (!id) {
+    return NextResponse.json({ message: "CV ID is missing" }, { status: 400 });
+  }
 
   try {
     const res = await fetch(`${process.env.API_URL}/api/cvs/${id}/`, {
@@ -23,7 +23,7 @@ export async function GET(_: NextRequest, context: Context) {
     const data = await res.json();
     return NextResponse.json(data);
   } catch (err) {
-    console.error(`GET /api/cvs/${id}/ error:`, err);
+    console.error(`GET /api/cvs/${id} error:`, err);
     return NextResponse.json(
       {
         message: "Не вдалося отримати CV",
