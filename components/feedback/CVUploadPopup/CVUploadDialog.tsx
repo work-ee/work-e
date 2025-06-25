@@ -49,13 +49,13 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
 
       if (file.type !== ALLOWED_FILE_TYPE) {
         setStatus("error");
-        setMessage("Упс, сталася помилка, переконайтеся, що CV у форматі PDF і спробуйте ще раз.");
+        setMessage("Невірний формат файлу. Будь ласка, завантажте CV у форматі PDF, натиснувши тут");
         return;
       }
 
       if (file.size > MAX_FILE_SIZE_BYTES) {
         setStatus("error");
-        setMessage(`Файл завеликий. Максимальний розмір — ${MAX_FILE_SIZE_MB}MB.`);
+        setMessage("Розмір файлу перевищує 10 МБ. Будь ласка, зменште розмір CV та спробуйте знову, натиснувши тут");
         return;
       }
 
@@ -88,10 +88,10 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
       case "error":
         return "bg-error-main";
       case "uploading":
-        return "bg-primary-500 animate-pulse";
+        return "bg-success-main animate-pulse";
       case "idle":
       default:
-        return "bg-neutral-900";
+        return "bg-neutral-500";
     }
   }, [status]);
 
@@ -156,10 +156,10 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
 
       setMessage("CV успішно збережено!");
       setStatus("success");
-      setTimeout(() => {
-        onClose();
-        resetState();
-      }, 2000);
+      // setTimeout(() => {
+      onClose();
+      resetState();
+      // }, 2000);
     } catch (error) {
       console.error("Помилка при завантаженні CV:", error);
 
@@ -190,21 +190,18 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
         }
       }}
     >
-      <DialogContent className="w-[800px] p-8 max-w-[unset]">
+      <DialogContent className="w-[800px] p-8 max-w-[unset] rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="heading-h3 text-center neutral-900">
-            Завантаж своє CV, <br /> щоб ми підібрали для тебе найрелевантніші вакансії
-          </DialogTitle>
-          <DialogDescription className="sr-only">
-            Це діалогове вікно дозволяє завантажити ваше CV у форматі PDF, щоб ми могли підібрати для вас
-            найрелевантніші вакансії.
+          <DialogTitle className="heading-h2 text-neutral-900 text-center text-[36px]">Завантаж своє CV</DialogTitle>
+          <DialogDescription className="text-body text-neutral-700 text-center text-[18px]">
+            Та ми підберемо для тебе найрелевантніші вакансії
           </DialogDescription>
         </DialogHeader>
 
         <div>
           <div
             className={clsx(
-              "border-2 border border-primary-500 p-6 rounded-lg text-center cursor-pointer w-[257px] h-[260px] m-auto p-10",
+              "border-2 border border-primary-500 rounded-xl text-center cursor-pointer w-[322px] h-[244px] m-auto p-8",
               "hover:border-primary-500 transition-colors"
             )}
             onClick={handleManualTrigger}
@@ -221,7 +218,12 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
               id="icon-uploading-filed"
               className="mx-auto w-12 h-12 text-primary-500 mb-4 fill-neutral-50 stroke-primary-500"
             />
-            <p className="text-micro pb-4">Завантаж CV у форматі PDF</p>
+            <p className="text-micro pb-4">
+              Завантаж CV : у форматі <span className="text-primary-500">PDF</span>
+            </p>
+            <p className="text-micro pb-4">
+              максимальний розмір файлу <span className="text-primary-500">10MB</span>
+            </p>
             <button
               type="button"
               onClick={(e) => {
@@ -235,25 +237,23 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
             <input type="file" accept=".pdf" ref={fileInputRef} onChange={handleFileUpload} hidden />
           </div>
 
-          <div
-            className="flex items-center gap-3 mt-6 border rounded-lg px-4 py-4 w-[736px] h-[72px] mx-auto relative"
-            style={{ borderWidth: 1, borderRadius: 8 }}
-          >
-            <SpriteSvg id="icon-pdf" className="w-6 h-6 text-neutral-900" />
+          <div className="flex items-center gap-1 mt-6 border border-primary-500 rounded-lg px-4 py-4 w-[736px] h-[72px] mx-auto relative">
+            <SpriteSvg id="icon-pdf" className="w-10 h-10 text-neutral-900 fill-primary-500" />
             <div className="flex-1">
               <div className="text-sm mb-1">{fileName || "Назва файлу"}</div>
               <div className={clsx("h-1 rounded", getLineColor)}></div>
             </div>
-            {fileName && (
-              <button
-                onClick={handleRemoveFile}
-                className="text-neutral-500 hover:text-neutral-900 transition-colors"
-                aria-label="Видалити файл"
-                type="button"
-              >
-                &times;
-              </button>
-            )}
+            <button
+              onClick={handleRemoveFile}
+              className="text-primary-300 hover:text-primary-500 transition-colors cursor-pointer"
+              aria-label="Видалити файл"
+              type="button"
+            >
+              <SpriteSvg
+                id="icon-close-without-circle"
+                className="w-[14px] h-[14px] text-neutral-900 fill-primary-500"
+              />
+            </button>
           </div>
 
           {message && (
@@ -269,10 +269,14 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
           )}
 
           <div className="flex justify-between gap-4 pt-6">
-            <Button variant="secondary" onClick={() => {}}>
+            <Button variant="secondary" className="w-[365px] h-[62px] justify-center items-center" onClick={() => {}}>
               Створити CV
             </Button>
-            <Button disabled={isSubmitDisabled} onClick={handleSubmit}>
+            <Button
+              disabled={isSubmitDisabled}
+              className="w-[365px] h-[62px] flex  justify-center items-center"
+              onClick={handleSubmit}
+            >
               Зберегти CV
             </Button>
           </div>
