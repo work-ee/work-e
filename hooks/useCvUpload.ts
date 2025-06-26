@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 
 import { deleteCVs, getExistingCVs, uploadCV } from "@/lib/api/cvs";
-import { validateCVFile } from "@/lib/utils/pdfFileValidation";
+import { validateCVFile } from "@/lib/utils";
 
 export type UploadStatus = "idle" | "success" | "error" | "uploading";
 

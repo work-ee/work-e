@@ -237,7 +237,7 @@
 }
 
 @utility section {
-  @apply mx-auto max-w-5xl pt-8 pr-10 pb-8 pl-10;
+  @apply mx-auto my-10 max-w-5xl pt-8 pr-10 pb-8 pl-10;
 }
 
 @layer components {
