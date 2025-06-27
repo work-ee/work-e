@@ -46,18 +46,6 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
       }}
     >
       <DialogContent className="w-[800px] p-8 max-w-[unset] rounded-2xl">
-        <button
-          type="button"
-          onClick={() => {
-            onClose();
-            resetState();
-          }}
-          className="absolute top-6 right-6"
-          aria-label="Закрити модальне вікно"
-        >
-          <SpriteSvg id="icon-close" className="w-[32px] h-[32px] fill-primary-300 cursor-pointer" />
-        </button>
-
         <DialogHeader>
           <DialogTitle className="heading-h2 text-neutral-900 text-center text-[36px]">Завантаж своє CV</DialogTitle>
           <DialogDescription className="text-body text-neutral-700 text-center text-[18px]">
