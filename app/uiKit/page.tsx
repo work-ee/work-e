@@ -525,9 +525,7 @@ export default function UiKit() {
           <PaginationBlock totalPages={5} currentPage={1} onPageChange={handlePageChange} disabled={true} />
         </div>
       </section>
-      <div className="container">
-        <CoverLetter />
-      </div>
+      <CoverLetter />
       <LinkedInShowPopup variant="withHeader" />
     </main>
   );
