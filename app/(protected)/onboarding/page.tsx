@@ -3,7 +3,10 @@ import { CVUploadTrigger } from "@/components/feedback/CVUploadPopup/CVUploadTri
 import { LinkedinSvg } from "@/components/icons";
 import { Button } from "@/components/ui";
 
+import GetSession from "@/lib/get-session";
+
 export default async function OnboardingPage() {
+  const session = await GetSession();
   return (
     <main className="center-page">
       <section className="section">
@@ -31,7 +34,7 @@ export default async function OnboardingPage() {
               </Button>
 
               {/* <Button>Завантаж своє CV</Button> */}
-              <CVUploadTrigger />
+              <CVUploadTrigger email={session?.user?.email} />
             </div>
 
             <div className="mt-12">

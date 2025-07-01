@@ -9,6 +9,7 @@ type Props = {
   children: React.ReactNode;
   variant?: Variant;
   icon?: boolean;
+  iconAI?: boolean;
   disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type?: "button" | "submit" | "reset";
@@ -19,6 +20,7 @@ export const Button = ({
   children,
   variant = "main",
   icon = false,
+  iconAI = false,
   disabled = false,
   onClick,
   type = "submit",
@@ -70,6 +72,18 @@ export const Button = ({
       {icon && (
         <SpriteSvg
           id="icon-off"
+          className={clsx(
+            "h-5 w-5 stroke-current",
+            fillClasses[variant].default,
+            fillClasses[variant].hover,
+            fillClasses[variant].active,
+            fillClasses[variant].disabled
+          )}
+        />
+      )}
+      {iconAI && (
+        <SpriteSvg
+          id="icon-AI"
           className={clsx(
             "h-5 w-5 stroke-current",
             fillClasses[variant].default,
