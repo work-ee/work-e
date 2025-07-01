@@ -147,5 +147,6 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
     handleRemoveFile,
     handleSubmit,
     getLineColor,
+    resetState,
   };
 }
