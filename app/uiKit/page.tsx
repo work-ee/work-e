@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 
 import { LinkedInShowPopup } from "@/components/feedback/LinkedInPopup/LinkedInShowPopup";
-import { CoverLetter } from "@/components/shared";
+import { CoverLetter } from "@/components/shared/CoverLetter";
+import { CoverLetterGoogle } from "@/components/shared/CoverLetterGoogle";
 import { Button, Checkbox, DropdownBlock, Input, PaginationBlock, RadioButton, Slider, Toggle } from "@/components/ui";
 
 export default function UiKit() {
@@ -526,6 +527,7 @@ export default function UiKit() {
         </div>
       </section>
       <CoverLetter />
+      <CoverLetterGoogle />
       <LinkedInShowPopup variant="withHeader" />
     </main>
   );
