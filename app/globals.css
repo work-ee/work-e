@@ -280,7 +280,7 @@
     @apply inline-flex items-center justify-center;
   }
   .text-link {
-    @apply inline-flex cursor-pointer font-black text-black hover:underline;
+    @apply text-primary-500 inline-flex cursor-pointer hover:underline;
   }
 }
 

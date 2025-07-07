@@ -22,6 +22,7 @@ export const SvgProgressCircle = ({ percent }: Props) => {
   const radius = center - stroke;
   const circumference = 2 * Math.PI * radius;
   const dashOffset = circumference * (1 - progress / 100);
+  const progressColor = progress >= 100 ? "#33B55F" : progress >= 50 ? "#9BEEB7" : "#FF6600";
 
   return (
     <div className="relative w-[280px] h-[280px] flex items-center justify-center">
@@ -34,14 +35,14 @@ export const SvgProgressCircle = ({ percent }: Props) => {
           cx={center}
           cy={center}
           r={radius}
-          stroke={progress < 100 ? "#FF6600" : "#00FF00"}
+          stroke={progressColor}
           strokeWidth={stroke}
           fill="transparent"
           strokeDasharray={circumference}
           strokeDashoffset={dashOffset}
           strokeLinecap="round"
           style={{
-            transition: "stroke-dashoffset 1s ease-in-out",
+            transition: "stroke-dashoffset 1s ease-in-out, stroke 1s ease-in-out",
             transform: "rotate(-90deg)",
             transformOrigin: "center",
           }}
