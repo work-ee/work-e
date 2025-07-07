@@ -5,7 +5,11 @@ import React, { ChangeEvent, useState } from "react";
 import { Button } from "../ui";
 import { Textarea } from "../ui/shadcn/textarea";
 
-export const CoverLetterGoogle = () => {
+interface CoverLetterGoogleProps {
+  jobDescription: string;
+}
+
+export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) => {
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -25,6 +29,11 @@ export const CoverLetterGoogle = () => {
   };
 
   const handleGenerateClick = async () => {
+    if (!jobDescription.trim()) {
+      setError("Будь ласка, вставте повний опис вакансії для генерації мотиваційного листа.");
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
 
@@ -35,7 +44,7 @@ export const CoverLetterGoogle = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          prompt: text,
+          jobDescription: jobDescription,
         }),
       });
 
@@ -77,16 +86,9 @@ export const CoverLetterGoogle = () => {
           value={text}
           onChange={handleChange}
           className="w-full h-[241px] gap-3 pt-2.5 px-8 pb-10 rounded-lg border border-secondary-300 resize-none outline-none focus:outline-none active:outline-none hover:outline-none input-text text-secondary-400"
-          disabled={isLoading}
         />
         <div className="absolute bottom-8 left-8 right-8 flex items-center justify-between">
-          <Button
-            variant="secondary"
-            className="w-56.5 h-15.5"
-            iconAI
-            onClick={handleGenerateClick}
-            disabled={isLoading}
-          >
+          <Button variant="secondary" className="w-56.5 h-15.5" iconAI onClick={handleGenerateClick}>
             {isLoading ? "Генеруємо..." : "Згенерувати"}
           </Button>
           <div className="text-sm text-secondary-500">{wordCount}/400</div>

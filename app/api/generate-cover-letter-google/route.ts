@@ -6,23 +6,48 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 export async function POST(request: Request) {
   try {
-    const { prompt, jobTitle, companyName } = await request.json();
+    const { jobDescription } = await request.json();
 
-    if (!prompt) {
-      return NextResponse.json({ error: "Prompt is required." }, { status: 400 });
+    if (!jobDescription || jobDescription.trim() === "") {
+      return NextResponse.json(
+        { error: "Будь ласка, вставте повний опис вакансії для генерації мотиваційного листа." },
+        { status: 400 }
+      );
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const fullPrompt = `Напиши стислий мотиваційний лист (3-4 речення) для вакансії "${jobTitle || "не вказано"}" у компанії "${companyName || "невідомій компанії"}" на основі наступних ключових думок/інформації: "${prompt}". Поясни, чому кандидат є ідеальним.`;
+    const fullPrompt = `**ІНСТРУКЦІЯ З МОВИ: Проаналізуй мову, якою написаний "Опис вакансії". Мотиваційний лист ПОВИНЕН БУТИ НАПИСАНИЙ ЦІЄЮ Ж МОВОЮ.** Якщо мова "Опису вакансії" українська, пиши українською. Якщо мова "Опису вакансії" англійська, пиши англійською. Якщо мова "Опису вакансії" польська, пиши польською. НЕ відповідай українською, якщо опис вакансії не українською.
+
+    Ти - досвідчений кар'єрний консультант, що спеціалізується на написанні ефективних мотиваційних листів.
+    Твоє завдання - проаналізувати наступний "Опис вакансії" та створити **короткий (3-4 речення)**, але **переконливий мотиваційний лист**, який ідеально підійде для цієї конкретної вакансії.
+
+    **Ключові вимоги до змісту:**
+    1.  **Привітання:** Лист повинен починатися з відповідного привітання.
+    2.  **Посада та Компанія:** Спробуй витягнути назву вакансії та компанії з опису та включити їх у лист, якщо вони чітко вказані. Якщо ні, використовуй загальні фрази (наприклад, "вакансія" та "ваша компанія").
+    3.  **Ідеальний кандидат:** Поясни, чому кандидат (від імені якого пишеться лист) є ідеальним для цієї вакансії. Фокусуйся на **ключових вимогах і обов'язках**, згаданих в описі вакансії, і продемонструй відповідність їм, використовуючи загальні формулювання про **відповідні навички, досвід, особисті якості та потенційну цінність**. Завжди спирайся на інформацію, яка міститься в наданому "Описі вакансії".
+    4.  **Формат:** Лист має бути цілісним текстом, без жодних плейсхолдерів (наприклад, \`[Ваш досвід]\`, \`[Назва компанії]\`) або квадратних дужок.
+    5.  **Стислість:** Дотримуйся обсягу 3-4 речення.
+
+    **Опис вакансії:**
+    "${jobDescription}"`;
 
     const result = await model.generateContent(fullPrompt);
     const response = await result.response;
     const generatedText = response.text();
 
     return NextResponse.json({ coverLetter: generatedText }, { status: 200 });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Помилка при генерації мотиваційного листа:", error);
-    return NextResponse.json({ error: "Не вдалося згенерувати мотиваційний лист. Спробуйте ще раз." }, { status: 500 });
+
+    let errorMessage = "Не вдалося згенерувати мотиваційний лист. Спробуйте ще раз.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    } else if (typeof error === "object" && error !== null && "message" in error) {
+      errorMessage = (error as { message: string }).message;
+    }
+
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
