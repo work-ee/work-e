@@ -64,9 +64,13 @@ export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) =>
         setText(trimmedText + "...");
         setError("Згенерований текст був обрізаний до 400 слів.");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Помилка генерації мотиваційного листа:", error);
-      setError(error.message || "Виникла помилка під час генерації листа. Спробуйте ще раз.");
+      if (error instanceof Error) {
+        setError(error.message || "Виникла помилка під час генерації листа. Спробуйте ще раз.");
+      } else {
+        setError("Виникла невідома помилка. Спробуйте ще раз.");
+      }
     } finally {
       setIsLoading(false);
     }
