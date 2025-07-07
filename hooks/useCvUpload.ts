@@ -1,15 +1,14 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
-import { deleteCVs, getExistingCVs, uploadCV } from "@/lib/api/cvs";
 import { validateCVFile } from "@/lib/utils";
 
-export type UploadStatus = "idle" | "success" | "error" | "uploading";
+type Status = "idle" | "success" | "error" | "uploading";
 
 export function useCvUpload(email?: string | null, onClose?: () => void) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [status, setStatus] = useState<UploadStatus>("idle");
+  const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState<string | null>(null);
 
   const resetState = useCallback(() => {
@@ -17,66 +16,124 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
     setSelectedFile(null);
     setStatus("idle");
     setMessage(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   }, []);
 
-  const handleManualTrigger = () => fileInputRef.current?.click();
+  const handleFileUpload = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      resetState();
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+      if (!file) return;
+
+      const errorMessage = validateCVFile(file);
+      if (errorMessage) {
+        setStatus("error");
+        setMessage(errorMessage);
+        return;
+      }
+
+      setSelectedFile(file);
+      setFileName(file.name);
+      setStatus("success");
+      setMessage("Ще декілька кроків і робота мрії — твоя!");
+    },
+    [resetState]
+  );
+
+  const handleManualTrigger = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
+  const handleRemoveFile = useCallback(() => {
     resetState();
+  }, [resetState]);
 
-    if (!file) return;
-
-    const error = validateCVFile(file);
-    if (error) {
-      setStatus("error");
-      setMessage(error);
-      return;
+  const getLineColor = useMemo(() => {
+    switch (status) {
+      case "success":
+        return "bg-success-main";
+      case "error":
+        return "bg-error-main";
+      case "uploading":
+        return "bg-success-main animate-pulse";
+      default:
+        return "bg-neutral-500";
     }
+  }, [status]);
 
-    setSelectedFile(file);
-    setFileName(file.name);
-    setStatus("success");
-    setMessage("Ще декілька кроків — і робота мрії твоя!");
-  };
-
-  const handleRemoveFile = () => resetState();
-
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (!selectedFile || !email) {
-      setMessage("Оберіть файл і переконайтесь, що вказано email.");
       setStatus("error");
+      setMessage("Оберіть файл і переконайтесь, що email вказано.");
       return;
     }
 
     setStatus("uploading");
-    setMessage("Завантаження...");
+    setMessage("Завантаження CV...");
 
     try {
-      const existing = await getExistingCVs(email);
-      if (existing.length) await deleteCVs(existing);
-      await uploadCV(selectedFile, email);
+      const getRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cvs/by-email/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      let existingCVs = [];
+      if (getRes.ok) {
+        existingCVs = await getRes.json();
+      }
+
+      if (Array.isArray(existingCVs) && existingCVs.length > 0) {
+        await Promise.all(
+          existingCVs.map(async (cv) => {
+            const delRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cvs/${cv.id}/`, {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+
+            if (!delRes.ok) {
+              console.error("Помилка при видаленні CV:", await delRes.text());
+            }
+          })
+        );
+      }
+
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("cv_file", selectedFile);
+
+      const uploadRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cvs/`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!uploadRes.ok) {
+        const error = await uploadRes.json();
+        throw new Error(error.message || "Не вдалося зберегти CV.");
+      }
 
       setStatus("success");
       setMessage("CV успішно збережено!");
       onClose?.();
       resetState();
-    } catch (error: unknown) {
-      console.error("Помилка при завантаженні CV:", error);
-
-      let errorMessage = "Сталася помилка. Спробуйте ще раз.";
-
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      } else if (typeof error === "string") {
-        errorMessage = error;
-      }
-
-      setMessage(errorMessage);
+    } catch (error) {
+      console.error("Помилка при збереженні CV:", error);
       setStatus("error");
+      setMessage(error instanceof Error ? error.message : "Щось пішло не так.");
     }
-  };
+  }, [selectedFile, email, onClose, resetState]);
+
+  const isSubmitDisabled = useMemo(
+    () => !selectedFile || status === "error" || status === "uploading",
+    [selectedFile, status]
+  );
 
   return {
     fileInputRef,
@@ -84,11 +141,12 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
     selectedFile,
     status,
     message,
-    isSubmitDisabled: !selectedFile || status === "error" || status === "uploading",
+    isSubmitDisabled,
     handleManualTrigger,
     handleFileUpload,
     handleRemoveFile,
     handleSubmit,
+    getLineColor,
     resetState,
   };
 }
