@@ -7,3 +7,5 @@ export { default as LinkedinSvg } from "./LinkedinSvg";
 export { default as SafetySvg } from "./SafetySvg";
 export { default as SearchJobSvg } from "./SearchJobSvg";
 export { default as DownloadDocSvg } from "./DownloadDocSvg";
+export { default as ProfileSvg } from "./ProfileSvg";
+export { default as ArrowRightSvg } from "./ArrowRightSvg";

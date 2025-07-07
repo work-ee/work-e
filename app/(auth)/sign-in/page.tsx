@@ -25,7 +25,7 @@ const Page = async () => {
             </div>
 
             <p>
-              <Link href="/sign-up" className="text-link font-medium font-rubik text-primary-500">
+              <Link href="/sign-up" className="text-link font-medium font-rubik">
                 зареєструватись
               </Link>
             </p>

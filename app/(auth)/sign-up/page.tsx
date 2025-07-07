@@ -60,7 +60,7 @@ export default async function Register() {
                   </div>
 
                   <div className="text-neutral-800">
-                    <Link className="text-link font-medium font-rubik text-primary-500" href="/sign-in">
+                    <Link className="text-link font-medium font-rubik" href="/sign-in">
                       Увійти в існуючий
                     </Link>
                   </div>
