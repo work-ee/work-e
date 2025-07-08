@@ -3,8 +3,7 @@
 import React, { useState } from "react";
 
 import { LinkedInShowPopup } from "@/components/feedback/LinkedInPopup/LinkedInShowPopup";
-// import { CoverLetter } from "@/components/shared/CoverLetter";
-import { CoverLetterGoogle } from "@/components/shared/CoverLetterGoogle";
+import { CoverLetterGoogle } from "@/components/shared";
 import { Button, Checkbox, DropdownBlock, Input, PaginationBlock, RadioButton, Slider, Toggle } from "@/components/ui";
 
 export default function UiKit() {
@@ -533,8 +532,6 @@ export default function UiKit() {
         </div>
       </section>
 
-      {/* <CoverLetter /> */}
-
       <div className="min-h-screen flex flex-col items-center py-10 px-4 sm:px-6 lg:px-8 font-rubik">
         <h1 className="text-4xl font-extrabold text-gray-900 mb-8 text-center">Генератор Мотиваційних Листів</h1>
         <h3 className="text-2xl font-semibold  text-error-main heading-h3">
@@ -560,7 +557,6 @@ export default function UiKit() {
             </div>
           </div>
         </div>
-
         <CoverLetterGoogle jobDescription={jobDescription} />
       </div>
       <LinkedInShowPopup variant="withHeader" />
