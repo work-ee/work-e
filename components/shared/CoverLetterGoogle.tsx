@@ -25,12 +25,14 @@ export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) =>
       setError(null);
     } else {
       setError("Кількість слів перевищує ліміт у 400.");
+      console.error(error);
     }
   };
 
   const handleGenerateClick = async () => {
     if (!jobDescription.trim()) {
       setError("Будь ласка, вставте повний опис вакансії для генерації мотиваційного листа.");
+      console.error(error);
       return;
     }
 
@@ -63,13 +65,16 @@ export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) =>
         const trimmedText = wordsArray.slice(0, 400).join(" ");
         setText(trimmedText + "...");
         setError("Згенерований текст був обрізаний до 400 слів.");
+        console.error(error);
       }
     } catch (error: unknown) {
       console.error("Помилка генерації мотиваційного листа:", error);
       if (error instanceof Error) {
         setError(error.message || "Виникла помилка під час генерації листа. Спробуйте ще раз.");
+        console.error(error);
       } else {
         setError("Виникла невідома помилка. Спробуйте ще раз.");
+        console.error(error);
       }
     } finally {
       setIsLoading(false);
@@ -97,7 +102,6 @@ export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) =>
           </Button>
           <div className="text-sm text-secondary-500">{wordCount}/400</div>
         </div>
-        {error && <p className="text-sm text-red-500 mt-2 absolute bottom-2 left-8">{error}</p>}
       </div>
     </section>
   );

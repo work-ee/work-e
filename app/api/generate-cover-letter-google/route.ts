@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite-preview-06-17" });
 
     const fullPrompt = `**LANGUAGE INSTRUCTION: Analyze the language of the "Job Description". The cover letter MUST BE WRITTEN IN THE SAME LANGUAGE.** If the "Job Description" is in Ukrainian, write in Ukrainian. If the "Job Description" is in English, write in English. If the "Job Description" is in Polish, write in Polish. DO NOT respond in Ukrainian if the job description is not in Ukrainian.
 
