@@ -47,3 +47,6 @@ next-env.d.ts
 
 # temporary files
 _temp
+
+# ssl certificates
+ssl/*

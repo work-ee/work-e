@@ -16,6 +16,7 @@ export default [
       "**/out/**",
       "**/coverage/**",
       "**/_temp/**",
+      "server.js",
     ],
   },
   js.configs.recommended,
