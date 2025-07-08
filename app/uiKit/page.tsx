@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 import { LinkedInShowPopup } from "@/components/feedback/LinkedInPopup/LinkedInShowPopup";
-import { CoverLetter } from "@/components/shared";
+import { CoverLetterGoogle } from "@/components/shared";
 import { Button, Checkbox, DropdownBlock, Input, PaginationBlock, RadioButton, Slider, Toggle } from "@/components/ui";
 
 export default function UiKit() {
@@ -209,6 +209,12 @@ export default function UiKit() {
     { value: "subscription", label: "Підписка на послуги" },
     { value: "logout", label: "Вийти з облікового запису" },
   ];
+
+  const [jobDescription, setJobDescription] = useState("");
+
+  const handleJobDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setJobDescription(e.target.value);
+  };
 
   return (
     <main className="py-8">
@@ -525,7 +531,34 @@ export default function UiKit() {
           <PaginationBlock totalPages={5} currentPage={1} onPageChange={handlePageChange} disabled={true} />
         </div>
       </section>
-      <CoverLetter />
+
+      <div className="min-h-screen flex flex-col items-center py-10 px-4 sm:px-6 lg:px-8 font-rubik">
+        <h1 className="text-4xl font-extrabold text-gray-900 mb-8 text-center">Генератор Мотиваційних Листів</h1>
+        <h3 className="text-2xl font-semibold  text-error-main heading-h3">
+          Тестувати обережно, платний тариф !!!!!!!!!!!!!
+        </h3>
+
+        <div className="bg-white p-8 rounded-lg shadow-xl max-w-4xl w-full mb-8">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6">Вставте повний опис вакансії</h2>
+
+          <div className="grid grid-cols-1 gap-6 mb-6">
+            <div>
+              <label htmlFor="jobDescription" className="block text-sm font-medium text-gray-700 mb-1">
+                Текст оголошення про вакансію:
+              </label>
+              <textarea
+                id="jobDescription"
+                value={jobDescription}
+                onChange={handleJobDescriptionChange}
+                placeholder="Вставте сюди повний текст оголошення про вакансію (назву вакансії, компанію, вимоги, бажану мову тощо). Модель спробує автоматично витягнути необхідні дані."
+                rows={15} // Збільшуємо висоту textarea
+                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm resize-y"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <CoverLetterGoogle jobDescription={jobDescription} />
+      </div>
       <LinkedInShowPopup variant="withHeader" />
     </main>
   );
