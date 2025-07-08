@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 import clsx from "clsx";
-import { signIn } from "next-auth/react";
+
+// import { signIn } from "next-auth/react";
 
 import { LinkedinSvg } from "@/components/icons";
 
@@ -14,29 +15,50 @@ interface Props {
   children?: React.ReactNode;
   callbackUrl?: string;
 }
-export const LinkedinSignIn = ({ className = "", children, callbackUrl = "/onboarding" }: Props) => {
+export const LinkedinSignIn = ({ className = "", children }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  // const router = useRouter();
 
-  const handleLinkedinSignIn = async () => {
+  // const handleLinkedinSignIn = async () => {
+  //   setIsLoading(true);
+  //   const res = await signIn("linkedin", {
+  //     redirect: false,
+  //     callbackUrl,
+  //   });
+
+  //   if (res?.ok) {
+  //     router.push(res.url!);
+  //   } else {
+  //     setIsLoading(false);
+  //     alert("Problem with Linkedin sign in. Please try again later.");
+  //     console.error("Linkedin sign in error:", res?.error);
+  //   }
+  // };
+
+  const handleLinkedinSignInWithRedirect = async () => {
     setIsLoading(true);
-    const res = await signIn("linkedin", {
-      redirect: false,
-      callbackUrl,
-    });
 
-    if (res?.ok) {
-      router.push(res.url!);
-    } else {
-      setIsLoading(false);
-      alert("Problem with Linkedin sign in. Please try again later.");
-      console.error("Linkedin sign in error:", res?.error);
-    }
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/users/linkedin/login/`;
+
+    // window.location.href = `/api/users/linkedin/login/`;
+    // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/linkedin/login/`, {
+    //   method: "GET",
+    //   credentials: "include",
+    // });
+
+    // if (res.ok) {
+    //   const data = await res.json();
+    //   window.location.href = data.url;
+    // } else {
+    //   setIsLoading(false);
+    //   alert("Problem with Linkedin sign in. Please try again later.");
+    //   console.error("Linkedin sign in error:", res.statusText);
+    // }
   };
 
   return (
     <button
-      onClick={handleLinkedinSignIn}
+      onClick={handleLinkedinSignInWithRedirect}
       disabled={isLoading}
       className={clsx(
         "flex cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed justify-center items-center gap-3 px-4 min-w-[420px] py-3 border border-neutral-200 rounded-md hover:border-primary-900 transition-colors",
