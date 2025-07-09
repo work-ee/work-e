@@ -38,7 +38,7 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
       setSelectedFile(file);
       setFileName(file.name);
       setStatus("success");
-      setMessage("Ще декілька кроків і робота мрії — твоя!");
+      setMessage("Файл завантажився успішно");
     },
     [resetState]
   );
