@@ -26,7 +26,11 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
       const file = e.target.files?.[0];
       resetState();
 
-      if (!file) return;
+      if (!file) {
+        setStatus("error");
+        setMessage("Завантаження перервано. Будь ласка, спробуйте завантажити файл знову,");
+        return;
+      }
 
       const errorMessage = validateCVFile(file);
       if (errorMessage) {
@@ -75,6 +79,11 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
     setMessage("Завантаження CV...");
 
     try {
+      if (!navigator.onLine) {
+        throw new Error(
+          "Немає з'єднання з Інтернетом. Будь ласка, перевірте ваше підключення до Інтернету і спробуйте ще раз,"
+        );
+      }
       const getRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cvs/by-email/`, {
         method: "POST",
         headers: {

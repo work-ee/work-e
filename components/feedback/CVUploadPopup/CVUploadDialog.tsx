@@ -2,6 +2,8 @@
 
 import clsx from "clsx";
 
+// import { error } from "console";
+
 import { SpriteSvg } from "@/components/icons/SpriteSvg";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/shadcn/dialog";
@@ -36,6 +38,7 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
   }[status];
 
   const isUploadDisabled = status === "success";
+  const isSecondaryUploadButtonVisible = status === "error";
 
   return (
     <Dialog
@@ -141,7 +144,12 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
                 status === "uploading" && "animate-pulse"
               )}
             >
-              {message}
+              {message}{" "}
+              {isSecondaryUploadButtonVisible && (
+                <button type="button" onClick={handleSubmit} className="btn text-primary-500 cursor-pointer contents">
+                  натиснувши тут
+                </button>
+              )}
             </div>
           ) : (
             <p className="text-body text-center">
