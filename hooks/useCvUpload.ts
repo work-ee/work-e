@@ -9,12 +9,14 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
   const [fileName, setFileName] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [status, setStatus] = useState<Status>("idle");
+  const [errorType, setErrorType] = useState<"offline" | "other" | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
   const resetState = useCallback(() => {
     setFileName(null);
     setSelectedFile(null);
     setStatus("idle");
+    setErrorType(null);
     setMessage(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -31,6 +33,8 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
         setMessage("Завантаження перервано. Будь ласка, спробуйте завантажити файл знову,");
         return;
       }
+
+      setFileName(file.name);
 
       const errorMessage = validateCVFile(file);
       if (errorMessage) {
@@ -55,19 +59,6 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
     resetState();
   }, [resetState]);
 
-  const getLineColor = useMemo(() => {
-    switch (status) {
-      case "success":
-        return "bg-success-main";
-      case "error":
-        return "bg-error-main";
-      case "uploading":
-        return "bg-success-main animate-pulse";
-      default:
-        return "bg-neutral-500";
-    }
-  }, [status]);
-
   const handleSubmit = useCallback(async () => {
     if (!selectedFile || !email) {
       setStatus("error");
@@ -80,9 +71,12 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
 
     try {
       if (!navigator.onLine) {
-        throw new Error(
+        setStatus("error");
+        setErrorType("offline");
+        setMessage(
           "Немає з'єднання з Інтернетом. Будь ласка, перевірте ваше підключення до Інтернету і спробуйте ще раз,"
         );
+        return;
       }
       const getRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cvs/by-email/`, {
         method: "POST",
@@ -135,6 +129,7 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
     } catch (error) {
       console.error("Помилка при збереженні CV:", error);
       setStatus("error");
+      setErrorType("other");
       setMessage(error instanceof Error ? error.message : "Щось пішло не так.");
     }
   }, [selectedFile, email, onClose, resetState]);
@@ -147,7 +142,6 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
   return {
     fileInputRef,
     fileName,
-    selectedFile,
     status,
     message,
     isSubmitDisabled,
@@ -155,7 +149,7 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
     handleFileUpload,
     handleRemoveFile,
     handleSubmit,
-    getLineColor,
+    errorType,
     resetState,
   };
 }

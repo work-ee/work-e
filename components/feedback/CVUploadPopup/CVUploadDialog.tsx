@@ -2,8 +2,6 @@
 
 import clsx from "clsx";
 
-// import { error } from "console";
-
 import { SpriteSvg } from "@/components/icons/SpriteSvg";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/shadcn/dialog";
@@ -22,11 +20,12 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
     fileName,
     status,
     message,
+    isSubmitDisabled,
     handleManualTrigger,
     handleFileUpload,
     handleRemoveFile,
     handleSubmit,
-    isSubmitDisabled,
+    errorType,
     resetState,
   } = useCvUpload(email, onClose);
 
@@ -121,7 +120,16 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
             <SpriteSvg id="icon-pdf" className="w-10 h-10 text-neutral-900 fill-primary-500" />
             <div className="flex-1">
               <div className="text-sm mb-1">{fileName || "Назва файлу"}</div>
-              <div className={clsx("h-1 rounded", getStatusColor)} />
+              <div className="h-1 w-full flex rounded overflow-hidden">
+                {status === "error" && errorType === "offline" ? (
+                  <>
+                    <div className="w-1/2 bg-error-main" />
+                    <div className="w-1/2 bg-neutral-500" />
+                  </>
+                ) : (
+                  <div className={clsx("w-full", getStatusColor)} />
+                )}
+              </div>
             </div>
             <button
               onClick={handleRemoveFile}
@@ -139,7 +147,7 @@ export default function CVUploadDialog({ open, email, onClose }: CVUploadDialogP
           {message ? (
             <div
               className={clsx(
-                "text-body mx-auto",
+                "text-body mx-auto text-center",
                 status === "error" ? "text-error-main" : "text-neutral-900",
                 status === "uploading" && "animate-pulse"
               )}
