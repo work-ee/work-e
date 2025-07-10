@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/shadcn
 
 import { BackendUser } from "@/types/next-auth";
 
-export const Profile = ({ user }: { user: BackendUser }) => {
+export const Profile = ({ user }: { user?: BackendUser }) => {
   const { first_name, last_name, email, username, avatar_url, date_joined } = user || {
     first_name: "Guest",
     last_name: "User",
