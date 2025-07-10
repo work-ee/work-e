@@ -124,6 +124,7 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
 
       setStatus("success");
       setMessage("CV успішно збережено!");
+
       onClose?.();
       resetState();
     } catch (error) {
