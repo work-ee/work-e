@@ -9,15 +9,15 @@ export function cn(...inputs: ClassValue[]) {
 
 export function validateCVFile(file: File): string | null {
   if (file.type !== ALLOWED_FILE_TYPE) {
-    return "Невірний формат. Завантажте CV у PDF.";
+    return "Невірний формат файлу. Будь ласка, завантажте CV у форматі PDF,";
   }
 
   if (file.size < MIN_FILE_SIZE_BYTES) {
-    return `Файл замалий. Мінімум ${MIN_FILE_SIZE_BYTES} байт.`;
+    return "Файл замалий. Мінімальний розмір файлу – 100 байт. Будь ласка, завантажте повне CV,";
   }
 
   if (file.size > MAX_FILE_SIZE_BYTES) {
-    return "Файл перевищує 10MB. Зменште розмір.";
+    return "Розмір файлу перевищує 10 МБ. Будь ласка, зменште розмір CV та спробуйте знову,";
   }
 
   return null;
