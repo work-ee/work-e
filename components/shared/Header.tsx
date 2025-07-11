@@ -12,9 +12,10 @@ export const Header = async () => {
   const session = await auth();
 
   // -> Add default values for first_name and avatar_url
-  const { first_name, avatar_url } = session?.backendUser || {
+  const { avatar_url, username } = session?.backendUser || {
     first_name: session?.user?.name || "Guest",
     avatar_url: session?.user?.image || null,
+    username: "Guest",
   };
 
   return (
@@ -39,18 +40,21 @@ export const Header = async () => {
               </div>
             ) : (
               <div className="flex items-center gap-4">
-                <button className="flex items-center justify-center gap-2 hover:bg-secondary-100 rounded-full p-2 transition-colors cursor-pointer group">
+                <Link
+                  href="/profile"
+                  className="flex items-center justify-center gap-2 hover:bg-secondary-100 rounded-full p-2 transition-colors cursor-pointer group"
+                >
                   <div className="flex justify-center items-center gap-2 outline outline-secondary-300 h-10 w-10 rounded-full overflow-hidden bg-accent-50 group-hover:outline-3 transition-all">
                     {avatar_url ? (
                       <>
                         <img src={`${avatar_url}`} alt="User Avatar" className="" />
                       </>
                     ) : (
-                      <span className="heading-h3 flex-inline text-secondary-900">{first_name?.charAt(0)}</span>
+                      <span className="heading-h3 flex-inline text-secondary-900">{username?.charAt(0)}</span>
                     )}
                   </div>
-                  <span className="flex-initial">{first_name}</span>
-                </button>
+                  <span className="flex-initial">{username}</span>
+                </Link>
                 <SignOut />
               </div>
             )}

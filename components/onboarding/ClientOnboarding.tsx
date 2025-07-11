@@ -14,6 +14,7 @@ const steps = [Step1, Step2, Step3, Step4] as const;
 
 export default function ClientOnboarding({ user }: StepProps) {
   const [index, setIndex] = useState<number>(0);
+  const [isCVUploaded, setIsCVUploaded] = useState<boolean>(false);
 
   const Total = steps.length;
   const Current = steps[index];
@@ -21,6 +22,12 @@ export default function ClientOnboarding({ user }: StepProps) {
 
   const next = () => setIndex((i) => Math.min(i + 1, Total - 1));
   const prev = () => setIndex((i) => Math.max(i - 1, 0));
+  const handleCvUploadSuccess = () => {
+    if (!isCVUploaded) {
+      next();
+      setIsCVUploaded(true);
+    }
+  };
 
   return (
     <>
@@ -30,7 +37,7 @@ export default function ClientOnboarding({ user }: StepProps) {
             <SvgProgressCircle percent={percent} />
           </div>
 
-          <Current user={user} />
+          <Current user={user} onCvUploadSuccess={handleCvUploadSuccess} />
         </div>
       </section>
 
