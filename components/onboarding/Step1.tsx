@@ -8,7 +8,12 @@ import { Button } from "@/components/ui";
 
 import { Title } from "./Title";
 
-export const Step1 = ({ user }: { user?: User }) => {
+interface StepProps {
+  user?: User;
+  onCvUploadSuccess: () => void;
+}
+
+export const Step1 = ({ user, onCvUploadSuccess }: StepProps) => {
   return (
     <div>
       <Title
@@ -24,9 +29,7 @@ export const Step1 = ({ user }: { user?: User }) => {
           <LinkedinSvg />
           Підв'яжи свій Linkedin
         </Button>
-
-        {/* <Button>Завантаж своє CV</Button> */}
-        <CVUploadTrigger email={user?.email} />
+        <CVUploadTrigger email={user?.email} onSuccessUpload={onCvUploadSuccess} />
       </div>
 
       <div className="mt-12">
