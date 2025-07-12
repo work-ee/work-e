@@ -2,11 +2,7 @@
 
 import { useState } from "react";
 
-// import { useRouter } from "next/navigation";
-
 import clsx from "clsx";
-
-// import { signIn } from "next-auth/react";
 
 import { LinkedinSvg } from "@/components/icons";
 
@@ -17,15 +13,14 @@ interface Props {
 }
 export const LinkedinSignIn = ({ className = "", children }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
+  // ToDo: It's a default callback URL with next-auth
   // const router = useRouter();
-
   // const handleLinkedinSignIn = async () => {
   //   setIsLoading(true);
   //   const res = await signIn("linkedin", {
   //     redirect: false,
   //     callbackUrl,
   //   });
-
   //   if (res?.ok) {
   //     router.push(res.url!);
   //   } else {
@@ -37,23 +32,7 @@ export const LinkedinSignIn = ({ className = "", children }: Props) => {
 
   const handleLinkedinSignInWithRedirect = async () => {
     setIsLoading(true);
-
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/users/linkedin/login/`;
-
-    // window.location.href = `/api/users/linkedin/login/`;
-    // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/linkedin/login/`, {
-    //   method: "GET",
-    //   credentials: "include",
-    // });
-
-    // if (res.ok) {
-    //   const data = await res.json();
-    //   window.location.href = data.url;
-    // } else {
-    //   setIsLoading(false);
-    //   alert("Problem with Linkedin sign in. Please try again later.");
-    //   console.error("Linkedin sign in error:", res.statusText);
-    // }
   };
 
   return (

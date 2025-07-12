@@ -15,7 +15,7 @@ export const handleGoogleLogin = async ({ user, account }: Props) => {
 
   try {
     // TODO: -> Fetch GoogleToken with retry, if don't need replace to simple fetch request
-    const data = await fetchGoogleTokenWithRetry(`${process.env.API_URL}/api/users/google-login/`, account.id_token!);
+    const data = await fetchGoogleTokenWithRetry(`${process.env.API_URL}/api/users/google/login/`, account.id_token!);
     // console.log("🚨", data, "🏁");
 
     // -> Saving backend token and user data to the user object
