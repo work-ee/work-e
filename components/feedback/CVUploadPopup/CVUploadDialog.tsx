@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import clsx from "clsx";
 
@@ -43,17 +43,11 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
     error: "bg-error-main",
     uploading: "bg-success-main animate-pulse",
     idle: "bg-neutral-500",
+    fileSelected: "bg-success-main",
   }[status];
 
-  const isUploadDisabled = status === "success";
+  const isUploadDisabled = status === "uploading" || status === "success";
   const isSecondaryUploadButtonVisible = status === "error";
-
-  useEffect(() => {
-    if (status === "success") {
-      onSuccessUpload?.();
-    }
-  }, [status, onSuccessUpload]);
-
   return (
     <>
       <Dialog
