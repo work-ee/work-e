@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import clsx from "clsx";
 
@@ -47,6 +47,12 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
 
   const isUploadDisabled = status === "success";
   const isSecondaryUploadButtonVisible = status === "error";
+
+  useEffect(() => {
+    if (status === "success") {
+      onSuccessUpload?.();
+    }
+  }, [status, onSuccessUpload]);
 
   return (
     <>
