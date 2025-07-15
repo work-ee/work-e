@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import clsx from "clsx";
 
@@ -33,24 +33,21 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
     handleSubmit,
     errorType,
     resetState,
-  } = useCvUpload(email, onClose);
+  } = useCvUpload(email, () => {
+    onClose();
+    onSuccessUpload?.();
+  });
 
   const getStatusColor = {
     success: "bg-success-main",
     error: "bg-error-main",
     uploading: "bg-success-main animate-pulse",
     idle: "bg-neutral-500",
+    fileSelected: "bg-success-main",
   }[status];
 
-  const isUploadDisabled = status === "success";
+  const isUploadDisabled = status === "uploading" || status === "success";
   const isSecondaryUploadButtonVisible = status === "error";
-
-  useEffect(() => {
-    if (status === "success") {
-      onSuccessUpload?.();
-    }
-  }, [status, onSuccessUpload]);
-
   return (
     <>
       <Dialog
@@ -170,7 +167,11 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
               >
                 {message}{" "}
                 {isSecondaryUploadButtonVisible && (
-                  <button type="button" onClick={handleSubmit} className="btn text-primary-500 cursor-pointer contents">
+                  <button
+                    type="button"
+                    onClick={handleManualTrigger}
+                    className="btn text-primary-500 cursor-pointer contents"
+                  >
                     натиснувши тут
                   </button>
                 )}
@@ -188,7 +189,7 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
               <Button
                 disabled={isSubmitDisabled}
                 className="w-[356px] h-[62px] flex justify-center items-center"
-                onClick={handleSubmit}
+                onClick={() => handleSubmit()}
               >
                 Зберегти CV
               </Button>

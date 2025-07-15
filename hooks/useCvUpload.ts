@@ -2,7 +2,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 
 import { validateCVFile } from "@/lib/utils";
 
-type Status = "idle" | "success" | "error" | "uploading";
+type Status = "idle" | "success" | "error" | "uploading" | "fileSelected";
 
 export function useCvUpload(email?: string | null, onClose?: () => void) {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -23,42 +23,6 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
     }
   }, []);
 
-  const handleFileUpload = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      resetState();
-
-      if (!file) {
-        setStatus("error");
-        setMessage("Завантаження перервано. Будь ласка, спробуйте завантажити файл знову,");
-        return;
-      }
-
-      setFileName(file.name);
-
-      const errorMessage = validateCVFile(file);
-      if (errorMessage) {
-        setStatus("error");
-        setMessage(errorMessage);
-        return;
-      }
-
-      setSelectedFile(file);
-      setFileName(file.name);
-      setStatus("success");
-      setMessage("Файл завантажився успішно");
-    },
-    [resetState]
-  );
-
-  const handleManualTrigger = useCallback(() => {
-    fileInputRef.current?.click();
-  }, []);
-
-  const handleRemoveFile = useCallback(() => {
-    resetState();
-  }, [resetState]);
-
   const handleSubmit = useCallback(async () => {
     if (!selectedFile || !email) {
       setStatus("error");
@@ -78,6 +42,7 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
         );
         return;
       }
+
       const getRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cvs/by-email/`, {
         method: "POST",
         headers: {
@@ -134,6 +99,42 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
       setMessage(error instanceof Error ? error.message : "Щось пішло не так.");
     }
   }, [selectedFile, email, onClose, resetState]);
+
+  const handleFileUpload = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      resetState();
+
+      if (!file) {
+        setStatus("error");
+        setMessage("Завантаження перервано. Будь ласка, спробуйте завантажити файл знову,");
+        return;
+      }
+
+      setFileName(file.name);
+
+      const errorMessage = validateCVFile(file);
+      if (errorMessage) {
+        setStatus("error");
+        setMessage(errorMessage);
+        return;
+      }
+
+      setSelectedFile(file);
+      setFileName(file.name);
+      setStatus("fileSelected");
+      setMessage("Файл готовий до відправки. Натисніть 'Зберегти CV'.");
+    },
+    [resetState]
+  );
+
+  const handleManualTrigger = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
+  const handleRemoveFile = useCallback(() => {
+    resetState();
+  }, [resetState]);
 
   const isSubmitDisabled = useMemo(
     () => !selectedFile || status === "error" || status === "uploading",

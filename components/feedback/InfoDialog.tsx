@@ -21,7 +21,7 @@ export function InfoDialog({ open, title, description, onClose }: InfoDialogProp
           <DialogDescription className="text-bod mb-4 text-neutral-700">{description}</DialogDescription>
         </DialogHeader>
         <div className="flex gap-x-6">
-          <Button variant="secondary" className="w-[213px] h-[62px]">
+          <Button variant="secondary" className="w-[213px] h-[62px]" onClick={onClose}>
             Не нагадувати
           </Button>
           <CVUploadTrigger className="w-[315px] h-[62px]" />
