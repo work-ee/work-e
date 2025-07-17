@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "dev:https": "node server.js",
+    "dev-https": "next dev --experimental-https --port 3001",
     "build": "next build",
     "start": "next start",
     "prepare": "husky",
