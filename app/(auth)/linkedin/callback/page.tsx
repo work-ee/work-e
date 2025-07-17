@@ -12,10 +12,9 @@ export default function LinkedInCallbackPage() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // Запит до нашого API route (не зовнішнього Django)
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/current/`, {
           method: "GET",
-          credentials: "include", // Для передачі cookies з localhost
+          credentials: "include",
         });
 
         if (!response.ok) {
@@ -33,7 +32,6 @@ export default function LinkedInCallbackPage() {
         console.error("LinkedIn sign in error:", err);
         setError(err.message);
 
-        // Редирект на sign-in при помилці
         setTimeout(() => {
           router.push("/sign-in?error=callback_failed");
         }, 3000);
