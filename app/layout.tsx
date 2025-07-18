@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import AuthProvider from "@/components/AuthProvider";
 import { Footer, Header } from "@/components/shared";
 import { Toaster } from "@/components/ui/shadcn/sonner";
 
@@ -19,19 +20,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${rubik.variable} ${nunitoSans.variable} antialiased`}>
-        <Header />
-        {children}
-        <Footer />
+        <AuthProvider>
+          <Header />
+          {children}
+          <Footer />
 
-        <Toaster
-          expand={false}
-          position="top-right"
-          toastOptions={{
-            style: {
-              width: "600px",
-            },
-          }}
-        />
+          <Toaster
+            expand={false}
+            position="top-right"
+            toastOptions={{
+              style: {
+                width: "600px",
+              },
+            }}
+          />
+        </AuthProvider>
       </body>
     </html>
   );

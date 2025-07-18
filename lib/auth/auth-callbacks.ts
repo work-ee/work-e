@@ -36,3 +36,20 @@ export const handleLinkedInLogin = async () => {
   // -> Sending LinkedIn access token to Django backend:
   return true; // TODO: Implement LinkedIn login handling
 };
+
+export const handleLinkedInDjangoLogin = async ({ user }: Props) => {
+  try {
+    // console.log("Handling LinkedIn Django login...", user);
+
+    // -> User data provided via credentials provider
+    if (user.backendUser) {
+      // console.log("LinkedIn Django user data:", user.backendUser);
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    console.error("❌ handleLinkedInDjangoLogin exception:", error);
+    return false;
+  }
+};

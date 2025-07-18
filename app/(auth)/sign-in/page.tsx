@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { GoogleSignIn } from "@/components/auth/GoogleSignIn";
-import { LinkedinSignIn } from "@/components/auth/LinkedinSignIn";
+import { LinkedinDjangoSignIn, LinkedinSignIn } from "@/components/auth/LinkedinSignIn";
 
 import { auth } from "@/lib/auth";
 
@@ -22,6 +22,7 @@ const Page = async () => {
             <div className="text-center gap-2 flex flex-col">
               <GoogleSignIn />
               <LinkedinSignIn />
+              <LinkedinDjangoSignIn />
             </div>
 
             <p>
