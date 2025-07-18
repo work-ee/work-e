@@ -4,7 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { GoogleSignIn } from "@/components/auth/GoogleSignIn";
-import { LinkedinSignIn } from "@/components/auth/LinkedinSignIn";
+import { LinkedinDjangoSignIn, LinkedinSignIn } from "@/components/auth/LinkedinSignIn";
 import { BuildingSvg, SearchJobSvg } from "@/components/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs";
 
@@ -29,7 +29,7 @@ export default async function Register() {
               <TabsList className="bg-white h-auto rounded-none p-0 flex justify-between">
                 <TabsTrigger
                   value="sign-in"
-                  className="min-w-[18rem] data-[state=active]:bg-secondary-50 p-5 h-auto outline data-[state=active]:outline-primary-700 rounded-none transition duration-300"
+                  className="min-w-[18rem] cursor-pointer data-[state=active]:bg-secondary-50 p-5 h-auto outline data-[state=active]:outline-primary-700 rounded-none transition duration-300"
                 >
                   <div className="flex flex-col items-center gap-3 text-primary-900">
                     <SearchJobSvg className="size-12" />
@@ -39,7 +39,7 @@ export default async function Register() {
 
                 <TabsTrigger
                   value="sign-up"
-                  className="min-w-[18rem] data-[state=active]:bg-secondary-50 p-5 h-auto outline data-[state=active]:outline-primary-700 rounded-none transition duration-300"
+                  className="min-w-[18rem] cursor-pointer data-[state=active]:bg-secondary-50 p-5 h-auto outline data-[state=active]:outline-primary-700 rounded-none transition duration-300"
                 >
                   <div className="flex flex-col items-center gap-3 text-primary-900">
                     <BuildingSvg className="size-12" />
@@ -56,6 +56,7 @@ export default async function Register() {
                     <div className="text-center gap-2 flex flex-col">
                       <GoogleSignIn />
                       <LinkedinSignIn />
+                      <LinkedinDjangoSignIn />
                     </div>
                   </div>
 
