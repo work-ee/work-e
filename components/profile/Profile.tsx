@@ -2,10 +2,12 @@
 
 import React from "react";
 
-import { Button, Input } from "@/components/ui";
+import { Button, Input, Toggle } from "@/components/ui";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs";
 
 import { BackendUser } from "@/types/next-auth";
+
+type ToggleName = "autoSendCV" | "autoCompareJobs" | "emailNotifications";
 
 export const Profile = ({ user }: { user?: BackendUser }) => {
   const { first_name, last_name, email, username, avatar_url, date_joined } = user || {
@@ -34,6 +36,20 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
     }));
   };
 
+  const [toggleStates, setToggleStates] = React.useState<{
+    [key in ToggleName]: boolean;
+  }>({
+    autoSendCV: true,
+    autoCompareJobs: false,
+    emailNotifications: false,
+  });
+  const handleToggle = (name: ToggleName) => {
+    setToggleStates((prev) => ({
+      ...prev,
+      [name]: !prev[name],
+    }));
+  };
+
   return (
     <Tabs defaultValue="profile" className="gap-8">
       <TabsList className="bg-white h-auto rounded-none p-0 gap-4 flex justify-between">
@@ -52,11 +68,11 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent
-        value="profile"
-        className="data-[state=active]:animate-in data-[state=active]:fade-in data-[state=active]:zoom-in data-[state=inactive]:animate-fade-out data-[state=inactive]:fade-out data-[state=inactive]:zoom-out"
-      >
-        <form className="flex flex-col gap-6">
+      <form className="flex flex-col gap-6">
+        <TabsContent
+          value="profile"
+          className="data-[state=active]:animate-in data-[state=active]:fade-in data-[state=active]:zoom-in data-[state=inactive]:animate-fade-out data-[state=inactive]:fade-out data-[state=inactive]:zoom-out"
+        >
           <div className="flex flex-col gap-1">
             <div className="flex flex-wrap gap-4 w-full">
               <div className="flex items-center gap-4">
@@ -103,25 +119,55 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
               </div>
             </div>
           </div>
+        </TabsContent>
 
-          <div className="flex items-center gap-4 mt-2">
-            <Button className="mt-4">Зберегти зміни</Button>
-          </div>
-        </form>
-      </TabsContent>
+        <TabsContent
+          value="settings"
+          className="data-[state=active]:animate-in data-[state=active]:fade-in data-[state=active]:zoom-in data-[state=inactive]:animate-fade-out data-[state=inactive]:fade-out data-[state=inactive]:zoom-out"
+        >
+          <div className="flex flex-col">
+            <div className="w-full flex flex-wrap gap-4">
+              <div className="flex bg-secondary-50 flex-wrap w-full gap-4 rounded-md p-4 justify-between items-center">
+                <div className="flex flex-col gap-1">
+                  <div className="text-neutral-900 heading-h3 ">Автоматична відправка CV</div>
+                  <span className="text-neutral-700">
+                    Для того щоб нічого не пропустити ви можете надіслати CV автоматично
+                  </span>
+                </div>
+                <Toggle name="1" isChecked={toggleStates.autoSendCV} onChange={() => handleToggle("autoSendCV")} />
+              </div>
 
-      <TabsContent
-        value="settings"
-        className="data-[state=active]:animate-in data-[state=active]:fade-in data-[state=active]:zoom-in data-[state=inactive]:animate-fade-out data-[state=inactive]:fade-out data-[state=inactive]:zoom-out"
-      >
-        <div className="flex flex-col">
-          <div className="text-neutral-800">
-            <p className="text-2xl">
-              Ця функція буде доступна зовсім скоро! <br /> Ми вже працюємо над нею
-            </p>
+              <div className="flex bg-secondary-50 flex-wrap w-full gap-4 rounded-md p-4 justify-between items-center">
+                <div className="flex flex-col gap-1">
+                  <div className="text-neutral-900 heading-h3 ">Автоматичне порівняння вакансій</div>
+                  <span className="text-neutral-700">Ваше резюме автоматично буде порівнюватись з вакансіями</span>
+                </div>
+                <Toggle
+                  name="autoCompareJobs"
+                  isChecked={toggleStates.autoCompareJobs}
+                  onChange={() => handleToggle("autoCompareJobs")}
+                />
+              </div>
+
+              <div className="flex bg-secondary-50 flex-wrap w-full gap-4 rounded-md p-4 justify-between items-center">
+                <div className="flex flex-col gap-1">
+                  <div className="text-neutral-900 heading-h3 ">Сповіщення електронною поштою</div>
+                  <span className="text-neutral-700">Нові пропозиції та функції які можуть бути корисними для вас</span>
+                </div>
+                <Toggle
+                  name="emailNotifications"
+                  isChecked={toggleStates.emailNotifications}
+                  onChange={() => handleToggle("emailNotifications")}
+                />
+              </div>
+            </div>
           </div>
+        </TabsContent>
+
+        <div className="flex items-center gap-4 mt-2">
+          <Button className="mt-4">Зберегти зміни</Button>
         </div>
-      </TabsContent>
+      </form>
     </Tabs>
   );
 };
