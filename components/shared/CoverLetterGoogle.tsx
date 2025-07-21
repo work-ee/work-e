@@ -94,13 +94,13 @@ export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) =>
         <Textarea
           value={text}
           onChange={handleChange}
-          className="w-full h-[241px] gap-3 pt-2.5 px-8 pb-10 rounded-lg border border-secondary-300 resize-none outline-none focus:outline-none active:outline-none hover:outline-none input-text text-secondary-400"
+          className="border-secondary-300 input-text text-secondary-400 h-[241px] w-full resize-none gap-3 rounded-lg border px-8 pt-2.5 pb-10 outline-none hover:outline-none focus:outline-none active:outline-none"
         />
-        <div className="absolute bottom-8 left-8 right-8 flex items-center justify-between">
-          <Button variant="secondary" className="w-56.5 h-15.5" iconAI onClick={handleGenerateClick}>
+        <div className="absolute right-8 bottom-8 left-8 flex items-center justify-between">
+          <Button variant="secondary" className="h-15.5 w-56.5" iconAI onClick={handleGenerateClick}>
             {isLoading ? "Генеруємо..." : "Згенерувати"}
           </Button>
-          <div className="text-sm text-secondary-500">{wordCount}/400</div>
+          <div className="text-secondary-500 text-sm">{wordCount}/400</div>
         </div>
       </div>
     </section>

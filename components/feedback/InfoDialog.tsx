@@ -15,16 +15,16 @@ interface InfoDialogProps {
 export function InfoDialog({ open, title, description, onClose }: InfoDialogProps) {
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
-      <DialogContent className="w-[600px] h-[219px] p-6 rounded-xl [&>button:last-of-type]:hidden">
+      <DialogContent className="h-[219px] w-[600px] rounded-xl p-6 [&>button:last-of-type]:hidden">
         <DialogHeader>
-          <DialogTitle className="heading-h3 text-center mb-2">{title}</DialogTitle>
+          <DialogTitle className="heading-h3 mb-2 text-center">{title}</DialogTitle>
           <DialogDescription className="text-bod mb-4 text-neutral-700">{description}</DialogDescription>
         </DialogHeader>
         <div className="flex gap-x-6">
-          <Button variant="secondary" className="w-[213px] h-[62px]" onClick={onClose}>
+          <Button variant="secondary" className="h-[62px] w-[213px]" onClick={onClose}>
             Не нагадувати
           </Button>
-          <CVUploadTrigger className="w-[315px] h-[62px]" />
+          <CVUploadTrigger className="h-[62px] w-[315px]" />
         </div>
       </DialogContent>
     </Dialog>

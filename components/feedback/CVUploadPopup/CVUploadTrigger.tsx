@@ -28,7 +28,7 @@ export function CVUploadTrigger({ email, onSuccessUpload, variant = "button", cl
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className={clsx("text-primary-500 underline hover:text-primary-700 transition-colors", className)}
+          className={clsx("text-primary-500 hover:text-primary-700 underline transition-colors", className)}
         >
           додай CV
         </button>

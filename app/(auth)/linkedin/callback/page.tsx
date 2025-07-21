@@ -63,8 +63,8 @@ export default function LinkedInCallbackPage() {
     return (
       <div className="center-page">
         <div className="container">
-          <div className="flex items-center justify-center gap-2 flex-col">
-            <div className="rounded-full h-12 w-12 bg-red-100 mx-auto flex items-center justify-center">
+          <div className="flex flex-col items-center justify-center gap-2">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
               <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -81,8 +81,8 @@ export default function LinkedInCallbackPage() {
     return (
       <div className="center-page">
         <div className="container">
-          <div className="flex items-center justify-center gap-2 flex-col">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="flex flex-col items-center justify-center gap-2">
+            <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
             <p className="mt-4 text-gray-600">
               {!isSigningIn ? "Отримуємо дані користувача..." : "Завершуємо авторизацію LinkedIn..."}
             </p>
@@ -95,8 +95,8 @@ export default function LinkedInCallbackPage() {
   return (
     <div className="center-page">
       <div className="container">
-        <div className="flex items-center justify-center gap-2 flex-col">
-          <div className="rounded-full h-12 w-12 bg-green-100 mx-auto flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center gap-2">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
             <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>

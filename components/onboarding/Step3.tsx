@@ -14,7 +14,7 @@ export const Step3 = () => {
         subtitle="Твій профіль майже готовий — і вже сьогодні тут може з’явитися вакансія мрії. Просто дозаповни кілька полів — і ми підкинемо ще точніші варіанти"
       />
 
-      <div className="flex gap-12 justify-center mt-8">
+      <div className="mt-8 flex justify-center gap-12">
         <Button>
           <ProfileSvg />
           Заповнити профіль

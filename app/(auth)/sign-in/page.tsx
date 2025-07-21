@@ -14,19 +14,19 @@ const Page = async () => {
     <main className="center-page">
       <section className="section">
         <div className="container">
-          <div className="flex items-center justify-center gap-6 flex-col">
+          <div className="flex flex-col items-center justify-center gap-6">
             <div className="flex flex-col text-center">
               <h1 className="heading-h2">Увійти на Work - E</h1>
             </div>
 
-            <div className="text-center gap-2 flex flex-col">
+            <div className="flex flex-col gap-2 text-center">
               <GoogleSignIn />
               <LinkedinSignIn />
               <LinkedinDjangoSignIn />
             </div>
 
             <p>
-              <Link href="/sign-up" className="text-link font-medium font-rubik">
+              <Link href="/sign-up" className="text-link font-rubik font-medium">
                 зареєструватись
               </Link>
             </p>

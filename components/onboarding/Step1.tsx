@@ -24,7 +24,7 @@ export const Step1 = ({ user, onCvUploadSuccess }: StepProps) => {
 
       <h2 className="heading-h3">Щоб допомогти:</h2>
 
-      <div className="flex gap-12 justify-center mt-8">
+      <div className="mt-8 flex justify-center gap-12">
         <Button variant="secondary">
           <LinkedinSvg />
           Підв'яжи свій Linkedin

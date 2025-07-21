@@ -12,7 +12,7 @@ export default function NotFound() {
     <main className="center-page">
       <section className="section">
         <div className="container">
-          <div className="flex max-w-2xl flex-col items-center justify-center mx-auto text-center">
+          <div className="mx-auto flex max-w-2xl flex-col items-center justify-center text-center">
             <Image
               src="/img/404.png"
               width={420}
@@ -25,9 +25,9 @@ export default function NotFound() {
               Схоже, цієї сторінки не існує або вона була переміщена. <br />
               Перевірте адресу або поверніться на головну.
             </p>
-            <div className="flex flex-wrap flex-1 justify-center gap-4 mt-8 w-full">
+            <div className="mt-8 flex w-full flex-1 flex-wrap justify-center gap-4">
               <Link href="/" className="flex-1">
-                <Button className="justify-center w-full">Повернутись на головну</Button>
+                <Button className="w-full justify-center">Повернутись на головну</Button>
               </Link>
             </div>
           </div>

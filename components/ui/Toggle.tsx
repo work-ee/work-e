@@ -19,7 +19,7 @@ export const Toggle: FC<Props> = ({ name, compId = "toggleId", isChecked = false
 
   return (
     <label
-      className={clsx("relative inline-block w-[50px] h-[26px]", disabled ? "cursor-not-allowed" : "cursor-pointer")}
+      className={clsx("relative inline-block h-[26px] w-[50px]", disabled ? "cursor-not-allowed" : "cursor-pointer")}
     >
       <input
         id={compId}
@@ -28,12 +28,12 @@ export const Toggle: FC<Props> = ({ name, compId = "toggleId", isChecked = false
         checked={isChecked}
         disabled={disabled}
         onChange={handleChange}
-        className="sr-only peer"
+        className="peer sr-only"
       />
 
       <span
         className={clsx(
-          "absolute top-0 left-0 right-0 h-[26px] rounded-[16px] border transition-colors duration-500",
+          "absolute top-0 right-0 left-0 h-[26px] rounded-[16px] border transition-colors duration-500",
           disabled
             ? "border-neutral-200 peer-hover:border-neutral-400"
             : isChecked
@@ -46,12 +46,12 @@ export const Toggle: FC<Props> = ({ name, compId = "toggleId", isChecked = false
         className={clsx(
           "absolute rounded-full transition-all duration-500",
           "top-1/2 -translate-y-1/2",
-          isChecked ? "w-[32px] h-[32px] left-[23px]" : "w-[20px] h-[20px] left-[2px]",
+          isChecked ? "left-[23px] h-[32px] w-[32px]" : "left-[2px] h-[20px] w-[20px]",
           disabled
-            ? "bg-neutral-200 border border-neutral-200 peer-hover:border-neutral-400"
+            ? "border border-neutral-200 bg-neutral-200 peer-hover:border-neutral-400"
             : isChecked
-              ? "bg-primary-400 border border-primary-400 peer-hover:bg-primary-600 peer-hover:border-primary-600"
-              : "bg-primary-100 border border-primary-100 peer-hover:bg-primary-200 peer-hover:border-primary-200"
+              ? "bg-primary-400 border-primary-400 peer-hover:bg-primary-600 peer-hover:border-primary-600 border"
+              : "bg-primary-100 border-primary-100 peer-hover:bg-primary-200 peer-hover:border-primary-200 border"
         )}
       />
     </label>
