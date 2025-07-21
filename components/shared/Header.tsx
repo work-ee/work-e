@@ -19,7 +19,7 @@ export const Header = async () => {
   };
 
   return (
-    <header className="bg-primary-100 min-h-[94px] flex items-center justify-between py-4">
+    <header className="bg-primary-100 flex min-h-[94px] items-center justify-between py-4">
       <div className="container">
         <div className="flex items-center justify-between">
           <Link href="/" className="logo heading-h2 text-primary-900">
@@ -42,9 +42,9 @@ export const Header = async () => {
               <div className="flex items-center gap-4">
                 <Link
                   href="/profile"
-                  className="flex items-center justify-center gap-2 hover:bg-secondary-100 rounded-full p-2 transition-colors cursor-pointer group"
+                  className="hover:bg-secondary-100 group flex cursor-pointer items-center justify-center gap-2 rounded-full p-2 transition-colors"
                 >
-                  <div className="flex justify-center items-center gap-2 outline outline-secondary-300 h-10 w-10 rounded-full overflow-hidden bg-accent-50 group-hover:outline-3 transition-all">
+                  <div className="outline-secondary-300 bg-accent-50 flex h-10 w-10 items-center justify-center gap-2 overflow-hidden rounded-full outline transition-all group-hover:outline-3">
                     {avatar_url ? (
                       <>
                         <img src={`${avatar_url}`} alt="User Avatar" className="" />
@@ -59,7 +59,7 @@ export const Header = async () => {
               </div>
             )}
 
-            <ul className="ml-4 flex items-center gap-4 font-black text-primary-900">
+            <ul className="text-primary-900 ml-4 flex items-center gap-4 font-black">
               <li>
                 <a href="#" className="flex items-center gap-2">
                   <i>

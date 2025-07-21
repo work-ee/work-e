@@ -52,17 +52,17 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
 
   return (
     <Tabs defaultValue="profile" className="gap-8">
-      <TabsList className="bg-white h-auto rounded-none p-0 gap-4 flex justify-between">
+      <TabsList className="flex h-auto justify-between gap-4 rounded-none bg-white p-0">
         <TabsTrigger
           value="profile"
-          className="cursor-pointer data-[state=inactive]:opacity-50 data-[state=active]:underline underline-offset-6 underline-primary-500 p-1 rounded-none data-[state=active]:shadow-none data-[state=active]:text-primary-500 transition duration-300 hover:!opacity-100 hover:text-primary-500"
+          className="underline-primary-500 data-[state=active]:text-primary-500 hover:text-primary-500 cursor-pointer rounded-none p-1 underline-offset-6 transition duration-300 hover:!opacity-100 data-[state=active]:underline data-[state=active]:shadow-none data-[state=inactive]:opacity-50"
         >
           <h3 className="heading-h3">Профіль</h3>
         </TabsTrigger>
 
         <TabsTrigger
           value="settings"
-          className="cursor-pointer data-[state=inactive]:opacity-50 data-[state=active]:underline underline-offset-6 underline-primary-500 p-1 rounded-none data-[state=active]:shadow-none data-[state=active]:text-primary-500 transition duration-300 hover:!opacity-100 hover:text-primary-500"
+          className="underline-primary-500 data-[state=active]:text-primary-500 hover:text-primary-500 cursor-pointer rounded-none p-1 underline-offset-6 transition duration-300 hover:!opacity-100 data-[state=active]:underline data-[state=active]:shadow-none data-[state=inactive]:opacity-50"
         >
           <h3 className="heading-h3">Налаштування</h3>
         </TabsTrigger>
@@ -74,7 +74,7 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
           className="data-[state=active]:animate-in data-[state=active]:fade-in data-[state=active]:zoom-in data-[state=inactive]:animate-fade-out data-[state=inactive]:fade-out data-[state=inactive]:zoom-out"
         >
           <div className="flex flex-col gap-1">
-            <div className="flex flex-wrap gap-4 w-full">
+            <div className="flex w-full flex-wrap gap-4">
               <div className="flex items-center gap-4">
                 <Input
                   onChange={handleChange}
@@ -86,7 +86,7 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-4 w-full">
+            <div className="flex w-full flex-wrap gap-4">
               <div className="flex items-center gap-4">
                 <Input
                   onChange={handleChange}
@@ -107,13 +107,13 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2 mt-4">
-              <div className="flex items-center gap-4 w-full">
+            <div className="mt-4 flex flex-wrap gap-2">
+              <div className="flex w-full items-center gap-4">
                 <span className="text-neutral-500">Електронна пошта:</span>
                 <span className="text-neutral-800">{email}</span>
               </div>
 
-              <div className="flex items-center gap-4 w-full">
+              <div className="flex w-full items-center gap-4">
                 <span className="text-neutral-500">Дата приєднання:</span>
                 <span className="text-neutral-800">{new Date(date_joined).toLocaleDateString("uk-UA")}</span>
               </div>
@@ -126,10 +126,10 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
           className="data-[state=active]:animate-in data-[state=active]:fade-in data-[state=active]:zoom-in data-[state=inactive]:animate-fade-out data-[state=inactive]:fade-out data-[state=inactive]:zoom-out"
         >
           <div className="flex flex-col">
-            <div className="w-full flex flex-wrap gap-4">
-              <div className="flex bg-secondary-50 flex-wrap w-full gap-4 rounded-md p-4 justify-between items-center">
+            <div className="flex w-full flex-wrap gap-4">
+              <div className="bg-secondary-50 flex w-full flex-wrap items-center justify-between gap-4 rounded-md p-4">
                 <div className="flex flex-col gap-1">
-                  <div className="text-neutral-900 heading-h3 ">Автоматична відправка CV</div>
+                  <div className="heading-h3 text-neutral-900">Автоматична відправка CV</div>
                   <span className="text-neutral-700">
                     Для того щоб нічого не пропустити ви можете надіслати CV автоматично
                   </span>
@@ -137,9 +137,9 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
                 <Toggle name="1" isChecked={toggleStates.autoSendCV} onChange={() => handleToggle("autoSendCV")} />
               </div>
 
-              <div className="flex bg-secondary-50 flex-wrap w-full gap-4 rounded-md p-4 justify-between items-center">
+              <div className="bg-secondary-50 flex w-full flex-wrap items-center justify-between gap-4 rounded-md p-4">
                 <div className="flex flex-col gap-1">
-                  <div className="text-neutral-900 heading-h3 ">Автоматичне порівняння вакансій</div>
+                  <div className="heading-h3 text-neutral-900">Автоматичне порівняння вакансій</div>
                   <span className="text-neutral-700">Ваше резюме автоматично буде порівнюватись з вакансіями</span>
                 </div>
                 <Toggle
@@ -149,9 +149,9 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
                 />
               </div>
 
-              <div className="flex bg-secondary-50 flex-wrap w-full gap-4 rounded-md p-4 justify-between items-center">
+              <div className="bg-secondary-50 flex w-full flex-wrap items-center justify-between gap-4 rounded-md p-4">
                 <div className="flex flex-col gap-1">
-                  <div className="text-neutral-900 heading-h3 ">Сповіщення електронною поштою</div>
+                  <div className="heading-h3 text-neutral-900">Сповіщення електронною поштою</div>
                   <span className="text-neutral-700">Нові пропозиції та функції які можуть бути корисними для вас</span>
                 </div>
                 <Toggle
@@ -164,7 +164,7 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
           </div>
         </TabsContent>
 
-        <div className="flex items-center gap-4 mt-2">
+        <div className="mt-2 flex items-center gap-4">
           <Button className="mt-4">Зберегти зміни</Button>
         </div>
       </form>

@@ -22,7 +22,7 @@ export const Step2 = ({ user, onCvUploadSuccess }: StepProps) => {
         subtitle="Що більше ти розкажеш про себе — тим точнішими будуть наші пропозиції."
       />
 
-      <div className="flex gap-12 justify-center mt-8">
+      <div className="mt-8 flex justify-center gap-12">
         <Button>
           <ProfileSvg />
           Заповнити профіль

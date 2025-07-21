@@ -121,7 +121,7 @@ export const PaginationBlock: FC<Props> = ({
   const isLastPage = currentPage === totalPages;
 
   return (
-    <Pagination className={clsx(disabled && "opacity-50 pointer-events-none")}>
+    <Pagination className={clsx(disabled && "pointer-events-none opacity-50")}>
       <PaginationContent className="flex items-center">
         {!isFirstPage && (
           <PaginationItem className="mr-6">
@@ -129,17 +129,17 @@ export const PaginationBlock: FC<Props> = ({
             <PaginationPrevious
               onClick={handlePrevClick}
               className={clsx(
-                "w-[50px] h-[50px] rounded-[8px]",
+                "h-[50px] w-[50px] rounded-[8px]",
                 "bg-secondary-50 text-secondary-500",
                 "flex items-center justify-center p-0",
                 "transition-colors duration-200",
                 disabled || currentPage === 1
                   ? "pointer-events-none text-gray-400"
-                  : "cursor-pointer hover:bg-secondary-100"
+                  : "hover:bg-secondary-100 cursor-pointer"
               )}
             >
               <span className="sr-only">Previous</span>
-              <SpriteSvg id="icon-arrow-right" className="w-[30px] h-[30px] rotate-[-90deg] fill-current" />
+              <SpriteSvg id="icon-arrow-right" className="h-[30px] w-[30px] rotate-[-90deg] fill-current" />
             </PaginationPrevious>
           </PaginationItem>
         )}
@@ -161,22 +161,22 @@ export const PaginationBlock: FC<Props> = ({
           >
             {page === "ellipsis" ? (
               <PaginationEllipsis
-                className={clsx("w-[26px] h-[30px] flex items-center justify-center", "text-secondary-500")}
+                className={clsx("flex h-[30px] w-[26px] items-center justify-center", "text-secondary-500")}
               >
-                <SpriteSvg id="icon-dots" className="w-[26px] h-[30px] fill-current" />
+                <SpriteSvg id="icon-dots" className="h-[30px] w-[26px] fill-current" />
               </PaginationEllipsis>
             ) : (
               <PaginationLink
                 onClick={() => handlePageClick(page)}
                 isActive={page === currentPage}
                 className={clsx(
-                  "w-[60px] h-[60px] rounded-[8px]",
-                  "flex items-center justify-center font-btn",
+                  "h-[60px] w-[60px] rounded-[8px]",
+                  "font-btn flex items-center justify-center",
                   "p-[10px_20px]",
                   "border-none",
                   "transition-colors duration-200",
                   disabled
-                    ? "pointer-events-none text-gray-400 bg-gray-100"
+                    ? "pointer-events-none bg-gray-100 text-gray-400"
                     : page === currentPage
                       ? "bg-secondary-500 text-secondary-50"
                       : "bg-secondary-50 text-secondary-500 hover:bg-secondary-100"
@@ -194,17 +194,17 @@ export const PaginationBlock: FC<Props> = ({
             <PaginationNext
               onClick={handleNextClick}
               className={clsx(
-                "w-[50px] h-[50px] rounded-[8px]",
+                "h-[50px] w-[50px] rounded-[8px]",
                 "bg-secondary-50 text-secondary-500",
                 "flex items-center justify-center p-0",
                 "transition-colors duration-200",
                 disabled || currentPage === totalPages
                   ? "pointer-events-none text-gray-400"
-                  : "cursor-pointer hover:bg-secondary-100"
+                  : "hover:bg-secondary-100 cursor-pointer"
               )}
             >
               <span className="sr-only">Next</span>
-              <SpriteSvg id="icon-arrow-right" className="w-[30px] h-[30px] rotate-90 fill-current" />
+              <SpriteSvg id="icon-arrow-right" className="h-[30px] w-[30px] rotate-90 fill-current" />
             </PaginationNext>
           </PaginationItem>
         )}

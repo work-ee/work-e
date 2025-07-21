@@ -35,10 +35,10 @@ export const Slider: FC<Props> = ({ min, max, step = 1, fromValue, toValue, onCh
   const rightPercent = ((toValue - min) / range) * 100;
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <div className="flex justify-between mb-2 px-2" style={{ marginBottom: "8px", gap: "19px" }}>
+    <div className="mx-auto w-full max-w-md">
+      <div className="mb-2 flex justify-between px-2" style={{ marginBottom: "8px", gap: "19px" }}>
         <div
-          className="text-secondary-200 border border-secondary-200 rounded-lg text-sm flex items-center justify-center"
+          className="text-secondary-200 border-secondary-200 flex items-center justify-center rounded-lg border text-sm"
           style={{
             width: 96,
             height: 44,
@@ -48,7 +48,7 @@ export const Slider: FC<Props> = ({ min, max, step = 1, fromValue, toValue, onCh
           {fromValue}
         </div>
         <div
-          className="text-secondary-200 border border-secondary-200 rounded-lg text-sm flex items-center justify-center"
+          className="text-secondary-200 border-secondary-200 flex items-center justify-center rounded-lg border text-sm"
           style={{
             width: 96,
             height: 44,
@@ -59,7 +59,7 @@ export const Slider: FC<Props> = ({ min, max, step = 1, fromValue, toValue, onCh
         </div>
       </div>
 
-      <div className={clsx("relative h-0.5 rounded-full mt-4.5", disabled ? "bg-neutral-100" : "bg-primary-100")}>
+      <div className={clsx("relative mt-4.5 h-0.5 rounded-full", disabled ? "bg-neutral-100" : "bg-primary-100")}>
         <div
           className={clsx("absolute h-0.5 rounded-full", disabled ? "bg-neutral-300" : "bg-primary-400")}
           style={{
@@ -79,7 +79,7 @@ export const Slider: FC<Props> = ({ min, max, step = 1, fromValue, toValue, onCh
           onChange={handleFromChange}
           disabled={disabled}
           className={clsx(
-            "absolute w-full appearance-none bg-transparent z-10 pointer-events-auto",
+            "pointer-events-auto absolute z-10 w-full appearance-none bg-transparent",
             disabled && "cursor-not-allowed"
           )}
           style={{
@@ -96,7 +96,7 @@ export const Slider: FC<Props> = ({ min, max, step = 1, fromValue, toValue, onCh
           onChange={handleToChange}
           disabled={disabled}
           className={clsx(
-            "absolute w-full appearance-none bg-transparent z-20 pointer-events-auto",
+            "pointer-events-auto absolute z-20 w-full appearance-none bg-transparent",
             disabled && "cursor-not-allowed"
           )}
           style={{

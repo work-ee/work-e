@@ -17,7 +17,7 @@ export const DialogMsg = ({ showOnMount = false, backdrop = false }: Props): nul
       (t) => (
         <>
           {backdrop && <Backdrop />}
-          <div className="bg-white flex rounded-2xl overflow-hidden shadow-[0px_0px_2px_1px_var(--color-neutral-200)] p-6">
+          <div className="flex overflow-hidden rounded-2xl bg-white p-6 shadow-[0px_0px_2px_1px_var(--color-neutral-200)]">
             <div>
               <b className="mb-2 flex text-xl">Додайте Linkedin</b>
               <p>
@@ -25,11 +25,11 @@ export const DialogMsg = ({ showOnMount = false, backdrop = false }: Props): nul
                 релевантних вакансій!
               </p>
 
-              <div className="flex gap-6 mt-4 text-xl">
-                <a href="#" className="p-2 flex underline underline-offset-2">
+              <div className="mt-4 flex gap-6 text-xl">
+                <a href="#" className="flex p-2 underline underline-offset-2">
                   <b>Linkedln</b>
                 </a>
-                <a href="#" className="p-2 flex">
+                <a href="#" className="flex p-2">
                   <b>Немає LinkedIn</b>
                 </a>
               </div>
