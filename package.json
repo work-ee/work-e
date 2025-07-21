@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:https": "node server.js",
     "build": "next build",
     "start": "next start",
     "prepare": "husky",
@@ -27,6 +28,7 @@
     "@radix-ui/react-tabs": "^1.1.12",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "https-localhost": "^4.7.1",
     "lucide-react": "^0.511.0",
     "next": "15.3.2",
     "next-auth": "^5.0.0-beta.28",

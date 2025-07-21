@@ -46,7 +46,7 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
     fileSelected: "bg-success-main",
   }[status];
 
-  const isUploadDisabled = status === "uploading" || status === "success";
+  const isUploadDisabled = status === "uploading" || status === "success" || status === "fileSelected";
   const isSecondaryUploadButtonVisible = status === "error";
   return (
     <>
@@ -74,9 +74,11 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
             <div
               className={clsx(
                 "border rounded-xl text-center w-[322px] h-[244px] m-auto p-8",
-                isUploadDisabled
-                  ? "border-neutral-200 pointer-events-none"
-                  : "border-primary-500 cursor-pointer hover:border-primary-500 transition-colors"
+                status === "fileSelected"
+                  ? "border-neutral-200 pointer-events-none text-neutral-200"
+                  : isUploadDisabled
+                    ? "border-neutral-200 pointer-events-none"
+                    : "border-primary-500 cursor-pointer hover:border-primary-500 transition-colors"
               )}
               onClick={!isUploadDisabled ? handleManualTrigger : undefined}
               role="button"
@@ -92,16 +94,50 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
                 id="icon-uploading-filed"
                 className={clsx(
                   "mx-auto w-12 h-12 mb-4 fill-neutral-50",
-                  isUploadDisabled ? "text-neutral-400 stroke-neutral-400" : "text-primary-500 stroke-primary-500"
+                  status === "success"
+                    ? "text-neutral-200 stroke-neutral-200"
+                    : isUploadDisabled
+                      ? "text-neutral-400 stroke-neutral-400"
+                      : "text-primary-500 stroke-primary-500"
                 )}
               />
-              <p className={clsx("text-micro pb-4", isUploadDisabled ? "text-neutral-400" : "")}>
+              <p
+                className={clsx(
+                  "text-micro pb-4",
+                  status === "success" ? "text-neutral-200" : isUploadDisabled ? "text-neutral-400" : ""
+                )}
+              >
                 Завантаж CV : у форматі{" "}
-                <span className={isUploadDisabled ? "text-neutral-400" : "text-primary-500"}>PDF</span>
+                <span
+                  className={
+                    status === "success"
+                      ? "text-neutral-200"
+                      : isUploadDisabled
+                        ? "text-neutral-400"
+                        : "text-primary-500"
+                  }
+                >
+                  PDF
+                </span>
               </p>
-              <p className={clsx("text-micro pb-4", isUploadDisabled ? "text-neutral-400" : "")}>
+              <p
+                className={clsx(
+                  "text-micro pb-4",
+                  status === "success" ? "text-neutral-200" : isUploadDisabled ? "text-neutral-400" : ""
+                )}
+              >
                 максимальний розмір файлу{" "}
-                <span className={isUploadDisabled ? "text-neutral-400" : "text-primary-500"}>10MB</span>
+                <span
+                  className={
+                    status === "success"
+                      ? "text-neutral-200"
+                      : isUploadDisabled
+                        ? "text-neutral-400"
+                        : "text-primary-500"
+                  }
+                >
+                  10MB
+                </span>
               </p>
               <button
                 type="button"
@@ -113,7 +149,11 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
                 }}
                 className={clsx(
                   "btn underline",
-                  isUploadDisabled ? "text-neutral-400 cursor-not-allowed" : "text-primary-500"
+                  status === "success"
+                    ? "text-neutral-200 cursor-not-allowed"
+                    : isUploadDisabled
+                      ? "text-neutral-400 cursor-not-allowed"
+                      : "text-primary-500"
                 )}
                 disabled={isUploadDisabled}
               >
@@ -170,7 +210,7 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
                   <button
                     type="button"
                     onClick={handleManualTrigger}
-                    className="btn text-primary-500 cursor-pointer contents"
+                    className="text-body text-primary-500 cursor-pointer contents"
                   >
                     натиснувши тут
                   </button>

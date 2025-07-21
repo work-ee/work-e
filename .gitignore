@@ -46,4 +46,9 @@ next-env.d.ts
 *.dev
 
 # temporary files
-_temp
+_temp   
+
+ssl/
+certs/
+*.pem
+*.key
