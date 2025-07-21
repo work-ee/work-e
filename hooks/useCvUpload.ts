@@ -84,7 +84,7 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
 
       if (!uploadRes.ok) {
         const error = await uploadRes.json();
-        throw new Error(error.message || "Не вдалося зберегти CV.");
+        throw new Error(error.message || "Завантаження перервано. Будь ласка, спробуйте завантажити файл знову,");
       }
 
       setStatus("success");
@@ -123,7 +123,7 @@ export function useCvUpload(email?: string | null, onClose?: () => void) {
       setSelectedFile(file);
       setFileName(file.name);
       setStatus("fileSelected");
-      setMessage("Файл готовий до відправки. Натисніть 'Зберегти CV'.");
+      setMessage("Файл завантажився успішно");
     },
     [resetState]
   );

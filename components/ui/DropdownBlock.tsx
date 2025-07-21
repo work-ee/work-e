@@ -30,7 +30,7 @@ export const DropdownBlock: FC<DropdownBlockProps> = ({ triggerText, options, on
       <DropdownMenuTrigger
         className={clsx(
           "flex items-center justify-between",
-          "w-[267px] h-[44px]",
+          "h-[44px] w-[267px]",
           "border",
           "border-secondary-100",
           "px-[16px] py-[10px]",
@@ -39,11 +39,11 @@ export const DropdownBlock: FC<DropdownBlockProps> = ({ triggerText, options, on
           "relative"
         )}
       >
-        <span className="flex-grow text-left text-secondary-500">{selectedLabel || triggerText}</span>
+        <span className="text-secondary-500 flex-grow text-left">{selectedLabel || triggerText}</span>
 
         <div
           className={clsx(
-            "absolute right-0 top-0 bottom-0",
+            "absolute top-0 right-0 bottom-0",
             "w-[44px]",
             "h-full",
             "bg-secondary-50",
@@ -51,10 +51,10 @@ export const DropdownBlock: FC<DropdownBlockProps> = ({ triggerText, options, on
             "flex items-center justify-center"
           )}
         >
-          <div className="absolute left-0 w-px h-full bg-secondary-100" />
+          <div className="bg-secondary-100 absolute left-0 h-full w-px" />
           <SpriteSvg
             id={isOpen ? "icon-arrow-up" : "icon-arrow"}
-            className="w-[24px] h-[24px] fill-secondary-50 stroke-secondary-100"
+            className="fill-secondary-50 stroke-secondary-100 h-[24px] w-[24px]"
           />
         </div>
       </DropdownMenuTrigger>

@@ -25,7 +25,7 @@ export const SvgProgressCircle = ({ percent }: Props) => {
   const progressColor = progress >= 100 ? "#33B55F" : progress >= 50 ? "#9BEEB7" : "#FF6600";
 
   return (
-    <div className="relative w-[280px] h-[280px] flex items-center justify-center">
+    <div className="relative flex h-[280px] w-[280px] items-center justify-center">
       <svg width={size} height={size}>
         {/* base circle */}
         <circle cx={center} cy={center} r={radius} stroke="#ECF4FF" strokeWidth={stroke} fill="white" />
@@ -50,7 +50,7 @@ export const SvgProgressCircle = ({ percent }: Props) => {
       </svg>
 
       {/* text in center */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-7xl font-black font-rubik text-neutral-800">
+      <div className="font-rubik absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-7xl font-black text-neutral-800">
         {progress}%
       </div>
     </div>

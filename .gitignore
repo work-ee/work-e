@@ -52,3 +52,4 @@ ssl/
 certs/
 *.pem
 *.key
+certificates

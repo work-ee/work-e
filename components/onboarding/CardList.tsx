@@ -62,19 +62,19 @@ const tempData = [
 
 const Card = ({ title, header, body, muted = false }: CardProps) => {
   return (
-    <li className="h-full flex items-stretch">
+    <li className="flex h-full items-stretch">
       <a
         href="#"
         className={cn(
-          "flex flex-col gap-1 px-4 py-6 rounded-2xl text-primary-700 bg-secondary-50 transition",
-          muted ? "blur-xs select-none pointer-events-none" : "hover:shadow-md"
+          "text-primary-700 bg-secondary-50 flex flex-col gap-1 rounded-2xl px-4 py-6 transition",
+          muted ? "pointer-events-none blur-xs select-none" : "hover:shadow-md"
         )}
       >
         <span className="heading-h3 font-rubik">{header}</span>
         <h2 className="heading-h2 text-primary-700 leading-tight">{title}</h2>
-        <div className="flex gap-1 mb-2 flex-wrap">
+        <div className="mb-2 flex flex-wrap gap-1">
           {body?.tags?.map((tag, index) => (
-            <span key={index} className={clsx("px-2 py-1 text-xs rounded-full bg-primary-50 text-primary-700")}>
+            <span key={index} className={clsx("bg-primary-50 text-primary-700 rounded-full px-2 py-1 text-xs")}>
               {tag}
             </span>
           ))}
@@ -102,7 +102,7 @@ export const CardList = ({
       </ul>
 
       {moreBtn && (
-        <div className="flex items-center ml-4 cursor-pointer hover:bg-secondary-50 rounded-2xl transition px-4 py-6">
+        <div className="hover:bg-secondary-50 ml-4 flex cursor-pointer items-center rounded-2xl px-4 py-6 transition">
           <a href="#">
             <ArrowRightSvg />
           </a>

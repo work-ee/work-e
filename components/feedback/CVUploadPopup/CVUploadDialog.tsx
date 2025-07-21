@@ -62,23 +62,21 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
           }
         }}
       >
-        <DialogContent className="w-[800px] p-8 max-w-[unset] rounded-2xl border-none gap-6">
+        <DialogContent className="w-[800px] max-w-[unset] gap-6 rounded-2xl border-none p-8">
           <DialogHeader className="h-[82px]">
-            <DialogTitle className="heading-h2 text-neutral-900 text-center text-[36px]">Завантаж своє CV</DialogTitle>
-            <DialogDescription className="text-body text-neutral-700 text-center text-[18px]">
+            <DialogTitle className="heading-h2 text-center text-[36px] text-neutral-900">Завантаж своє CV</DialogTitle>
+            <DialogDescription className="text-body text-center text-[18px] text-neutral-700">
               Та ми підберемо для тебе найрелевантніші вакансії
             </DialogDescription>
           </DialogHeader>
 
-          <div className="flex flex-wrap gap-6 justify-center">
+          <div className="flex flex-wrap justify-center gap-6">
             <div
               className={clsx(
-                "border rounded-xl text-center w-[322px] h-[244px] m-auto p-8",
-                status === "fileSelected"
-                  ? "border-neutral-200 pointer-events-none text-neutral-200"
-                  : isUploadDisabled
-                    ? "border-neutral-200 pointer-events-none"
-                    : "border-primary-500 cursor-pointer hover:border-primary-500 transition-colors"
+                "m-auto h-[244px] w-[322px] rounded-xl border p-8 text-center",
+                isUploadDisabled
+                  ? "pointer-events-none border-neutral-200"
+                  : "border-primary-500 hover:border-primary-500 cursor-pointer transition-colors"
               )}
               onClick={!isUploadDisabled ? handleManualTrigger : undefined}
               role="button"
@@ -93,12 +91,8 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
               <SpriteSvg
                 id="icon-uploading-filed"
                 className={clsx(
-                  "mx-auto w-12 h-12 mb-4 fill-neutral-50",
-                  status === "success"
-                    ? "text-neutral-200 stroke-neutral-200"
-                    : isUploadDisabled
-                      ? "text-neutral-400 stroke-neutral-400"
-                      : "text-primary-500 stroke-primary-500"
+                  "mx-auto mb-4 h-12 w-12 fill-neutral-50",
+                  isUploadDisabled ? "stroke-neutral-400 text-neutral-400" : "text-primary-500 stroke-primary-500"
                 )}
               />
               <p
@@ -149,11 +143,7 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
                 }}
                 className={clsx(
                   "btn underline",
-                  status === "success"
-                    ? "text-neutral-200 cursor-not-allowed"
-                    : isUploadDisabled
-                      ? "text-neutral-400 cursor-not-allowed"
-                      : "text-primary-500"
+                  isUploadDisabled ? "cursor-not-allowed text-neutral-400" : "text-primary-500"
                 )}
                 disabled={isUploadDisabled}
               >
@@ -169,14 +159,14 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
               />
             </div>
 
-            <div className="flex items-center gap-1 border border-primary-500 rounded-lg px-4 py-4 h-[72px] mx-auto relative basis-full">
-              <SpriteSvg id="icon-pdf" className="w-10 h-10 text-neutral-900 fill-primary-500" />
+            <div className="border-primary-500 relative mx-auto flex h-[72px] basis-full items-center gap-1 rounded-lg border px-4 py-4">
+              <SpriteSvg id="icon-pdf" className="fill-primary-500 h-10 w-10 text-neutral-900" />
               <div className="flex-1">
-                <div className="text-sm mb-1">{fileName || "Назва файлу"}</div>
-                <div className="h-1 w-full flex rounded overflow-hidden">
+                <div className="mb-1 text-sm">{fileName || "Назва файлу"}</div>
+                <div className="flex h-1 w-full overflow-hidden rounded">
                   {status === "error" && errorType === "offline" ? (
                     <>
-                      <div className="w-1/2 bg-error-main" />
+                      <div className="bg-error-main w-1/2" />
                       <div className="w-1/2 bg-neutral-500" />
                     </>
                   ) : (
@@ -186,13 +176,13 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
               </div>
               <button
                 onClick={handleRemoveFile}
-                className="text-primary-300 hover:text-primary-500 transition-colors cursor-pointer"
+                className="text-primary-300 hover:text-primary-500 cursor-pointer transition-colors"
                 aria-label="Видалити файл"
                 type="button"
               >
                 <SpriteSvg
                   id="icon-close-without-circle"
-                  className="w-[14px] h-[14px] text-neutral-900 fill-primary-500"
+                  className="fill-primary-500 h-[14px] w-[14px] text-neutral-900"
                 />
               </button>
             </div>
@@ -210,7 +200,7 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
                   <button
                     type="button"
                     onClick={handleManualTrigger}
-                    className="text-body text-primary-500 cursor-pointer contents"
+                    className="btn text-primary-500 contents cursor-pointer"
                   >
                     натиснувши тут
                   </button>
@@ -223,12 +213,12 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
             )}
 
             <div className="flex gap-x-6">
-              <Button variant="secondary" className="w-[356px] h-[62px] justify-center items-center" onClick={() => {}}>
+              <Button variant="secondary" className="h-[62px] w-[356px] items-center justify-center" onClick={() => {}}>
                 Створити CV
               </Button>
               <Button
                 disabled={isSubmitDisabled}
-                className="w-[356px] h-[62px] flex justify-center items-center"
+                className="flex h-[62px] w-[356px] items-center justify-center"
                 onClick={() => handleSubmit()}
               >
                 Зберегти CV

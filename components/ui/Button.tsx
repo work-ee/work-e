@@ -27,7 +27,7 @@ export const Button = ({
   className,
 }: Props) => {
   const base =
-    "group rounded-[8px] py-3.5 px-8 btn inline-flex items-center gap-2 border-2 transition-colors duration-200 cursor-pointer ";
+    "group rounded-[8px] py-3.5 px-7.5 btn inline-flex items-center gap-2 border-2 transition-colors duration-200 cursor-pointer ";
 
   const variants = {
     main: clsx(
