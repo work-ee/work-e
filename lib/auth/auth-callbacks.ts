@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const handleGoogleLogin = async ({ user, account }: Props) => {
-  console.log("handleGoogleLogin", user, account);
+  // console.log("handleGoogleLogin", user, account);
 
   if (!account.id_token) {
     console.error("❌ handleGoogleLogin: No id_token found in account");
@@ -20,7 +20,7 @@ export const handleGoogleLogin = async ({ user, account }: Props) => {
 
   try {
     const data = await fetchTokenWithRetry(`${process.env.API_URL}/api/users/google/login/`, account.id_token!);
-    console.log("🚨", data, "🏁");
+    // console.log("🚨", data, "🏁");
 
     // -> Saving backend token and user data to the user object
     user.backendToken = data.token;
@@ -37,7 +37,7 @@ export const handleGoogleLogin = async ({ user, account }: Props) => {
 };
 
 export const handleLinkedInLogin = async ({ user, account }: Props) => {
-  console.log("handleLinkedInLogin", user, account);
+  // console.log("handleLinkedInLogin", user, account);
 
   if (!account.id_token) {
     console.error("❌ handleLinkedInLogin: No id_token found in account");
@@ -46,7 +46,7 @@ export const handleLinkedInLogin = async ({ user, account }: Props) => {
 
   try {
     const data = await fetchTokenWithRetry(`${process.env.API_URL}/api/users/linkedin/login/`, account.id_token!);
-    console.log("🚨", data, "🏁");
+    // console.log("🚨", data, "🏁");
 
     // -> Saving backend token and user data to the user object
     user.backendToken = data.token;
