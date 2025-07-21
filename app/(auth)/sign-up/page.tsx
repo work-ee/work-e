@@ -20,18 +20,18 @@ export default async function Register() {
     <main className="center-page">
       <section className="section">
         <div className="container">
-          <div className="flex items-center gap-8 flex-col min-h-[420px]">
+          <div className="flex min-h-[420px] flex-col items-center gap-8">
             <div className="flex flex-col text-center">
               <h1 className="heading-h2">Зареєструватись на Work - E</h1>
             </div>
 
             <Tabs defaultValue="sign-in" className="gap-8">
-              <TabsList className="bg-white h-auto rounded-none p-0 flex justify-between">
+              <TabsList className="flex h-auto justify-between rounded-none bg-white p-0">
                 <TabsTrigger
                   value="sign-in"
-                  className="min-w-[18rem] data-[state=active]:bg-secondary-50 p-5 h-auto outline data-[state=active]:outline-primary-700 rounded-none transition duration-300"
+                  className="data-[state=active]:bg-secondary-50 data-[state=active]:outline-primary-700 h-auto min-w-[18rem] rounded-none p-5 outline transition duration-300"
                 >
-                  <div className="flex flex-col items-center gap-3 text-primary-900">
+                  <div className="text-primary-900 flex flex-col items-center gap-3">
                     <SearchJobSvg className="size-12" />
                     <h3 className="heading-h3">Шукаю роботу</h3>
                   </div>
@@ -39,9 +39,9 @@ export default async function Register() {
 
                 <TabsTrigger
                   value="sign-up"
-                  className="min-w-[18rem] data-[state=active]:bg-secondary-50 p-5 h-auto outline data-[state=active]:outline-primary-700 rounded-none transition duration-300"
+                  className="data-[state=active]:bg-secondary-50 data-[state=active]:outline-primary-700 h-auto min-w-[18rem] rounded-none p-5 outline transition duration-300"
                 >
-                  <div className="flex flex-col items-center gap-3 text-primary-900">
+                  <div className="text-primary-900 flex flex-col items-center gap-3">
                     <BuildingSvg className="size-12" />
                     <h3 className="heading-h3">Шукаю спеціаліста</h3>
                   </div>
@@ -51,16 +51,16 @@ export default async function Register() {
                 value="sign-in"
                 className="data-[state=active]:animate-in data-[state=active]:fade-in data-[state=active]:zoom-in data-[state=inactive]:animate-fade-out data-[state=inactive]:fade-out data-[state=inactive]:zoom-out"
               >
-                <div className="flex flex-col justify-center items-center">
-                  <div className="text-center my-4 flex flex-col gap-4">
-                    <div className="text-center gap-2 flex flex-col">
+                <div className="flex flex-col items-center justify-center">
+                  <div className="my-4 flex flex-col gap-4 text-center">
+                    <div className="flex flex-col gap-2 text-center">
                       <GoogleSignIn />
                       <LinkedinSignIn />
                     </div>
                   </div>
 
                   <div className="text-neutral-800">
-                    <Link className="text-link font-medium font-rubik" href="/sign-in">
+                    <Link className="text-link font-rubik font-medium" href="/sign-in">
                       Увійти в існуючий
                     </Link>
                   </div>
@@ -71,9 +71,9 @@ export default async function Register() {
                 value="sign-up"
                 className="data-[state=active]:animate-in data-[state=active]:fade-in data-[state=active]:zoom-in data-[state=inactive]:animate-fade-out data-[state=inactive]:fade-out data-[state=inactive]:zoom-out"
               >
-                <div className="flex flex-col justify-center items-center">
-                  <div className="text-center my-4 flex flex-col gap-4">
-                    <p className="text-2xl ">
+                <div className="flex flex-col items-center justify-center">
+                  <div className="my-4 flex flex-col gap-4 text-center">
+                    <p className="text-2xl">
                       Ця функція буде доступна зовсім скоро! <br /> Ми вже працюємо над нею
                     </p>
                   </div>

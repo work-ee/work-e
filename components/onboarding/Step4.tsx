@@ -15,7 +15,7 @@ export const Step4 = () => {
         subtitle="Тепер ти бачиш найкращі вакансії саме під тебе. Відгукуйся, зберігай, отримуй нові пропозиції — удачі"
       />
 
-      <div className="flex gap-12 justify-center mt-8">
+      <div className="mt-8 flex justify-center gap-12">
         <Button>
           <Search />
           Знайти ідеальну роботу

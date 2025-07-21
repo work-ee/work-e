@@ -241,7 +241,7 @@ export default function UiKit() {
         </Button>
       </section>
       <section className="section">
-        <form onSubmit={handleSubmit} noValidate className="max-w-md mx-auto bg-white p-8 rounded shadow-md">
+        <form onSubmit={handleSubmit} noValidate className="mx-auto max-w-md rounded bg-white p-8 shadow-md">
           <Input
             id="username"
             name="username"
@@ -443,7 +443,7 @@ export default function UiKit() {
         </div>
       </section>
       <section className="section flex flex-col items-center gap-y-4">
-        <form onSubmit={handleSubmitRadio} className="max-w-md mx-auto bg-white p-8 rounded shadow-md space-y-4">
+        <form onSubmit={handleSubmitRadio} className="mx-auto max-w-md space-y-4 rounded bg-white p-8 shadow-md">
           <RadioButton
             name="answer"
             value="yes"
@@ -479,7 +479,7 @@ export default function UiKit() {
         </form>
       </section>
       <section className="section flex flex-col items-center gap-y-4">
-        <div className="p-4 space-y-4">
+        <div className="space-y-4 p-4">
           <Toggle name="toggle-example" isChecked={toggled} onChange={handleToggle} />
           <p className="text-sm">
             Стан перемикача: <strong>{toggled ? "Увімкнено" : "Вимкнено"}</strong>
@@ -488,10 +488,10 @@ export default function UiKit() {
         </div>
       </section>
       <section className="section flex flex-col items-center gap-y-4">
-        <div className="p-8 space-y-8 max-w-lg mx-auto bg-gray-50 rounded-lg shadow-xl">
-          <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6">Кастомні слайдери</h2>
+        <div className="mx-auto max-w-lg space-y-8 rounded-lg bg-gray-50 p-8 shadow-xl">
+          <h2 className="mb-6 text-center text-3xl font-extrabold text-gray-800">Кастомні слайдери</h2>
 
-          <div className="bg-white p-10 rounded-md shadow-sm border border-gray-200">
+          <div className="rounded-md border border-gray-200 bg-white p-10 shadow-sm">
             <Slider
               min={0}
               max={100}
@@ -500,14 +500,14 @@ export default function UiKit() {
               onChange={(from, to) => setRange({ from, to })}
             />
           </div>
-          <div className="bg-white p-10 rounded-md shadow-sm border border-gray-200">
+          <div className="rounded-md border border-gray-200 bg-white p-10 shadow-sm">
             <Slider min={0} max={100} fromValue={10} toValue={60} onChange={() => {}} disabled />
           </div>
         </div>
       </section>
       <section className="section flex flex-col items-center gap-y-4">
         <div>
-          <h2 className="text-xl font-semibold mb-2">Основний Dropdown</h2>
+          <h2 className="mb-2 text-xl font-semibold">Основний Dropdown</h2>
           <DropdownBlock
             triggerText="Обрати опцію"
             options={menuOptions}
@@ -517,7 +517,7 @@ export default function UiKit() {
         </div>
       </section>
       <section className="section flex flex-col items-center gap-y-4">
-        <h2 className="text-xl mb-2">Пагінація</h2>
+        <h2 className="mb-2 text-xl">Пагінація</h2>
         <PaginationBlock
           totalPages={totalPages}
           currentPage={currentPage}
@@ -527,23 +527,23 @@ export default function UiKit() {
         />
 
         <div className="mt-8">
-          <h2 className="text-xl mb-2">Приклад вимкненої пагінації</h2>
+          <h2 className="mb-2 text-xl">Приклад вимкненої пагінації</h2>
           <PaginationBlock totalPages={5} currentPage={1} onPageChange={handlePageChange} disabled={true} />
         </div>
       </section>
 
-      <div className="min-h-screen flex flex-col items-center py-10 px-4 sm:px-6 lg:px-8 font-rubik">
-        <h1 className="text-4xl font-extrabold text-gray-900 mb-8 text-center">Генератор Мотиваційних Листів</h1>
-        <h3 className="text-2xl font-semibold  text-error-main heading-h3">
+      <div className="font-rubik flex min-h-screen flex-col items-center px-4 py-10 sm:px-6 lg:px-8">
+        <h1 className="mb-8 text-center text-4xl font-extrabold text-gray-900">Генератор Мотиваційних Листів</h1>
+        <h3 className="text-error-main heading-h3 text-2xl font-semibold">
           Тестувати обережно, платний тариф !!!!!!!!!!!!!
         </h3>
 
-        <div className="bg-white p-8 rounded-lg shadow-xl max-w-4xl w-full mb-8">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6">Вставте повний опис вакансії</h2>
+        <div className="mb-8 w-full max-w-4xl rounded-lg bg-white p-8 shadow-xl">
+          <h2 className="mb-6 text-2xl font-semibold text-gray-800">Вставте повний опис вакансії</h2>
 
-          <div className="grid grid-cols-1 gap-6 mb-6">
+          <div className="mb-6 grid grid-cols-1 gap-6">
             <div>
-              <label htmlFor="jobDescription" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="jobDescription" className="mb-1 block text-sm font-medium text-gray-700">
                 Текст оголошення про вакансію:
               </label>
               <textarea
@@ -552,7 +552,7 @@ export default function UiKit() {
                 onChange={handleJobDescriptionChange}
                 placeholder="Вставте сюди повний текст оголошення про вакансію (назву вакансії, компанію, вимоги, бажану мову тощо). Модель спробує автоматично витягнути необхідні дані."
                 rows={15} // Збільшуємо висоту textarea
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm resize-y"
+                className="mt-1 block w-full resize-y rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none sm:text-sm"
               ></textarea>
             </div>
           </div>

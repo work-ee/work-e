@@ -39,12 +39,12 @@ export const GoogleSignIn = ({ className = "", children, callbackUrl = "/onboard
       onClick={handleGoogleSignIn}
       disabled={isLoading}
       className={clsx(
-        "flex cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed justify-center items-center gap-3 px-4 min-w-[420px] py-3 border border-neutral-200 rounded-md hover:border-primary-900 transition-colors",
+        "hover:border-primary-900 flex min-w-[420px] cursor-pointer items-center justify-center gap-3 rounded-md border border-neutral-200 px-4 py-3 transition-colors disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
     >
       {isLoading ? (
-        <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
       ) : (
         <GoogleSvg />
       )}

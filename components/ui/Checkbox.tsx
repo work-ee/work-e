@@ -50,7 +50,7 @@ export const Checkbox: FC<Props> = ({
   const icon = (
     <SpriteSvg
       id="icon-checkbox-check"
-      className={clsx("w-4 h-4", {
+      className={clsx("h-4 w-4", {
         "fill-success-main": status === "success",
         "fill-error-main": status === "error",
         "fill-primary-300": status === "default",

@@ -20,15 +20,15 @@ export default async function Home() {
       <section className="section">
         <div className="container">
           <ul className="grid grid-cols-3">
-            <li className="flex flex-col gap-2 items-center text-center">
+            <li className="flex flex-col items-center gap-2 text-center">
               <b className="heading-h2 text-primary-700 font-black">90,000+</b>
               <p className="heading-h3">потенційних кандидатів</p>
             </li>
-            <li className="flex flex-col gap-2 items-center text-center">
+            <li className="flex flex-col items-center gap-2 text-center">
               <b className="heading-h2 text-primary-700 font-black">50,000+</b>
               <p className="heading-h3">IT-компаній</p>
             </li>
-            <li className="flex flex-col gap-2 items-center text-center">
+            <li className="flex flex-col items-center gap-2 text-center">
               <b className="heading-h2 text-primary-700 font-black">100%</b>
               <p className="heading-h3">автоматизації процесів</p>
             </li>
@@ -47,16 +47,16 @@ export default async function Home() {
 
       <section className="section">
         <div className="container">
-          <ul className="grid xl:grid-cols-3 gap-12 justify-around">
-            <li className="flex flex-col items-center gap-4 text-center px-4 py-6 rounded-2xl bg-secondary-50">
-              <h3 className="heading-h3 text-primary-700  ">
+          <ul className="grid justify-around gap-12 xl:grid-cols-3">
+            <li className="bg-secondary-50 flex flex-col items-center gap-4 rounded-2xl px-4 py-6 text-center">
+              <h3 className="heading-h3 text-primary-700">
                 Чому саме <br /> Work-e?
               </h3>
               {/* <img src="./icons/checked.svg" alt="" /> */}
               <CheckArrowSvg />
               <p>За допомогою AI створіть ідеальне резюме та супроводжуючий лист, підберіть вакансії для себе.</p>
             </li>
-            <li className="flex flex-col items-center gap-4 text-center px-4 py-6 rounded-2xl bg-secondary-50">
+            <li className="bg-secondary-50 flex flex-col items-center gap-4 rounded-2xl px-4 py-6 text-center">
               <h3 className="heading-h3 text-primary-700">Як швидко я отримаю вакансії?</h3>
               {/* <img src="./icons/time.svg" alt="" /> */}
               <ClockSvg />
@@ -64,7 +64,7 @@ export default async function Home() {
                 Залежить від вашого досвіду, <br /> але наш AI швидко підбере найкращі варіанти.
               </p>
             </li>
-            <li className="flex flex-col items-center gap-4 text-center px-4 py-6 rounded-2xl bg-secondary-50">
+            <li className="bg-secondary-50 flex flex-col items-center gap-4 rounded-2xl px-4 py-6 text-center">
               <h3 className="heading-h3 text-primary-700">Чи можна залишитися анонімним?</h3>
               {/* <img src="./icons/incognito.svg" alt="" /> */}
               <SafetySvg />

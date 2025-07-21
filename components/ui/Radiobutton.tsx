@@ -50,7 +50,7 @@ export const RadioButton: FC<Props> = ({
 
         <div
           className={clsx(
-            "w-8 h-8 rounded-full border-1 flex items-center justify-center transition-colors",
+            "flex h-8 w-8 items-center justify-center rounded-full border-1 transition-colors",
             disabled ? "bg-neutral-100" : "bg-neutral-50",
             !disabled &&
               clsx(
@@ -60,13 +60,13 @@ export const RadioButton: FC<Props> = ({
                     ? "border-success-main"
                     : checked
                       ? "border-primary-100"
-                      : "border-primary-100 hover:border-primary-300 hover:shadow-[0px_0px_8px_0px_rgba(120,170,227,0.4)] active:border-primary-500 active:bg-primary-100 active:shadow-[0px_0px_8px_0px_rgba(120,170,227,0.6)]"
+                      : "border-primary-100 hover:border-primary-300 active:border-primary-500 active:bg-primary-100 hover:shadow-[0px_0px_8px_0px_rgba(120,170,227,0.4)] active:shadow-[0px_0px_8px_0px_rgba(120,170,227,0.6)]"
               )
           )}
         >
           <div
             className={clsx(
-              "w-4 h-4 rounded-full transition-opacity",
+              "h-4 w-4 rounded-full transition-opacity",
               isError
                 ? "bg-error-main opacity-100"
                 : isSuccess
@@ -84,7 +84,7 @@ export const RadioButton: FC<Props> = ({
       {messageText && (
         <span
           role={isError ? "alert" : "status"}
-          className={clsx("block mt-1 text-micro2", isError && "text-error-main", isSuccess && "text-success-main")}
+          className={clsx("text-micro2 mt-1 block", isError && "text-error-main", isSuccess && "text-success-main")}
         >
           {messageText}
         </span>
