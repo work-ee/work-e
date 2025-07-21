@@ -1,6 +1,6 @@
 import ClientOnboarding from "@/components/onboarding/ClientOnboarding";
 
-import GetSession from "@/lib/get-session";
+import GetSession from "@/lib/auth/get-session";
 
 export default async function OnboardingPage() {
   const session = await GetSession();

@@ -1,6 +1,6 @@
 import { Profile } from "@/components/profile/Profile";
 
-import GetSession from "@/lib/get-session";
+import GetSession from "@/lib/auth/get-session";
 
 export default async function ProfilePage() {
   const session = await GetSession();

@@ -1,4 +1,4 @@
-export async function fetchGoogleTokenWithRetry(url: string, idToken: string, retries = 4, delayMs = 1500) {
+export async function fetchTokenWithRetry(url: string, idToken: string, retries = 4, delayMs = 1500) {
   for (let attempt = 0; attempt < retries; attempt++) {
     const res = await fetch(url, {
       method: "POST",

@@ -29,7 +29,7 @@ export default async function Register() {
               <TabsList className="flex h-auto justify-between rounded-none bg-white p-0">
                 <TabsTrigger
                   value="sign-in"
-                  className="data-[state=active]:bg-secondary-50 data-[state=active]:outline-primary-700 h-auto min-w-[18rem] rounded-none p-5 outline transition duration-300"
+                  className="data-[state=active]:bg-secondary-50 data-[state=active]:outline-primary-700 h-auto min-w-[18rem] cursor-pointer rounded-none p-5 outline transition duration-300"
                 >
                   <div className="text-primary-900 flex flex-col items-center gap-3">
                     <SearchJobSvg className="size-12" />
@@ -39,7 +39,7 @@ export default async function Register() {
 
                 <TabsTrigger
                   value="sign-up"
-                  className="data-[state=active]:bg-secondary-50 data-[state=active]:outline-primary-700 h-auto min-w-[18rem] rounded-none p-5 outline transition duration-300"
+                  className="data-[state=active]:bg-secondary-50 data-[state=active]:outline-primary-700 h-auto min-w-[18rem] cursor-pointer rounded-none p-5 outline transition duration-300"
                 >
                   <div className="text-primary-900 flex flex-col items-center gap-3">
                     <BuildingSvg className="size-12" />
