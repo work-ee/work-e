@@ -32,7 +32,8 @@ export const handleGoogleLogin = async ({ user, account }: Props) => {
     return true;
   } catch (err) {
     console.error("❌ handleGoogleLogin exception:", err);
-    return false;
+    // Throw error with specific message for NextAuth to handle
+    throw new Error("Failed to authenticate with backend server");
   }
 };
 
@@ -58,6 +59,7 @@ export const handleLinkedInLogin = async ({ user, account }: Props) => {
     return true;
   } catch (error) {
     console.error("❌ handleLinkedInLogin exception:", error);
-    return false;
+    // Throw error with specific message for NextAuth to handle
+    throw new Error("Failed to authenticate with backend server");
   }
 };
