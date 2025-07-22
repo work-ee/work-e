@@ -1,15 +1,9 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 import { GoogleSignIn } from "@/components/auth/GoogleSignIn";
 import { LinkedinSignIn } from "@/components/auth/LinkedinSignIn";
 
-import { auth } from "@/lib/auth";
-
 const Page = async () => {
-  const session = await auth();
-  if (session) redirect("/");
-
   return (
     <main className="center-page">
       <section className="section">

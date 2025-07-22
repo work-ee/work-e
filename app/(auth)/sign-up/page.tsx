@@ -1,21 +1,13 @@
 import React from "react";
 
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 import { GoogleSignIn } from "@/components/auth/GoogleSignIn";
 import { LinkedinSignIn } from "@/components/auth/LinkedinSignIn";
 import { BuildingSvg, SearchJobSvg } from "@/components/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs";
 
-import { auth } from "@/lib/auth";
-
 export default async function Register() {
-  const session = await auth();
-  if (session) {
-    redirect("/");
-  }
-
   return (
     <main className="center-page">
       <section className="section">

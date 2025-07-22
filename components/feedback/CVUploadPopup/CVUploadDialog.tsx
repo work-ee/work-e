@@ -46,7 +46,7 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
     fileSelected: "bg-success-main",
   }[status];
 
-  const isUploadDisabled = status === "uploading" || status === "success";
+  const isUploadDisabled = status === "uploading" || status === "success" || status === "fileSelected";
   const isSecondaryUploadButtonVisible = status === "error";
   return (
     <>
@@ -95,13 +95,43 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
                   isUploadDisabled ? "stroke-neutral-400 text-neutral-400" : "text-primary-500 stroke-primary-500"
                 )}
               />
-              <p className={clsx("text-micro pb-4", isUploadDisabled ? "text-neutral-400" : "")}>
+              <p
+                className={clsx(
+                  "text-micro pb-4",
+                  status === "success" ? "text-neutral-200" : isUploadDisabled ? "text-neutral-400" : ""
+                )}
+              >
                 Завантаж CV : у форматі{" "}
-                <span className={isUploadDisabled ? "text-neutral-400" : "text-primary-500"}>PDF</span>
+                <span
+                  className={
+                    status === "success"
+                      ? "text-neutral-200"
+                      : isUploadDisabled
+                        ? "text-neutral-400"
+                        : "text-primary-500"
+                  }
+                >
+                  PDF
+                </span>
               </p>
-              <p className={clsx("text-micro pb-4", isUploadDisabled ? "text-neutral-400" : "")}>
+              <p
+                className={clsx(
+                  "text-micro pb-4",
+                  status === "success" ? "text-neutral-200" : isUploadDisabled ? "text-neutral-400" : ""
+                )}
+              >
                 максимальний розмір файлу{" "}
-                <span className={isUploadDisabled ? "text-neutral-400" : "text-primary-500"}>10MB</span>
+                <span
+                  className={
+                    status === "success"
+                      ? "text-neutral-200"
+                      : isUploadDisabled
+                        ? "text-neutral-400"
+                        : "text-primary-500"
+                  }
+                >
+                  10MB
+                </span>
               </p>
               <button
                 type="button"
