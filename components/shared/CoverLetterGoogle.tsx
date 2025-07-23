@@ -2,6 +2,10 @@
 
 import React, { ChangeEvent, useState } from "react";
 
+import clsx from "clsx";
+
+import { SpriteSvg } from "@/components/icons/SpriteSvg";
+
 import { Button } from "../ui";
 import { Textarea } from "../ui/shadcn/textarea";
 
@@ -9,22 +13,24 @@ interface CoverLetterGoogleProps {
   jobDescription: string;
 }
 
+const MAX_CHAR_LIMIT = 1500;
+
 export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) => {
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const countWords = (text: string): number => text.trim().split(/\s+/).filter(Boolean).length;
+  const countCharacters = (text: string): number => text.trim().length;
+  const isDisabled = !jobDescription.trim() || isLoading;
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
-    const words = countWords(value);
+    const characters = countCharacters(value);
 
-    if (words <= 400 || value.length < text.length) {
+    if (characters <= MAX_CHAR_LIMIT || value.length < text.length) {
       setText(value);
       setError(null);
     } else {
-      setError("Кількість слів перевищує ліміт у 400.");
+      setError(`Кількість символів перевищує ліміт у ${MAX_CHAR_LIMIT}.`);
       console.error(error);
     }
   };
@@ -58,13 +64,12 @@ export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) =>
       const data = await response.json();
       const generatedText = data.coverLetter;
 
-      if (countWords(generatedText) <= 400) {
+      if (countCharacters(generatedText) <= MAX_CHAR_LIMIT) {
         setText(generatedText);
       } else {
-        const wordsArray = generatedText.split(/\s+/);
-        const trimmedText = wordsArray.slice(0, 400).join(" ");
+        const trimmedText = generatedText.substring(0, MAX_CHAR_LIMIT);
         setText(trimmedText + "...");
-        setError("Згенерований текст був обрізаний до 400 слів.");
+        setError(`Згенерований текст був обрізаний до ${MAX_CHAR_LIMIT} слів.`);
         console.error(error);
       }
     } catch (error: unknown) {
@@ -81,7 +86,7 @@ export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) =>
     }
   };
 
-  const wordCount = countWords(text);
+  const characterCount = countCharacters(text);
 
   return (
     <section className="section container">
@@ -94,13 +99,27 @@ export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) =>
         <Textarea
           value={text}
           onChange={handleChange}
-          className="border-secondary-300 input-text text-secondary-400 h-[241px] w-full resize-none gap-3 rounded-lg border px-8 pt-2.5 pb-10 outline-none hover:outline-none focus:outline-none active:outline-none"
+          className="border-secondary-300 input-text text-secondary-400 min-h-[241px] w-full resize-none gap-3 rounded-lg border px-8 pt-2.5 pb-26.5 outline-none hover:outline-none focus:outline-none active:outline-none"
         />
         <div className="absolute right-8 bottom-8 left-8 flex items-center justify-between">
-          <Button variant="secondary" className="h-15.5 w-56.5" iconAI onClick={handleGenerateClick}>
+          <Button variant="secondary" className="h-15.5 w-56.5" onClick={handleGenerateClick} disabled={isDisabled}>
+            <SpriteSvg
+              id="icon-AI"
+              className={clsx(
+                "mx-auto h-6 w-6",
+                {
+                  "stroke-primary-300 fill-primary-300": !isDisabled,
+                  "fill-neutral-100 stroke-neutral-100": isDisabled,
+                },
+                !isDisabled &&
+                  "group-hover:stroke-primary-700 group-hover:fill-primary-700 group-active:stroke-primary-900 group-active:fill-primary-900"
+              )}
+            />
             {isLoading ? "Генеруємо..." : "Згенерувати"}
           </Button>
-          <div className="text-secondary-500 text-sm">{wordCount}/400</div>
+          <div className="text-secondary-600 text-sm">
+            {characterCount}/{MAX_CHAR_LIMIT}
+          </div>
         </div>
       </div>
     </section>
