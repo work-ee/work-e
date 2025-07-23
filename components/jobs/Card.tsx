@@ -16,7 +16,7 @@ export const Card = ({ id, company, title, logo, body }: Props) => {
         id={`job-${id}`}
         className={cn(
           "text-primary-700 flex flex-col gap-1 rounded-2xl px-4 py-6 transition",
-          "hover:bg-secondary-50 hover:shadow-[0_0_0_2px_#E5E7EB]"
+          "hover:bg-secondary-50 transition-shadow hover:shadow-[0_0_0_2px_var(--color-primary-100)]"
         )}
       >
         <span className="heading-h3 font-rubik flex items-center">
