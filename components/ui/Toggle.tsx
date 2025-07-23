@@ -33,7 +33,7 @@ export const Toggle: FC<Props> = ({ name, compId = "toggleId", isChecked = false
 
       <span
         className={clsx(
-          "absolute top-0 right-0 left-0 h-[26px] rounded-[16px] border transition-colors duration-500",
+          "absolute top-0 right-0 left-0 h-[26px] rounded-[16px] border transition-colors",
           disabled
             ? "border-neutral-200 peer-hover:border-neutral-400"
             : isChecked

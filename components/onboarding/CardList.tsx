@@ -1,5 +1,7 @@
 import React from "react";
 
+import Link from "next/link";
+
 import clsx from "clsx";
 
 import { ArrowRightSvg } from "@/components/icons";
@@ -102,11 +104,12 @@ export const CardList = ({
       </ul>
 
       {moreBtn && (
-        <div className="hover:bg-secondary-50 ml-4 flex cursor-pointer items-center rounded-2xl px-4 py-6 transition">
-          <a href="#">
-            <ArrowRightSvg />
-          </a>
-        </div>
+        <Link
+          href="/jobs"
+          className="hover:bg-secondary-50 ml-4 flex cursor-pointer items-center rounded-2xl px-4 py-6 transition"
+        >
+          <ArrowRightSvg />
+        </Link>
       )}
     </>
   );

@@ -374,3 +374,13 @@ input[type="range"]:disabled::-moz-range-thumb {
   border-color: var(--color-neutral-300);
   cursor: not-allowed;
 }
+
+.aside-wrapper {
+  @apply flex flex-wrap items-stretch justify-between;
+}
+.article {
+  @apply w-full max-w-[870px] py-12 sm:px-6 lg:px-8;
+}
+.aside {
+  @apply flex w-full max-w-[320px] flex-shrink-0 flex-col gap-4 py-12;
+}

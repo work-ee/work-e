@@ -1,0 +1,50 @@
+import clsx from "clsx";
+
+import { cn } from "@/lib/utils";
+
+import { JobProps } from "@/types/jobs";
+
+interface Props extends JobProps {
+  muted?: boolean;
+}
+
+export const Card = ({ id, company, title, logo, body }: Props) => {
+  return (
+    <li className="flex h-full items-stretch">
+      <a
+        href="#"
+        id={`job-${id}`}
+        className={cn(
+          "text-primary-700 flex flex-col gap-1 rounded-2xl px-4 py-6 transition",
+          "hover:bg-secondary-50 hover:shadow-[0_0_0_2px_#E5E7EB]"
+        )}
+      >
+        <span className="heading-h3 font-rubik flex items-center">
+          {logo && <img src={logo} alt={`${company} icon`} className="mr-2 inline-flex max-w-[24px]" />}
+          {company}
+
+          {body?.isApplied && (
+            <ul className="ml-auto flex flex-wrap gap-1">
+              <li className={clsx("bg-success-main rounded-md px-2 py-1 text-xs text-white")}>Заявка подана</li>
+            </ul>
+          )}
+        </span>
+        <h2 className="heading-h2 text-primary-700 leading-tight">{title}</h2>
+        <ul className="mb-2 flex flex-wrap gap-1">
+          {body?.tags?.map((tag, index) => (
+            <li key={index} className={clsx("bg-accent-50 text-primary-700 rounded-md px-2 py-1 text-xs")}>
+              {tag}
+            </li>
+          ))}
+        </ul>
+
+        <p>{body?.text}</p>
+
+        <div className="mt-2 flex flex-wrap gap-2 text-xs text-neutral-900">
+          <span>2 години тому</span>
+          <span>16 переглядів</span>
+        </div>
+      </a>
+    </li>
+  );
+};
