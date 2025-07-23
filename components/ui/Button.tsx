@@ -9,7 +9,6 @@ type Props = {
   children: React.ReactNode;
   variant?: Variant;
   icon?: boolean;
-  iconAI?: boolean;
   disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type?: "button" | "submit" | "reset";
@@ -20,7 +19,6 @@ export const Button = ({
   children,
   variant = "main",
   icon = false,
-  iconAI = false,
   disabled = false,
   onClick,
   type = "submit",
@@ -38,7 +36,7 @@ export const Button = ({
       "disabled:bg-neutral-200 disabled:border-neutral-200 disabled:text-neutral-50 disabled:cursor-not-allowed"
     ),
     secondary: clsx(
-      "bg-neutral-50 border-primary-300 text-primary-500",
+      "bg-neutral-50 border-primary-300 text-primary-300",
       !disabled &&
         "hover:text-primary-700 hover:border-primary-700 hover:shadow-[4px_4px_10px_0px_rgba(80,149,192,0.4)]",
       "active:text-primary-900 active:border-primary-900 active:shadow-[4px_4px_10px_0px_rgba(39,114,160,0.4)]",
@@ -73,18 +71,6 @@ export const Button = ({
       {icon && (
         <SpriteSvg
           id="icon-off"
-          className={clsx(
-            "h-5 w-5 stroke-current",
-            fillClasses[variant].default,
-            fillClasses[variant].hover,
-            fillClasses[variant].active,
-            fillClasses[variant].disabled
-          )}
-        />
-      )}
-      {iconAI && (
-        <SpriteSvg
-          id="icon-AI"
           className={clsx(
             "h-5 w-5 stroke-current",
             fillClasses[variant].default,
