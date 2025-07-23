@@ -1,9 +1,16 @@
-export async function fetchTokenWithRetry(url: string, idToken: string, retries = 4, delayMs = 1500) {
+interface Props {
+  url: string;
+  accessToken: string;
+  retries?: number;
+  delayMs?: number;
+}
+
+export async function fetchTokenWithRetry({ url, accessToken, retries = 4, delayMs = 1500 }: Props) {
   for (let attempt = 0; attempt < retries; attempt++) {
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id_token: idToken }),
+      body: JSON.stringify({ access_token: accessToken }),
     });
 
     if (res.ok) {

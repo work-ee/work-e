@@ -5,7 +5,7 @@ import { fetchTokenWithRetry } from "./fetchTokenWithRetry";
 
 interface Props {
   user: User;
-  account: Account & { id_token?: string };
+  account: Account & { access_token?: string };
   profile?: Profile & GoogleProfile;
   session?: Session;
 }
@@ -13,13 +13,17 @@ interface Props {
 export const handleGoogleLogin = async ({ user, account }: Props) => {
   // console.log("handleGoogleLogin", user, account);
 
-  if (!account.id_token) {
-    console.error("❌ handleGoogleLogin: No id_token found in account");
+  if (!account.access_token) {
+    console.error("❌ handleGoogleLogin: No access_token found in account");
     return false;
   }
 
   try {
-    const data = await fetchTokenWithRetry(`${process.env.API_URL}/api/users/google/login/`, account.id_token!);
+    const data = await fetchTokenWithRetry({
+      url: `${process.env.API_URL}/api/users/google/login/`,
+      accessToken: account.access_token,
+    });
+
     // console.log("🚨", data, "🏁");
 
     // -> Saving backend token and user data to the user object
@@ -40,13 +44,16 @@ export const handleGoogleLogin = async ({ user, account }: Props) => {
 export const handleLinkedInLogin = async ({ user, account }: Props) => {
   // console.log("handleLinkedInLogin", user, account);
 
-  if (!account.id_token) {
-    console.error("❌ handleLinkedInLogin: No id_token found in account");
+  if (!account.access_token) {
+    console.error("❌ handleLinkedInLogin: No access_token found in account");
     return false;
   }
 
   try {
-    const data = await fetchTokenWithRetry(`${process.env.API_URL}/api/users/linkedin/login/`, account.id_token!);
+    const data = await fetchTokenWithRetry({
+      url: `${process.env.API_URL}/api/users/linkedin/login/`,
+      accessToken: account.access_token,
+    });
     // console.log("🚨", data, "🏁");
 
     // -> Saving backend token and user data to the user object
