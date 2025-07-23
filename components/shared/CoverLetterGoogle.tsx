@@ -19,26 +19,37 @@ export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) =>
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
   const countCharacters = (text: string): number => text.trim().length;
-  const isDisabled = !jobDescription.trim() || isLoading;
+
+  const isDisabled = !jobDescription.trim() || isLoading || text.trim().length > 0;
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
+    setText(value);
+
     const characters = countCharacters(value);
 
-    if (characters <= MAX_CHAR_LIMIT || value.length < text.length) {
-      setText(value);
-      setError(null);
+    if (characters > MAX_CHAR_LIMIT) {
+      const exceededBy = characters - MAX_CHAR_LIMIT;
+      setError(`Перевищено ліміт на ${exceededBy} символів.`);
     } else {
-      setError(`Кількість символів перевищує ліміт у ${MAX_CHAR_LIMIT}.`);
-      console.error(error);
+      setError(null);
     }
   };
 
   const handleGenerateClick = async () => {
     if (!jobDescription.trim()) {
       setError("Будь ласка, вставте повний опис вакансії для генерації мотиваційного листа.");
-      console.error(error);
+      return;
+    }
+
+    if (text.trim().length > 0) {
+      setError("Поле вже містить текст. Очистіть його, щоб згенерувати новий лист.");
+      return;
+    }
+    if (countCharacters(text) > MAX_CHAR_LIMIT) {
+      setError(`Кількість символів перевищує ліміт у ${MAX_CHAR_LIMIT}. Будь ласка, скоротіть текст.`);
       return;
     }
 
@@ -66,20 +77,18 @@ export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) =>
 
       if (countCharacters(generatedText) <= MAX_CHAR_LIMIT) {
         setText(generatedText);
+        setError(null);
       } else {
         const trimmedText = generatedText.substring(0, MAX_CHAR_LIMIT);
         setText(trimmedText + "...");
-        setError(`Згенерований текст був обрізаний до ${MAX_CHAR_LIMIT} слів.`);
-        console.error(error);
+        setError(`Згенерований текст був обрізаний до ${MAX_CHAR_LIMIT} символів.`);
       }
     } catch (error: unknown) {
       console.error("Помилка генерації мотиваційного листа:", error);
       if (error instanceof Error) {
         setError(error.message || "Виникла помилка під час генерації листа. Спробуйте ще раз.");
-        console.error(error);
       } else {
         setError("Виникла невідома помилка. Спробуйте ще раз.");
-        console.error(error);
       }
     } finally {
       setIsLoading(false);
@@ -99,7 +108,13 @@ export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) =>
         <Textarea
           value={text}
           onChange={handleChange}
-          className="border-secondary-300 input-text text-secondary-400 min-h-[241px] w-full resize-none gap-3 rounded-lg border px-8 pt-2.5 pb-26.5 outline-none hover:outline-none focus:outline-none active:outline-none"
+          className={clsx(
+            "border-secondary-300 input-text min-h-[241px] w-full resize-none gap-3 rounded-lg border px-8 pt-2.5 pb-26.5 outline-none hover:outline-none focus:outline-none active:outline-none",
+            {
+              "border-error-main text-error-main": error,
+              "text-secondary-400": !error,
+            }
+          )}
         />
         <div className="absolute right-8 bottom-8 left-8 flex items-center justify-between">
           <Button variant="secondary" className="h-15.5 w-56.5" onClick={handleGenerateClick} disabled={isDisabled}>
@@ -117,11 +132,23 @@ export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) =>
             />
             {isLoading ? "Генеруємо..." : "Згенерувати"}
           </Button>
-          <div className="text-secondary-600 text-sm">
+          <div
+            className={clsx("text-sm", {
+              "text-error-main": error,
+              "text-secondary-600": !error,
+            })}
+          >
             {characterCount}/{MAX_CHAR_LIMIT}
           </div>
         </div>
       </div>
+
+      {error && (
+        <p className="text-error-main text-micro mt-1 flex items-center">
+          <SpriteSvg id="icon-danger" className="text-error-main mr-1 h-4 w-4" />
+          {error}
+        </p>
+      )}
     </section>
   );
 };
