@@ -251,6 +251,7 @@ export default function UiKit() {
             onChange={handleChange}
             error={errors.username}
             success={successMessages.username}
+            className="mb-4"
             required
           />
 
@@ -269,6 +270,7 @@ export default function UiKit() {
                 <use href="/sprite.svg#icon-search"></use>
               </svg>
             }
+            className="mb-4"
           />
 
           <Input
@@ -286,6 +288,7 @@ export default function UiKit() {
                 <use href="/sprite.svg#icon-eye"></use>
               </svg>
             }
+            className="mb-4"
           />
 
           <Input
@@ -297,6 +300,7 @@ export default function UiKit() {
             error={errors.notes}
             success={successMessages.notes}
             required
+            className="mb-4"
           />
 
           <Input
@@ -313,6 +317,7 @@ export default function UiKit() {
                 <use href="/sprite.svg#icon-search"></use>
               </svg>
             }
+            className="mb-4"
           />
 
           <Input
@@ -330,6 +335,7 @@ export default function UiKit() {
                 <use href="/sprite.svg#icon-eye"></use>
               </svg>
             }
+            className="mb-4"
           />
           <p>disabled</p>
           <Input
@@ -342,6 +348,7 @@ export default function UiKit() {
             error={""}
             success={""}
             disabled
+            className="mb-4"
           />
 
           <Input
@@ -376,6 +383,7 @@ export default function UiKit() {
                 <use href="/sprite.svg#icon-eye"></use>
               </svg>
             }
+            className="mb-4"
           />
 
           <Input
@@ -387,6 +395,7 @@ export default function UiKit() {
             error={""}
             success={""}
             disabled
+            className="mb-4"
           />
 
           <Input
@@ -403,6 +412,7 @@ export default function UiKit() {
                 <use href="/sprite.svg#icon-search"></use>
               </svg>
             }
+            className="mb-4"
           />
 
           <Input
@@ -420,6 +430,7 @@ export default function UiKit() {
                 <use href="/sprite.svg#icon-eye"></use>
               </svg>
             }
+            className="mb-4"
           />
           <Button variant="secondary" type="submit">
             Відправити форму
