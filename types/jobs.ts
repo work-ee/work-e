@@ -1,11 +1,12 @@
 export interface JobProps {
   id: number;
-  company: string;
-  title: string;
-  logo: string;
+  slug: string;
+  isApplied?: boolean;
+  tags?: string[];
   body: {
-    isApplied?: boolean;
-    tags?: string[];
+    company: string;
+    title: string;
+    logo: string;
     text?: string;
   };
 }

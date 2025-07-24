@@ -16,9 +16,9 @@ export const CardList = ({ length = 6, muted = false, moreBtn = false, data, ...
           <Card
             key={item.id}
             id={item.id}
-            company={item.company}
-            title={item.title}
-            logo={item.logo}
+            slug={item.slug}
+            isApplied={item.isApplied}
+            tags={item.tags}
             body={item.body}
             muted={muted}
           />

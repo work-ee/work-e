@@ -11,7 +11,7 @@ export const Search = () => {
   };
 
   return (
-    <form className="ml-auto max-w-[320px] flex-1">
+    <form className="ml-auto max-w-[360px] flex-1 px-4">
       <Input
         id="searchQuery"
         name="searchQuery"

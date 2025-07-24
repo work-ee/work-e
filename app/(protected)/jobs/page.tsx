@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import { promises as fs } from "fs";
 
 import MagicSvg from "@/components/icons/MagicSvg";

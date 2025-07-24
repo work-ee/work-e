@@ -1,67 +1,73 @@
 [
   {
     "id": 1,
-    "company": "Genesis",
-    "title": "UX/UI Designer",
-    "logo": "https://cdn.worldvectorlogo.com/logos/svg-2.svg",
+    "slug": "ux-ui-designer",
+    "isApplied": true,
+    "tags": ["Віддалено", "Часткова зайнятість"],
     "body": {
-      "isApplied": true,
-      "tags": ["Віддалено", "Часткова зайнятість"],
+      "company": "Genesis",
+      "title": "UX/UI Designer 1",
+      "logo": "https://cdn.worldvectorlogo.com/logos/svg-2.svg",
       "text": "Impedit suscipit iste est ut quod. Voluptas et fugit ducimus ut veniam in perferendis voluptas a. Quidem labore occaecati ipsum similique. Rerum voluptatem sit fugiat optio aliquam."
     }
   },
   {
     "id": 2,
-    "company": "Hue",
-    "title": "UX/UI Designer",
-    "logo": "https://cdn.worldvectorlogo.com/logos/tiktok-white-logo-svg.svg",
+    "slug": "ux-ui-designer-2",
+    "isApplied": false,
+    "tags": ["Віддалено", "Повна зайнятість"],
     "body": {
-      "isApplied": false,
-      "tags": ["Віддалено", "Повна зайнятість"],
+      "company": "Hue",
+      "title": "UX/UI Designer 2",
+      "logo": "https://cdn.worldvectorlogo.com/logos/tiktok-white-logo-svg.svg",
       "text": "Impedit suscipit iste est ut quod. Voluptas et fugit ducimus ut veniam in perferendis voluptas a. Quidem labore occaecati ipsum similique. Rerum voluptatem sit fugiat optio aliquam."
     }
   },
   {
     "id": 3,
-    "company": "SoftServe",
-    "title": "Dev Ops Engineer",
-    "logo": "https://cdn.worldvectorlogo.com/logos/svg-2.svg",
+    "slug": "dev-ops-engineer",
+    "isApplied": false,
+    "tags": ["Віддалено", "Повна зайнятість"],
     "body": {
-      "isApplied": false,
-      "tags": ["Віддалено", "Повна зайнятість"],
+      "company": "SoftServe",
+      "title": "Dev Ops Engineer",
+      "logo": "https://cdn.worldvectorlogo.com/logos/svg-2.svg",
       "text": "Impedit suscipit iste est ut quod. Voluptas et fugit ducimus ut veniam in perferendis voluptas a. Quidem labore occaecati ipsum similique. Rerum voluptatem sit fugiat optio aliquam."
     }
   },
   {
     "id": 4,
-    "company": "Sigma Software",
-    "title": "Software Engineer",
-    "logo": "https://cdn.worldvectorlogo.com/logos/tiktok-white-logo-svg.svg",
+    "slug": "software-engineer",
+    "isApplied": false,
+    "tags": ["Віддалено", "Повна зайнятість"],
     "body": {
-      "isApplied": false,
-      "tags": ["Віддалено", "Повна зайнятість"],
+      "company": "Sigma Software",
+      "title": "Software Engineer",
+      "logo": "https://cdn.worldvectorlogo.com/logos/tiktok-white-logo-svg.svg",
       "text": "Impedit suscipit iste est ut quod. Voluptas et fugit ducimus ut veniam in perferendis voluptas a. Quidem labore occaecati ipsum similique. Rerum voluptatem sit fugiat optio aliquam."
     }
   },
   {
     "id": 5,
-    "company": "SoftServe",
-    "title": "Dev Ops Engineer",
-    "logo": "",
+    "slug": "dev-ops-engineer-2",
+    "isApplied": false,
+    "tags": ["Віддалено", "Повна зайнятість"],
     "body": {
-      "isApplied": false,
-      "tags": ["Віддалено", "Повна зайнятість"],
+      "company": "SoftServe",
+      "title": "Dev Ops Engineer",
+      "logo": "",
       "text": "Impedit suscipit iste est ut quod. Voluptas et fugit ducimus ut veniam in perferendis voluptas a. Quidem labore occaecati ipsum similique. Rerum voluptatem sit fugiat optio aliquam."
     }
   },
   {
     "id": 6,
-    "company": "SoftServe",
-    "title": "Dev Ops Engineer",
-    "logo": "",
+    "slug": "dev-ops-engineer-3",
+    "isApplied": false,
+    "tags": ["Віддалено", "Повна зайнятість"],
     "body": {
-      "isApplied": false,
-      "tags": ["Віддалено", "Повна зайнятість"],
+      "company": "SoftServe",
+      "title": "Dev Ops Engineer",
+      "logo": "",
       "text": "Impedit suscipit iste est ut quod. Voluptas et fugit ducimus ut veniam in perferendis voluptas a. Quidem labore occaecati ipsum similique. Rerum voluptatem sit fugiat optio aliquam."
     }
   }
