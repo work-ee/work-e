@@ -30,6 +30,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   secret: process.env.AUTH_SECRET!,
   trustHost: true,
+  pages: {
+    error: "/auth/error",
+    signIn: "/sign-in",
+  },
   callbacks: {
     async signIn({ user, account }) {
       try {
@@ -38,7 +42,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         if (account?.provider === "linkedin") {
-          return await handleLinkedInLogin();
+          return await handleLinkedInLogin({ user, account });
         }
         return true;
       } catch (error) {
@@ -47,8 +51,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
     },
 
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       // -> Saving user data to JWT token
+      if (account?.provider) {
+        token.provider = account.provider;
+      }
+
       if (user?.backendToken) {
         token.backendToken = user.backendToken;
         token.backendUser = user.backendUser;
@@ -62,6 +70,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token.backendToken) {
         session.backendToken = token.backendToken;
         session.backendUser = token.backendUser;
+      }
+
+      if (token.backendUser) {
+        session.backendUser = token.backendUser;
+      }
+
+      if (token.provider) {
+        session.provider = token.provider;
       }
 
       return session;

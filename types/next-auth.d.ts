@@ -10,22 +10,22 @@ export interface BackendUser {
   avatar_url: string;
   date_joined: string;
 }
+export interface BackendTokens {
+  backendToken: string;
+  backendRefreshToken: string;
+}
+export interface ExtendedSessionData {
+  backendToken?: string;
+  backendRefreshToken?: string;
+  backendUser?: BackendUser;
+  provider?: string;
+}
 
 declare module "next-auth" {
-  interface Session extends DefaultSession {
-    backendToken?: string;
-    backendUser?: BackendUser;
-  }
-
-  interface User extends DefaultUser {
-    backendToken?: string;
-    backendUser?: BackendUser;
-  }
+  interface Session extends DefaultSession, ExtendedSessionData {}
+  interface User extends DefaultUser, ExtendedSessionData {}
 }
 
 declare module "next-auth/jwt" {
-  interface JWT extends DefaultJWT {
-    backendToken?: string;
-    backendUser?: BackendUser;
-  }
+  interface JWT extends DefaultJWT, ExtendedSessionData {}
 }
