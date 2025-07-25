@@ -19,7 +19,7 @@ export const Card = ({ id, slug, tags, isApplied, body }: Props) => {
         href={`/jobs/${slug}`}
         id={`job-${id}`}
         className={cn(
-          "text-primary-700 flex flex-col gap-1 rounded-2xl px-4 py-6 transition",
+          "flex flex-col gap-1 rounded-2xl px-8 py-8 transition",
           "hover:bg-secondary-50 transition-shadow hover:shadow-[0_0_0_2px_var(--color-primary-100)]"
         )}
       >
@@ -28,12 +28,12 @@ export const Card = ({ id, slug, tags, isApplied, body }: Props) => {
           {company}
 
           {isApplied && (
-            <ul className="ml-auto flex flex-wrap gap-1">
+            <ul className="ml-auto flex shrink-0 flex-wrap gap-1">
               <li className={clsx("bg-success-main rounded-md px-2 py-1 text-xs text-white")}>Заявка подана</li>
             </ul>
           )}
         </span>
-        <h2 className="heading-h2 text-primary-700 leading-tight">{title}</h2>
+        <h2 className="heading-h2 text-primary-700 mb-1 leading-tight">{title}</h2>
         <ul className="mb-2 flex flex-wrap gap-1">
           {tags?.map((tag, index) => (
             <li key={index} className={clsx("bg-accent-50 text-primary-700 rounded-md px-2 py-1 text-xs")}>
