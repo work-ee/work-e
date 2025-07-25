@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import AppInitializerWrapper from "@/components/initializer/AppInitializerWrapper";
 import { Footer, Header } from "@/components/shared";
 import { Toaster } from "@/components/ui/shadcn/sonner";
 
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${rubik.variable} ${nunitoSans.variable} antialiased`}>
+        <AppInitializerWrapper />
         <Header />
         {children}
         <Footer />

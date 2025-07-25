@@ -51,7 +51,6 @@ export interface UserProfile {
   github?: string;
 
   ip?: string;
-  userAgent?: string;
 }
 
 interface ProfileState {
