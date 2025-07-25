@@ -34,3 +34,25 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+---
+
+## IP-based Geolocation
+
+The free API [ip-api.com](http://ip-api.com) is used to determine the user's country and city.
+
+### Free Plan Limitations
+
+- Up to 45 requests per minute per IP.
+- No guarantees on stability or support.
+- Rate limiting may occur if limits are exceeded.
+
+### When to Upgrade to a Paid Plan
+
+- Request volume exceeds the free limit.
+- Stability and support guarantees are required.
+- The project is commercial or high-traffic.
+
+The API is used in `app/api/auto-profile/route.ts`.
+
+---

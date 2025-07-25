@@ -10,6 +10,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 
 import { useCvUpload } from "@/hooks/useCvUpload";
 
+import { useModalsStore } from "@/stores/modalsStore";
+
 import { InfoDialog } from "../InfoDialog";
 
 interface CVUploadDialogProps {
@@ -21,6 +23,10 @@ interface CVUploadDialogProps {
 
 export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }: CVUploadDialogProps) {
   const [showReminderDialog, setShowReminderDialog] = useState(false);
+
+  const remindCV = useModalsStore((state) => state.remindCV);
+  const setRemindCV = useModalsStore((state) => state.setRemindCV);
+
   const {
     fileInputRef,
     fileName,
@@ -46,22 +52,25 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
     fileSelected: "bg-success-main",
   }[status];
 
-  const isUploadDisabled = status === "uploading" || status === "success" || status === "fileSelected";
+  const isUploadDisabled = ["uploading", "success", "fileSelected"].includes(status);
   const isSecondaryUploadButtonVisible = status === "error";
+
+  const handleDialogClose = () => {
+    if (status !== "success" && remindCV) {
+      setShowReminderDialog(true);
+    }
+    onClose();
+    resetState();
+  };
+
+  const handleDoNotRemind = () => {
+    setRemindCV(false);
+    setShowReminderDialog(false);
+  };
+
   return (
     <>
-      <Dialog
-        open={open}
-        onOpenChange={(isOpen) => {
-          if (!isOpen) {
-            if (status !== "success") {
-              setShowReminderDialog(true);
-            }
-            onClose();
-            resetState();
-          }
-        }}
-      >
+      <Dialog open={open} onOpenChange={(isOpen) => !isOpen && handleDialogClose()}>
         <DialogContent className="w-[800px] max-w-[unset] gap-6 rounded-2xl border-none p-8">
           <DialogHeader className="h-[82px]">
             <DialogTitle className="heading-h2 text-center text-[36px] text-neutral-900">Завантаж своє CV</DialogTitle>
@@ -227,11 +236,13 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
           </div>
         </DialogContent>
       </Dialog>
+
       <InfoDialog
-        open={showReminderDialog}
+        open={showReminderDialog && remindCV}
         title="Нагадування"
         description="Ей! З твоїм резюме ми зможемо знайти для тебе ще більше крутих пропозицій! Завантаж його, коли будеш готовий "
         onClose={() => setShowReminderDialog(false)}
+        onDoNotRemind={handleDoNotRemind}
       />
     </>
   );
