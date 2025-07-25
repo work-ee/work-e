@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { useProfileStore } from "@/stores/profileStors";
+import { useProfileStore } from "@/stores/profileStore";
 
 export const useAutoProfile = () => {
   const { setProfile, updatePersonalInfo, setIp, setUserAgent } = useProfileStore();
