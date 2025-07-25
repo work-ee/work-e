@@ -141,7 +141,7 @@ export const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <div className="mb-4">
+    <div className={className}>
       {label && (
         <label htmlFor={id} className="label-text mb-2 block text-neutral-800">
           {label}
