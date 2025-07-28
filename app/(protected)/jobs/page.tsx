@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { promises as fs } from "fs";
 
 import MagicSvg from "@/components/icons/MagicSvg";
@@ -37,7 +39,22 @@ export default async function ProfilePage() {
           <div className="aside-wrapper">
             <article className="article">
               {jobs.data.length === 0 ? (
-                <h1 className="heading-h2 text-primary-700 text-center">No jobs found 😔</h1>
+                <div className="flex flex-col items-center justify-center gap-4 py-6 text-center">
+                  <h2 className="heading-h2 text-primary-700">Поки що тиша, але ми вже шукаємо щось саме для тебе.</h2>
+                  <Image
+                    className="mx-auto"
+                    src="/img/no_vacancy.png"
+                    alt="No results found"
+                    priority
+                    width={700}
+                    height={600}
+                  />
+                  <p className="heading-h3">
+                    Спробуй змінити фільтри або трохи оновити профіль — це допоможе нам краще розуміти твої потреби.
+                    {/* Схоже, що наразі немає вакансій, які відповідають вашим критеріям. Спробуйте змінити фільтри або
+                    пошук. */}
+                  </p>
+                </div>
               ) : (
                 <CardList data={jobs.data} className="grid grid-cols-1 gap-4" />
               )}

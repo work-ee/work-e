@@ -8,6 +8,7 @@ export interface JobProps {
     title: string;
     logo: string;
     text?: string;
+    origin?: string;
   };
 }
 

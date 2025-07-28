@@ -39,7 +39,7 @@ export const GoogleSignIn = ({ className = "", children, callbackUrl = "/onboard
       onClick={handleGoogleSignIn}
       disabled={isLoading}
       className={clsx(
-        "hover:border-primary-900 flex min-w-[420px] cursor-pointer items-center justify-center gap-3 rounded-md border border-neutral-200 px-4 py-3 transition-colors disabled:cursor-not-allowed disabled:opacity-50",
+        "hover:border-primary-700 flex min-w-[420px] cursor-pointer items-center justify-center gap-3 rounded-md border border-neutral-200 px-4 py-3 transition-colors disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       {...props}

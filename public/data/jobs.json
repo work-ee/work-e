@@ -8,31 +8,34 @@
       "company": "Genesis",
       "title": "UX/UI Designer 1",
       "logo": "https://cdn.worldvectorlogo.com/logos/svg-2.svg",
-      "text": "Impedit suscipit iste est ut quod. Voluptas et fugit ducimus ut veniam in perferendis voluptas a. Quidem labore occaecati ipsum similique. Rerum voluptatem sit fugiat optio aliquam."
+      "origin": "https://www.genesistech.com/",
+      "text": "Work-E — це динамічна та інноваційна платформа, що змінює підхід до пошуку роботи та найму найкращих талантів в Україні. Наша місія — створювати інтуїтивно зрозумілі та ефективні рішення, які допомагають людям знаходити кар'єрні можливості мрії, а компаніям — будувати сильні команди. "
     }
   },
   {
     "id": 2,
     "slug": "ux-ui-designer-2",
-    "isApplied": false,
+    "isApplied": true,
     "tags": ["Віддалено", "Повна зайнятість"],
     "body": {
       "company": "Hue",
       "title": "UX/UI Designer 2",
       "logo": "https://cdn.worldvectorlogo.com/logos/tiktok-white-logo-svg.svg",
-      "text": "Impedit suscipit iste est ut quod. Voluptas et fugit ducimus ut veniam in perferendis voluptas a. Quidem labore occaecati ipsum similique. Rerum voluptatem sit fugiat optio aliquam."
+      "origin": "https://www.hue.com/",
+      "text": "Hue — це динамічна та інноваційна платформа, що змінює підхід до пошуку роботи та найму найкращих талантів в Україні. Наша місія — створювати інтуїтивно зрозумілі та ефективні рішення, які допомагають людям знаходити кар'єрні можливості мрії, а компаніям — будувати сильні команди. Ми цінуємо креативність, відкритість до нового та прагнення до досконалості у кожній деталі."
     }
   },
   {
     "id": 3,
     "slug": "dev-ops-engineer",
-    "isApplied": false,
+    "isApplied": true,
     "tags": ["Віддалено", "Повна зайнятість"],
     "body": {
       "company": "SoftServe",
       "title": "Dev Ops Engineer",
       "logo": "https://cdn.worldvectorlogo.com/logos/svg-2.svg",
-      "text": "Impedit suscipit iste est ut quod. Voluptas et fugit ducimus ut veniam in perferendis voluptas a. Quidem labore occaecati ipsum similique. Rerum voluptatem sit fugiat optio aliquam."
+      "origin": "https://www.softserveinc.com/",
+      "text": "SoftServe — це динамічна та інноваційна платформа, що змінює підхід до пошуку роботи та найму найкращих талантів в Україні. Наша місія — створювати інтуїтивно зрозумілі та ефективні рішення, які допомагають людям знаходити кар'єрні можливості мрії, а компаніям — будувати сильні команди. Ми цінуємо креативність, відкритість до нового та прагнення до досконалості у кожній деталі."
     }
   },
   {
@@ -44,7 +47,8 @@
       "company": "Sigma Software",
       "title": "Software Engineer",
       "logo": "https://cdn.worldvectorlogo.com/logos/tiktok-white-logo-svg.svg",
-      "text": "Impedit suscipit iste est ut quod. Voluptas et fugit ducimus ut veniam in perferendis voluptas a. Quidem labore occaecati ipsum similique. Rerum voluptatem sit fugiat optio aliquam."
+      "origin": "https://www.sigma.software/",
+      "text": "Sigma Software — це динамічна та інноваційна платформа, що змінює підхід до пошуку роботи та найму найкращих талантів в Україні. Наша місія — створювати інтуїтивно зрозумілі та ефективні рішення, які допомагають людям знаходити кар'єрні можливості мрії, а компаніям — будувати сильні команди. Ми цінуємо креативність, відкритість до нового та прагнення до досконалості у кожній деталі. \n Ми шукаємо Software Engineer, який приєднається до нашої команди для розробки та вдосконалення нашої платформи. Ви будете відповідальні за створення високоякісного коду, оптимізацію продуктивності та забезпечення безпеки наших систем."
     }
   },
   {
@@ -56,7 +60,8 @@
       "company": "SoftServe",
       "title": "Dev Ops Engineer",
       "logo": "",
-      "text": "Impedit suscipit iste est ut quod. Voluptas et fugit ducimus ut veniam in perferendis voluptas a. Quidem labore occaecati ipsum similique. Rerum voluptatem sit fugiat optio aliquam."
+      "origin": "https://www.softserveinc.com/",
+      "text": "Ми цінуємо креативність, відкритість до нового та прагнення до досконалості у кожній деталі. \n Ми шукаємо Software Engineer, який приєднається до нашої команди для розробки та вдосконалення нашої платформи. Ви будете відповідальні за створення високоякісного коду, оптимізацію продуктивності та забезпечення безпеки наших систем."
     }
   },
   {
@@ -68,7 +73,8 @@
       "company": "SoftServe",
       "title": "Dev Ops Engineer",
       "logo": "",
-      "text": "Impedit suscipit iste est ut quod. Voluptas et fugit ducimus ut veniam in perferendis voluptas a. Quidem labore occaecati ipsum similique. Rerum voluptatem sit fugiat optio aliquam."
+      "origin": "https://www.softserveinc.com/",
+      "text": "SoftServe — це динамічна та інноваційна платформа, що змінює підхід до пошуку роботи та найму найкращих талантів в Україні. Наша місія — створювати інтуїтивно зрозумілі та ефективні рішення, які допомагають людям знаходити кар'єрні можливості мрії, а компаніям — будувати сильні команди. Ми цінуємо креативність, відкритість до нового та прагнення до досконалості у кожній деталі."
     }
   }
 ]

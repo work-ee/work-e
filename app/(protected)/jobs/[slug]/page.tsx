@@ -62,12 +62,12 @@ export default async function JobArticlePage({ params }: JobPageProps) {
 
           <div className="aside-wrapper">
             <article className="article">
-              <div className="prose prose-lg max-w-none">
+              <div className="prose prose-lg max-w-none p-8">
                 {body?.text ? (
-                  <div className="fullText p-8 leading-relaxed whitespace-pre-wrap text-gray-700">
+                  <div className="fullText leading-relaxed whitespace-pre-wrap text-gray-700">
                     <p>{body.text}</p>
                     <br />
-                    <p>
+                    {/* <p>
                       Work - E — це динамічна та інноваційна платформа, що змінює підхід до пошуку роботи та найму
                       найкращих талантів в Україні. Наша місія — створювати інтуїтивно зрозумілі та ефективні рішення,
                       які допомагають людям знаходити кар'єрні можливості мрії, а компаніям — будувати сильні команди.
@@ -77,10 +77,76 @@ export default async function JobArticlePage({ params }: JobPageProps) {
                     <p>
                       Приєднуйтесь до нас, щоб разом створювати майбутнє кар'єри в Україні! Ми шукаємо людей, які
                       поділяють наші цінності та готові долучитися до команди, що прагне змінити світ праці на краще.
-                    </p>
+                    </p> */}
+
+                    <div>
+                      <h3 className="heading-h3 my-2 mt-6">Про роль:</h3>
+                      <p>
+                        Ми шукаємо талановитого та мотивованого UX/UI Дизайнера, який приєднається до нашої команди для
+                        створення виняткового користувацького досвіду для наших веб- та мобільних продуктів. Ви будете
+                        відігравати ключову роль у всьому процесі дизайну: від дослідження потреб користувачів та
+                        генерації ідей до створення візуально привабливих та функціональних інтерфейсів. Якщо ви
+                        захоплюєтеся вирішенням складних завдань та створенням продуктів, якими дійсно люблять
+                        користуватися, ця вакансія для вас!
+                      </p>
+                    </div>
+
+                    <div>
+                      <h3 className="heading-h3 my-2 mt-6">Вимоги:</h3>
+                      <ul className="mt-2 list-disc space-y-1 pl-6">
+                        <li>
+                          Від 2-3 років підтвердженого досвіду на позиції UX/UI Дизайнера, Продуктового Дизайнера або на
+                          аналогічній ролі.
+                        </li>
+                        <li>
+                          Сильне портфоліо, що демонструє ваш досвід у розробці UX/UI для веб- та/або мобільних
+                          застосунків (будь ласка, додайте посилання).
+                        </li>
+                        <li>
+                          Досконале володіння інструментами для дизайну та прототипування (наприклад, Figma, Sketch,
+                          Adobe XD).
+                        </li>
+                        <li>
+                          Глибоке розуміння принципів користувацького досвіду (UX), включаючи методи дослідження,
+                          проєктування інформаційної архітектури, створення прототипів та тестування юзабіліті.
+                        </li>
+                        <li>
+                          Знання англійської мови на рівні, достатньому для читання професійної літератури та
+                          документації (Intermediate або вище).
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="heading-h3 my-2 mt-6">Що ми пропонуємо:</h3>
+                      <ul className="mt-2 list-disc space-y-1 pl-6">
+                        <li>Конкурентна заробітна плата та бонуси за досягнення цілей.</li>
+                        <li>Гнучкий графік роботи та можливість працювати віддалено.</li>
+                        <li>Професійний розвиток: курси, тренінги та конференції.</li>
+                        <li>Дружня команда та підтримка колег.</li>
+                        <li>Комфортний офіс у центрі міста з усіма зручностями.</li>
+                        <li>
+                          Сильне портфоліо, що демонструє ваш досвід у розробці UX/UI для веб- та/або мобільних
+                          застосунків (будь ласка, додайте посилання).
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 ) : (
                   <div className="text-gray-500 italic">No detailed description available for this position.</div>
+                )}
+
+                {body?.origin && (
+                  <div className="mt-6 text-sm text-gray-500">
+                    <span className="font-semibold">Source:</span>{" "}
+                    <a
+                      href={body.origin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      {body.origin}
+                    </a>
+                  </div>
                 )}
               </div>
 
@@ -106,20 +172,20 @@ export default async function JobArticlePage({ params }: JobPageProps) {
               </div>
 
               <div className="mt-8 flex items-center justify-between gap-4">
-                <Button>
-                  <Mail />
-                  Подати заявку
-                </Button>
-
                 <Button className="" variant="secondary">
                   <MagicSvg />
                   Порівняти свої навички
                 </Button>
+
+                {/* <Button>
+                  <Mail />
+                  Подати заявку
+                </Button> */}
               </div>
             </article>
 
             <aside className="aside">
-              <div className="border-primary-100 flex flex-col gap-4 rounded-md p-6 shadow-[0_0_0_2px_var(--color-primary-100)] sm:px-6">
+              <div className="border-primary-100 flex flex-col gap-4 rounded-md p-6 shadow-[0_0_0_2px_var(--color-primary-100)] sm:px-6 lg:sticky lg:top-6">
                 {/* <h3 className="heading-h3 text-primary-700">
                   Твій AI-кар'єрний стратег: Персоналізовані CV та листи – автоматично!
                 </h3>
@@ -129,7 +195,7 @@ export default async function JobArticlePage({ params }: JobPageProps) {
                   свої шанси та вражай рекрутерів без зайвих зусиль!
                 </p> */}
 
-                <ul className="flex flex-col gap-5">
+                <ul className="flex flex-col gap-4">
                   <li className="relative flex items-center gap-2">
                     <Check className="size-8 text-green-500" />
                     <strong>Тільки віддалено</strong>
@@ -141,18 +207,20 @@ export default async function JobArticlePage({ params }: JobPageProps) {
                   <li className="relative flex items-center gap-2">
                     <X className="size-8 text-red-500" />
                     <strong>Агенція</strong>
-                    <i className="error-msg absolute -bottom-full mb-1 p-2 text-sm text-red-500">
+                    <i className="error-msg absolute -bottom-full mb-1 max-w-full truncate p-2 text-sm text-red-500">
                       Не збігається з типом компанії
                     </i>
                   </li>
                   <li className="relative flex items-center gap-2">
                     <X className="size-8 text-red-500" />
                     <strong>Зарплатна плата</strong>
-                    <i className="error-msg absolute -bottom-full mb-1 p-2 text-sm text-red-500">Не вказано</i>
+                    <i className="error-msg absolute -bottom-full mb-1 max-w-full truncate p-2 text-sm text-red-500">
+                      Не вказано
+                    </i>
                   </li>
                 </ul>
 
-                <Button className="mt-4 justify-center">
+                <Button className="mt-6 justify-center">
                   <Mail />
                   Подати заявку
                 </Button>

@@ -42,7 +42,7 @@ export const Card = ({ id, slug, tags, isApplied, body }: Props) => {
           ))}
         </ul>
 
-        <p>{text}</p>
+        <p className="line-clamp-4">{text}</p>
 
         <div className="mt-2 flex flex-wrap gap-2 text-xs text-neutral-900">
           <span>2 години тому</span>
