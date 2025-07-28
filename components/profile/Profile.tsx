@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { useState } from "react";
 
 import { Button, Input, Toggle } from "@/components/ui";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs";
@@ -19,7 +19,7 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
     date_joined: new Date().toLocaleDateString(),
   };
 
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = useState({
     first_name: first_name || "",
     last_name: last_name || "",
     email: email || "",
@@ -36,7 +36,7 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
     }));
   };
 
-  const [toggleStates, setToggleStates] = React.useState<{
+  const [toggleStates, setToggleStates] = useState<{
     [key in ToggleName]: boolean;
   }>({
     autoSendCV: true,

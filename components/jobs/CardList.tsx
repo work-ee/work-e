@@ -1,14 +1,12 @@
-import React from "react";
-
 import { ArrowRightSvg } from "@/components/icons";
 
 import { cn } from "@/lib/utils";
 
-import { JobListProps } from "@/types/jobs";
+import { IJobList } from "@/types/jobs";
 
 import { Card } from "./Card";
 
-export const CardList = ({ length = 6, muted = false, moreBtn = false, data, ...props }: JobListProps) => {
+export const CardList = ({ length = 6, muted = false, moreBtn = false, data, ...props }: IJobList) => {
   return (
     <>
       <ul className={cn("grid grid-cols-3 gap-4 text-left", props.className)} {...props}>
@@ -18,7 +16,7 @@ export const CardList = ({ length = 6, muted = false, moreBtn = false, data, ...
             id={item.id}
             slug={item.slug}
             isApplied={item.isApplied}
-            tags={item.tags}
+            jobFormat={item.jobFormat}
             body={item.body}
             muted={muted}
           />

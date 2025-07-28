@@ -1,5 +1,3 @@
-import React from "react";
-
 import { User } from "next-auth";
 
 import { CVUploadTrigger } from "@/components/feedback/CVUploadPopup/CVUploadTrigger";

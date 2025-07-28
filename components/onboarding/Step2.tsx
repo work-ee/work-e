@@ -1,12 +1,9 @@
-import React from "react";
-
 import { User } from "next-auth";
 
 import { CVUploadTrigger } from "@/components/feedback/CVUploadPopup/CVUploadTrigger";
 import { ProfileSvg } from "@/components/icons";
 import { Button } from "@/components/ui";
 
-import { CardList } from "./CardList";
 import { Title } from "./Title";
 
 interface StepProps {
@@ -34,10 +31,6 @@ export const Step2 = ({ user, onCvUploadSuccess }: StepProps) => {
           або просто <CVUploadTrigger email={user?.email} onSuccessUpload={onCvUploadSuccess} variant="link" /> чи{" "}
           <button className="text-link underline">підключи Linkedin</button>
         </p>
-      </div>
-
-      <div className="mt-12 flex items-stretch">
-        <CardList muted />
       </div>
     </div>
   );

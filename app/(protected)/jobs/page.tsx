@@ -1,29 +1,15 @@
 import Image from "next/image";
 
-import { promises as fs } from "fs";
-
 import MagicSvg from "@/components/icons/MagicSvg";
-import { CardList } from "@/components/jobs/CardList";
-import { FilterList } from "@/components/jobs/FilterList";
-import { Search } from "@/components/jobs/Search";
+import { CardList, FilterList, Search } from "@/components/jobs";
 import { Button } from "@/components/ui";
 
 import { cn } from "@/lib/utils";
 
-import { JobProps } from "@/types/jobs";
-
-async function getJobs(): Promise<{ data: JobProps[]; length?: number }> {
-  try {
-    const file = await fs.readFile(process.cwd() + "/public/data/jobs.json", "utf8");
-    return { data: JSON.parse(file), length: JSON.parse(file).length };
-  } catch (error) {
-    console.error("Error reading users data:", error);
-    return { data: [], length: 0 };
-  }
-}
+import { getAllJobs } from "@/actions/server/jobs";
 
 export default async function ProfilePage() {
-  const jobs = await getJobs();
+  const jobs = await getAllJobs();
 
   return (
     <main className="_center-page">
@@ -38,7 +24,7 @@ export default async function ProfilePage() {
 
           <div className="aside-wrapper">
             <article className="article">
-              {jobs.data.length === 0 ? (
+              {jobs.length === 0 ? (
                 <div className="flex flex-col items-center justify-center gap-4 py-6 text-center">
                   <h2 className="heading-h2 text-primary-700">Поки що тиша, але ми вже шукаємо щось саме для тебе.</h2>
                   <Image
@@ -56,7 +42,7 @@ export default async function ProfilePage() {
                   </p>
                 </div>
               ) : (
-                <CardList data={jobs.data} className="grid grid-cols-1 gap-4" />
+                <CardList data={jobs} className="grid grid-cols-1 gap-4" />
               )}
             </article>
 

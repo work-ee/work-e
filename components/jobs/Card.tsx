@@ -1,16 +1,14 @@
 import Link from "next/link";
 
-import clsx from "clsx";
-
 import { cn } from "@/lib/utils";
 
-import { JobProps } from "@/types/jobs";
+import { IJob } from "@/types/jobs";
 
-interface Props extends JobProps {
+interface Props extends IJob {
   muted?: boolean;
 }
 
-export const Card = ({ id, slug, tags, isApplied, body }: Props) => {
+export const Card = ({ id, slug, jobFormat, isApplied, body }: Props) => {
   const { company, title, logo, text } = body;
 
   return (
@@ -29,14 +27,14 @@ export const Card = ({ id, slug, tags, isApplied, body }: Props) => {
 
           {isApplied && (
             <ul className="ml-auto flex shrink-0 flex-wrap gap-1">
-              <li className={clsx("bg-success-main rounded-md px-2 py-1 text-xs text-white")}>Заявка подана</li>
+              <li className={cn("bg-success-main rounded-md px-2 py-1 text-xs text-white")}>Заявка подана</li>
             </ul>
           )}
         </span>
         <h2 className="heading-h2 text-primary-700 mb-1 leading-tight">{title}</h2>
         <ul className="mb-2 flex flex-wrap gap-1">
-          {tags?.map((tag, index) => (
-            <li key={index} className={clsx("bg-accent-50 text-primary-700 rounded-md px-2 py-1 text-xs")}>
+          {jobFormat?.map((tag, index) => (
+            <li key={index} className={cn("bg-accent-50 text-primary-700 rounded-md px-2 py-1 text-xs")}>
               {tag}
             </li>
           ))}

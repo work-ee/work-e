@@ -1,38 +1,24 @@
 import { notFound } from "next/navigation";
 
 import clsx from "clsx";
-import { promises as fs } from "fs";
 import { Check, Mail, X } from "lucide-react";
 
 import { MagicSvg } from "@/components/icons";
 import { Button } from "@/components/ui";
 
-import { JobProps } from "@/types/jobs";
+import { getJobBySlug } from "@/actions/server/jobs";
 
-interface JobPageProps {
+interface Props {
   params: Promise<{
     slug: string;
   }>;
 }
 
-async function getJobBySlug(slug: string): Promise<JobProps | null> {
-  try {
-    const file = await fs.readFile(process.cwd() + "/public/data/jobs.json", "utf8");
-    const jobs: JobProps[] = JSON.parse(file);
-
-    const job = jobs.find((job) => job.slug === slug);
-    return job || null;
-  } catch (error) {
-    console.error("Error reading job data:", error);
-    return null;
-  }
-}
-
-export default async function JobArticlePage({ params }: JobPageProps) {
+export default async function JobArticlePage({ params }: Props) {
   const { slug } = await params;
   const job = await getJobBySlug(slug);
 
-  const { body, tags, isApplied } = job || {};
+  const { body, jobFormat, isApplied } = job || {};
 
   if (!job) {
     notFound();
@@ -52,7 +38,7 @@ export default async function JobArticlePage({ params }: JobPageProps) {
 
             <h2 className="heading-h2 text-primary-700 mb-2 leading-tight">{body?.title}</h2>
             <ul className="flex flex-wrap gap-1">
-              {tags?.map((tag, index) => (
+              {jobFormat?.map((tag, index) => (
                 <li key={index} className={clsx("bg-accent-50 text-primary-700 rounded-md px-2 py-1 text-xs")}>
                   {tag}
                 </li>
@@ -67,17 +53,6 @@ export default async function JobArticlePage({ params }: JobPageProps) {
                   <div className="fullText leading-relaxed whitespace-pre-wrap text-gray-700">
                     <p>{body.text}</p>
                     <br />
-                    {/* <p>
-                      Work - E — це динамічна та інноваційна платформа, що змінює підхід до пошуку роботи та найму
-                      найкращих талантів в Україні. Наша місія — створювати інтуїтивно зрозумілі та ефективні рішення,
-                      які допомагають людям знаходити кар'єрні можливості мрії, а компаніям — будувати сильні команди.
-                      Ми цінуємо креативність, відкритість до нового та прагнення до досконалості у кожній деталі.
-                    </p>
-                    <br />
-                    <p>
-                      Приєднуйтесь до нас, щоб разом створювати майбутнє кар'єри в Україні! Ми шукаємо людей, які
-                      поділяють наші цінності та готові долучитися до команди, що прагне змінити світ праці на краще.
-                    </p> */}
 
                     <div>
                       <h3 className="heading-h3 my-2 mt-6">Про роль:</h3>
@@ -135,16 +110,16 @@ export default async function JobArticlePage({ params }: JobPageProps) {
                   <div className="text-gray-500 italic">No detailed description available for this position.</div>
                 )}
 
-                {body?.origin && (
+                {body?.url && (
                   <div className="mt-6 text-sm text-gray-500">
                     <span className="font-semibold">Source:</span>{" "}
                     <a
-                      href={body.origin}
+                      href={body.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline"
                     >
-                      {body.origin}
+                      {body.url}
                     </a>
                   </div>
                 )}
@@ -233,7 +208,7 @@ export default async function JobArticlePage({ params }: JobPageProps) {
   );
 }
 
-export async function generateMetadata({ params }: JobPageProps) {
+export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const job = await getJobBySlug(slug);
 

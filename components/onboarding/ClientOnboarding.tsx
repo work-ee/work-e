@@ -4,15 +4,21 @@ import { useState } from "react";
 
 import { User } from "next-auth";
 
-import { Step1, Step2, Step3, Step4 } from "@/components/onboarding";
-import { SvgProgressCircle } from "@/components/onboarding/SvgProgressCircle";
+import { Step1, Step2, Step3, Step4, SvgProgressCircle } from "@/components/onboarding";
 import { Button } from "@/components/ui";
 
-type StepProps = { user?: User };
+import { IJob } from "@/types/jobs";
+
+import { CardList } from "./CardList";
+
+type StepProps = {
+  user?: User;
+  jobs?: IJob[];
+};
 
 const steps = [Step1, Step2, Step3, Step4] as const;
 
-export default function ClientOnboarding({ user }: StepProps) {
+export default function ClientOnboarding({ user, jobs }: StepProps) {
   const [index, setIndex] = useState<number>(0);
   const [isCVUploaded, setIsCVUploaded] = useState<boolean>(false);
 
@@ -38,6 +44,12 @@ export default function ClientOnboarding({ user }: StepProps) {
           </div>
 
           <Current user={user} onCvUploadSuccess={handleCvUploadSuccess} />
+
+          <div className="mt-12 flex items-stretch">
+            {Current === Step2 && <CardList muted data={jobs} />}
+            {Current === Step3 && <CardList moreBtn data={jobs} />}
+            {Current === Step4 && <CardList moreBtn data={jobs} />}
+          </div>
         </div>
       </section>
 
