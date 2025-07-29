@@ -282,6 +282,13 @@
   .text-link {
     @apply text-primary-500 inline-flex cursor-pointer hover:underline;
   }
+
+  .shadow-sidebar {
+    @apply shadow-[0px_0px_0px_2px_var(--sidebar)];
+  }
+  .shadow-primary {
+    @apply shadow-[0px_0px_0px_2px_var(--color-primary-100)];
+  }
 }
 
 /* ----------------------------------- */

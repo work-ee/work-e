@@ -2,12 +2,16 @@
 
 import React from "react";
 
-import { LogOut, Trash } from "lucide-react";
+import { LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 import { Button, Input, Toggle } from "@/components/ui";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs";
 
 import { BackendUser } from "@/types/next-auth";
+
+import { AlertInfo } from "../feedback/AlertInfo";
+import { ModalAlertDelProfile } from "../feedback/ModalAlertDelProfile";
 
 type ToggleName = "autoSendCV" | "autoCompareJobs" | "emailNotifications";
 
@@ -161,16 +165,6 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
                 <span className="text-neutral-800">{new Date(date_joined).toLocaleDateString("uk-UA")}</span>
               </div>
             </div>
-
-            {/* <div className="mt-6">
-              <Link href="/cv" className="text-blue-500 hover:underline">
-                CV
-              </Link>
-
-              <Link href="/skills-match" className="ml-4 text-blue-500 hover:underline">
-                Skills Match
-              </Link>
-            </div> */}
           </div>
         </TabsContent>
 
@@ -221,17 +215,37 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
           <Button className="">Зберегти зміни</Button>
 
           <div className="flex flex-col gap-1">
-            <button className="input-text text-primary-500 flex cursor-pointer items-center gap-1 p-1">
+            <button
+              className="input-text text-primary-500 flex cursor-pointer items-center gap-1 p-1"
+              onClick={() => signOut({ callbackUrl: "/sign-in" })}
+            >
               <LogOut className="h-4 w-4" />
               <span>Вийти з акаунта</span>
             </button>
-            <button className="input-text text-error-main flex cursor-pointer items-center gap-1 p-1">
-              <Trash className="h-4 w-4" />
-              <span>Видалити акаунт</span>
-            </button>
+            <ModalAlertDelProfile />
           </div>
         </div>
       </form>
+
+      <AlertInfo
+        showOnMount={toggleStates.autoSendCV}
+        title={"Автоматична відправка CV"}
+        text={
+          "Зверни увагу! Доступно лише 100 безкоштовних відправок. Для того щоб продовжити “Автоматична відправка CV”- оберіть передоплату"
+        }
+        buttonText={"Оформити передплату"}
+        onButtonClick={() => alert('Оформити передплату "CV" clicked')}
+      />
+
+      <AlertInfo
+        showOnMount={toggleStates.autoCompareJobs}
+        title={"Автоматичне порівняння вакансій"}
+        text={
+          "Зверни увагу! Доступно лише 3 безкоштовні перевірки, Для того щоб продовжити “Автоматичне порівняння вакансій”- оберіть передоплату"
+        }
+        buttonText={"Оформити передплату"}
+        onButtonClick={() => alert('Оформити передплату "порівняння" clicked')}
+      />
     </Tabs>
   );
 };
