@@ -2,6 +2,8 @@
 
 import React from "react";
 
+import { LogOut, Trash } from "lucide-react";
+
 import { Button, Input, Toggle } from "@/components/ui";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs";
 
@@ -24,6 +26,8 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
     last_name: last_name || "",
     email: email || "",
     username: username || "",
+    linkedin_url: "",
+    cv: "",
     avatar_url: avatar_url || "",
     date_joined: date_joined || new Date().toLocaleDateString(),
   });
@@ -39,9 +43,9 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
   const [toggleStates, setToggleStates] = React.useState<{
     [key in ToggleName]: boolean;
   }>({
-    autoSendCV: true,
+    autoSendCV: false,
     autoCompareJobs: false,
-    emailNotifications: false,
+    emailNotifications: true,
   });
   const handleToggle = (name: ToggleName) => {
     setToggleStates((prev) => ({
@@ -73,31 +77,24 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
           value="profile"
           className="data-[state=active]:animate-in data-[state=active]:fade-in data-[state=active]:zoom-in data-[state=inactive]:animate-fade-out data-[state=inactive]:fade-out data-[state=inactive]:zoom-out"
         >
-          <div className="flex flex-col gap-1">
-            <div className="flex w-full flex-wrap gap-4">
-              <div className="flex items-center gap-4">
-                <Input
-                  onChange={handleChange}
-                  value={formData.username}
-                  name="username"
-                  id="username"
-                  label="Username:"
-                />
-              </div>
+          <div className="flex flex-col gap-2">
+            <div className="">
+              <h2 className="heading-h3">Особисті дані</h2>
             </div>
-
             <div className="flex w-full flex-wrap gap-4">
-              <div className="flex items-center gap-4">
+              <div className="flex-1">
                 <Input
                   onChange={handleChange}
+                  className="w-full"
                   value={formData.first_name}
                   name="first_name"
                   id="first_name"
                   label="Ім'я:"
                 />
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex-1">
                 <Input
+                  className="w-full"
                   onChange={handleChange}
                   value={formData.last_name}
                   name="last_name"
@@ -107,17 +104,73 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
               </div>
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-2">
-              <div className="flex w-full items-center gap-4">
-                <span className="text-neutral-500">Електронна пошта:</span>
-                <span className="text-neutral-800">{email}</span>
+            <div className="flex w-full flex-wrap gap-4">
+              {/* <div className="flex-1">
+                <Input
+                  onChange={handleChange}
+                  value={formData.username}
+                  name="username"
+                  id="username"
+                  label="Username:"
+                />
+              </div> */}
+              <div className="flex-1">
+                <Input
+                  className="w-full"
+                  type="email"
+                  onChange={handleChange}
+                  value={formData.email}
+                  name="email"
+                  id="email"
+                  label="Email:"
+                />
               </div>
+            </div>
 
-              <div className="flex w-full items-center gap-4">
+            <div className="flex w-full flex-wrap gap-4">
+              <div className="flex-1">
+                <Input
+                  onChange={handleChange}
+                  className="w-full"
+                  value={formData.linkedin_url}
+                  name="linkedin_url"
+                  id="linkedin_url"
+                  label="Linkedin url:"
+                  placeholder="https://www.linkedin.com/in/your-profile"
+                />
+              </div>
+            </div>
+
+            <div className="flex w-full flex-wrap gap-4">
+              <div className="flex-1">
+                <Input
+                  onChange={handleChange}
+                  className="w-full"
+                  value={formData.cv}
+                  name="cv"
+                  id="cv"
+                  label="CV:"
+                  placeholder="https://www.example.com/your-cv.pdf"
+                />
+              </div>
+            </div>
+
+            <div className="mt-2 flex flex-wrap justify-between gap-2">
+              <div className="flex gap-2">
                 <span className="text-neutral-500">Дата приєднання:</span>
                 <span className="text-neutral-800">{new Date(date_joined).toLocaleDateString("uk-UA")}</span>
               </div>
             </div>
+
+            {/* <div className="mt-6">
+              <Link href="/cv" className="text-blue-500 hover:underline">
+                CV
+              </Link>
+
+              <Link href="/skills-match" className="ml-4 text-blue-500 hover:underline">
+                Skills Match
+              </Link>
+            </div> */}
           </div>
         </TabsContent>
 
@@ -164,8 +217,19 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
           </div>
         </TabsContent>
 
-        <div className="mt-2 flex items-center gap-4">
-          <Button className="mt-4">Зберегти зміни</Button>
+        <div className="mt-4 flex items-center justify-between gap-4">
+          <Button className="">Зберегти зміни</Button>
+
+          <div className="flex flex-col gap-1">
+            <button className="input-text text-primary-500 flex cursor-pointer items-center gap-1 p-1">
+              <LogOut className="h-4 w-4" />
+              <span>Вийти з акаунта</span>
+            </button>
+            <button className="input-text text-error-main flex cursor-pointer items-center gap-1 p-1">
+              <Trash className="h-4 w-4" />
+              <span>Видалити акаунт</span>
+            </button>
+          </div>
         </div>
       </form>
     </Tabs>

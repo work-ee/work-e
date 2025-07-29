@@ -13,8 +13,8 @@ export default async function ProfilePage() {
   return (
     <main className="center-page">
       <section className="section flex-1">
-        <div className="container flex flex-col gap-8">
-          <div>
+        <div className="container">
+          <div className="relative">
             <h1 className="heading-h2">Мій профіль</h1>
             <div className="flex items-center gap-2">
               <span className="text-neutral-500 italic">Welcome: </span>
@@ -24,8 +24,10 @@ export default async function ProfilePage() {
             </div>
           </div>
 
-          <div className="max-w-[870px]">
-            <Profile user={session?.backendUser} />
+          <div className="aside-wrapper">
+            <article className="article">
+              <Profile user={session?.backendUser} />
+            </article>
           </div>
         </div>
       </section>
