@@ -39,7 +39,7 @@ export function ModalAlertDelProfile() {
             asChild
             className="h-13 flex-1 border-red-800 bg-red-500 text-xl hover:border-red-800 hover:bg-red-600"
           >
-            <Button>Так</Button>
+            <Button onClick={() => alert('Done "ВИДАЛЕННЯ"')}>Так</Button>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

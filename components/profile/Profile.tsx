@@ -234,7 +234,7 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
           "Зверни увагу! Доступно лише 100 безкоштовних відправок. Для того щоб продовжити “Автоматична відправка CV”- оберіть передоплату"
         }
         buttonText={"Оформити передплату"}
-        onButtonClick={() => alert('Оформити передплату "CV" clicked')}
+        onButtonClick={() => alert('Done "Передоплата CV"')}
       />
 
       <AlertInfo
@@ -244,7 +244,7 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
           "Зверни увагу! Доступно лише 3 безкоштовні перевірки, Для того щоб продовжити “Автоматичне порівняння вакансій”- оберіть передоплату"
         }
         buttonText={"Оформити передплату"}
-        onButtonClick={() => alert('Оформити передплату "порівняння" clicked')}
+        onButtonClick={() => alert('Done "Передоплата ПОРІВНЯННЯ"')}
       />
     </Tabs>
   );

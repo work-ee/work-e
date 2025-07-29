@@ -34,7 +34,10 @@ export const AlertInfo = ({
           {backdrop && <Backdrop />}
           <div className="flex overflow-hidden rounded-2xl bg-white p-6 drop-shadow-lg transition-all hover:scale-[1.01]">
             <div className="relative">
-              <button className="absolute right-0 mb-auto cursor-pointer p-1" onClick={() => toast.dismiss(t)}>
+              <button
+                className="absolute right-0 mb-auto cursor-pointer p-1 transition-transform duration-200 ease-in-out hover:scale-110"
+                onClick={() => toast.dismiss(t)}
+              >
                 <SpriteSvg id="icon-close" className="fill-primary-300 h-6 w-6" />
                 <span className="sr-only">Close</span>
               </button>
