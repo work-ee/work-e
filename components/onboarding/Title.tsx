@@ -1,5 +1,3 @@
-import React from "react";
-
 export const Title = ({ title, subtitle }: { title: string; subtitle: string }) => {
   return (
     <div>

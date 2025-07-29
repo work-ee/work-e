@@ -233,7 +233,7 @@
 }
 
 @utility container {
-  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  @apply mx-auto max-w-[1272px] px-4 sm:px-6;
 }
 
 @layer components {
@@ -380,4 +380,16 @@ input[type="range"]:disabled::-moz-range-thumb {
   background-color: var(--color-neutral-300);
   border-color: var(--color-neutral-300);
   cursor: not-allowed;
+}
+
+.aside-wrapper {
+  @apply flex flex-wrap items-stretch justify-between;
+}
+.article {
+  @apply w-full max-w-[860px];
+  @apply my-6 px-5 sm:px-6;
+}
+.aside {
+  @apply flex w-full max-w-[360px] flex-shrink-0 flex-col gap-6;
+  @apply my-6 px-5;
 }
