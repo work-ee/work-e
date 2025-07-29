@@ -216,6 +216,8 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
 
           <div className="flex flex-col gap-1">
             <button
+              type="button"
+              aria-label="Вийти з акаунта"
               className="input-text text-primary-500 flex cursor-pointer items-center gap-1 p-1"
               onClick={() => signOut({ callbackUrl: "/sign-in" })}
             >
