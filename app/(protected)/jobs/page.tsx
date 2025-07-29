@@ -12,8 +12,8 @@ export default async function ProfilePage() {
   const jobs = await getAllJobs();
 
   return (
-    <main className="_center-page">
-      <section className="section">
+    <main className="center-page">
+      <section className="section flex-1">
         <div className="container">
           <div className="relative flex flex-wrap items-center gap-4">
             <h1 className="heading-h2">UX/UI Designer</h1>

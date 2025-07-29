@@ -25,8 +25,8 @@ export default async function JobArticlePage({ params }: Props) {
   }
 
   return (
-    <main className="_center-page">
-      <section className="section">
+    <main className="center-page">
+      <section className="section flex-1">
         <div className="container">
           <div className="relative flex flex-col gap-1">
             <span className="heading-h3 font-rubik flex items-center">
