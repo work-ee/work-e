@@ -12,7 +12,7 @@ export const Header = async () => {
   const session = await auth();
 
   // -> Add default values for first_name and avatar_url
-  const { avatar_url, username } = session?.backendUser || {
+  const { avatar_url, first_name } = session?.backendUser || {
     first_name: session?.user?.name || "Guest",
     avatar_url: session?.user?.image || null,
     username: "Guest",
@@ -50,10 +50,10 @@ export const Header = async () => {
                         <img src={`${avatar_url}`} alt="User Avatar" className="" />
                       </>
                     ) : (
-                      <span className="heading-h3 flex-inline text-secondary-900">{username?.charAt(0)}</span>
+                      <span className="heading-h3 flex-inline text-secondary-900">{first_name?.charAt(0)}</span>
                     )}
                   </div>
-                  <span className="flex-initial">{username}</span>
+                  <span className="flex-initial">{first_name}</span>
                 </Link>
                 <SignOut />
               </div>
