@@ -32,21 +32,21 @@ export const AlertInfo = ({
       (t) => (
         <>
           {backdrop && <Backdrop />}
-          <div className="flex overflow-hidden rounded-2xl bg-white p-6 drop-shadow-lg transition-all hover:scale-[1.01]">
-            <div className="relative">
-              <button
-                className="absolute right-0 mb-auto cursor-pointer p-1 transition-transform duration-200 ease-in-out hover:scale-110"
-                onClick={() => toast.dismiss(t)}
-              >
-                <SpriteSvg id="icon-close" className="fill-primary-300 h-6 w-6" />
-                <span className="sr-only">Close</span>
-              </button>
+          <div className="relative flex rounded-2xl bg-white p-6 drop-shadow-lg transition-all hover:scale-[1.01]">
+            <button
+              className="absolute top-5 right-5 mb-auto cursor-pointer rounded-xs p-1 opacity-70 transition-all duration-200 ease-in-out hover:scale-110 hover:opacity-100 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-8"
+              onClick={() => toast.dismiss(t)}
+            >
+              <SpriteSvg id="icon-close" className="fill-primary-300" />
+              <span className="sr-only">Close</span>
+            </button>
 
-              <b className="heading-h3 mb-4 flex pr-8">{title}</b>
+            <div className="flex flex-col gap-4">
+              <b className="heading-h3 flex pr-8">{title}</b>
 
               <p>{text}</p>
 
-              <div className="mt-6 flex gap-6">
+              <div className="mt-2 flex gap-6">
                 <Button className="w-full justify-center" onClick={onButtonClick}>
                   <Wallet />
                   <span>{buttonText}</span>

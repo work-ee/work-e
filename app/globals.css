@@ -289,6 +289,11 @@
   .shadow-primary {
     @apply shadow-[0px_0px_0px_2px_var(--color-primary-100)];
   }
+
+  /* ToDo: replace to component variant small button */
+  .btn-sm {
+    @apply max-h-[54px] w-full justify-center !p-4;
+  }
 }
 
 /* ----------------------------------- */

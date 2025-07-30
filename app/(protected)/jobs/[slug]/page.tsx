@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 
 import clsx from "clsx";
-import { Check, Mail, X } from "lucide-react";
+import { Mail } from "lucide-react";
 
-import { MagicSvg } from "@/components/icons";
+import { CheckSkills } from "@/components/jobs/CheckSkills";
 import { Button } from "@/components/ui";
 
 import { getJobBySlug } from "@/actions/server/jobs";
@@ -147,60 +147,25 @@ export default async function JobArticlePage({ params }: Props) {
               </div>
 
               <div className="mt-8 flex items-center justify-between gap-4">
-                <Button className="" variant="secondary">
+                {/* <Button className="" variant="secondary">
                   <MagicSvg />
                   Порівняти свої навички
-                </Button>
+                </Button> */}
 
-                {/* <Button>
+                <Button className="btn-sm" variant="secondary">
                   <Mail />
                   Подати заявку
-                </Button> */}
+                </Button>
               </div>
             </article>
 
-            <aside className="aside">
-              <div className="border-primary-100 flex flex-col gap-4 rounded-md p-6 shadow-[0_0_0_2px_var(--color-primary-100)] sm:px-6 lg:sticky lg:top-6">
-                {/* <h3 className="heading-h3 text-primary-700">
-                  Твій AI-кар'єрний стратег: Персоналізовані CV та листи – автоматично!
-                </h3>
-                <p>
-                  Забудь про стандартні відгуки та години ручної роботи! Тепер розумний AI індивідуально адаптує ключові
-                  аспекти твого CV та пише унікальний, аргументований супровідний лист для кожної вакансії. Максимізуй
-                  свої шанси та вражай рекрутерів без зайвих зусиль!
-                </p> */}
-
-                <ul className="flex flex-col gap-4">
-                  <li className="relative flex items-center gap-2">
-                    <Check className="size-8 text-green-500" />
-                    <strong>Тільки віддалено</strong>
-                  </li>
-                  <li className="relative flex items-center gap-2">
-                    <Check className="size-8 text-green-500" />
-                    <strong>Повна зайнятість</strong>
-                  </li>
-                  <li className="relative flex items-center gap-2">
-                    <X className="size-8 text-red-500" />
-                    <strong>Агенція</strong>
-                    <i className="error-msg absolute -bottom-full mb-1 max-w-full truncate p-2 text-sm text-red-500">
-                      Не збігається з типом компанії
-                    </i>
-                  </li>
-                  <li className="relative flex items-center gap-2">
-                    <X className="size-8 text-red-500" />
-                    <strong>Зарплатна плата</strong>
-                    <i className="error-msg absolute -bottom-full mb-1 max-w-full truncate p-2 text-sm text-red-500">
-                      Не вказано
-                    </i>
-                  </li>
-                </ul>
-
-                <Button className="mt-6 justify-center">
-                  <Mail />
-                  Подати заявку
-                </Button>
-              </div>
-            </aside>
+            {CheckSkills && (
+              <aside className="aside">
+                <div className="border-primary-100 flex flex-col gap-4 rounded-md p-6 shadow-[0_0_0_2px_var(--color-primary-100)] sm:px-6 lg:sticky lg:top-6">
+                  <CheckSkills />
+                </div>
+              </aside>
+            )}
           </div>
         </div>
       </section>
