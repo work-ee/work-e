@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Checkbox, Slider } from "@/components/ui";
 
-export const FilterList = () => {
+export const AsideFilterList = () => {
   const [range, setRange] = useState({ from: 10, to: 100 });
   const [workFormat, setWorkFormat] = useState({
     remote: false,

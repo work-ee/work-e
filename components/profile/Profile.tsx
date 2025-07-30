@@ -236,7 +236,7 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
           "Зверни увагу! Доступно лише 100 безкоштовних відправок. Для того щоб продовжити “Автоматична відправка CV”- оберіть передоплату"
         }
         buttonText={"Оформити передплату"}
-        onButtonClick={() => alert('Done "Передоплата CV"')}
+        onButtonClick={() => alert('Done "Автоматична відправка CV"')}
       />
 
       <AlertInfo

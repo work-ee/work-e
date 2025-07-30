@@ -1,8 +1,6 @@
 import Image from "next/image";
 
-import MagicSvg from "@/components/icons/MagicSvg";
-import { CardList, FilterList, Search } from "@/components/jobs";
-import { Button } from "@/components/ui";
+import { AsideAiInfo, AsideFilterList, CardList, Search } from "@/components/jobs";
 
 import { cn } from "@/lib/utils";
 
@@ -47,24 +45,10 @@ export default async function ProfilePage() {
             </article>
 
             <aside className="aside">
-              <div className="border-primary-100 flex flex-col gap-4 rounded-md p-6 shadow-[0_0_0_2px_var(--color-primary-100)] sm:px-6">
-                <h3 className="heading-h3 text-primary-700">
-                  Твій AI-кар'єрний стратег: Персоналізовані CV та листи – автоматично!
-                </h3>
-                <p>
-                  Забудь про стандартні відгуки та години ручної роботи! Тепер розумний AI індивідуально адаптує ключові
-                  аспекти твого CV та пише унікальний, аргументований супровідний лист для кожної вакансії. Максимізуй
-                  свої шанси та вражай рекрутерів без зайвих зусиль!
-                </p>
-
-                <Button className="justify-center">
-                  <MagicSvg />
-                  Активувати
-                </Button>
-              </div>
+              <AsideAiInfo />
 
               <div className={cn("flex flex-col gap-4 rounded-md p-6 sm:px-6")}>
-                <FilterList />
+                <AsideFilterList />
               </div>
             </aside>
           </div>

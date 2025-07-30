@@ -30,7 +30,7 @@
   {
     "id": 3,
     "slug": "dev-ops-engineer",
-    "isApplied": true,
+    "isApplied": false,
     "type": [],
     "jobFormat": ["remote"],
     "body": {

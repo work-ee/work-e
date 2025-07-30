@@ -4,9 +4,9 @@ import { Check, X } from "lucide-react";
 
 import { ModalCheckSkills } from "../feedback/ModalCheckSkills";
 
-export const CheckSkills = () => {
+export const AsideCheckSkills = () => {
   return (
-    <>
+    <div className="border-primary-100 flex flex-col gap-4 rounded-md p-6 shadow-[0_0_0_2px_var(--color-primary-100)] sm:px-6 lg:sticky lg:top-6">
       <ul className="flex flex-col gap-4">
         <li className="relative flex items-center gap-2">
           <Check className="size-8 text-green-500" />
@@ -35,6 +35,6 @@ export const CheckSkills = () => {
       <div className="mt-6 w-full">
         <ModalCheckSkills />
       </div>
-    </>
+    </div>
   );
 };

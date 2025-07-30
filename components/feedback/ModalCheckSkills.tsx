@@ -21,7 +21,7 @@ export function ModalCheckSkills() {
           <Mail />
           Подати заявку
         </Button> */}
-        <Button className="btn-sm">
+        <Button className="btn-sm w-full">
           <MagicSvg />
           <span>Порівняти навички</span>
         </Button>
@@ -37,11 +37,7 @@ export function ModalCheckSkills() {
         </DialogHeader>
 
         <DialogFooter className="mt-2">
-          <Button
-            onClick={() => alert('Done "Порівняти"')}
-            variant="secondary"
-            className="btn-sm justify-center sm:w-auto"
-          >
+          <Button onClick={() => alert('Done "Порівняти"')} variant="secondary" className="btn-sm justify-center">
             Порівняти
           </Button>
 

@@ -292,7 +292,7 @@
 
   /* ToDo: replace to component variant small button */
   .btn-sm {
-    @apply max-h-[54px] w-full justify-center !p-4;
+    @apply max-h-[54px] justify-center !p-4;
   }
 }
 

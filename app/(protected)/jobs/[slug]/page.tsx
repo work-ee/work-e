@@ -1,10 +1,9 @@
 import { notFound } from "next/navigation";
 
 import clsx from "clsx";
-import { Mail } from "lucide-react";
 
-import { CheckSkills } from "@/components/jobs/CheckSkills";
-import { Button } from "@/components/ui";
+import { AsideCheckSkills } from "@/components/jobs/AsideCheckSkills";
+import { JobApplication } from "@/components/jobs/JobApplication";
 
 import { getJobBySlug } from "@/actions/server/jobs";
 
@@ -146,26 +145,12 @@ export default async function JobArticlePage({ params }: Props) {
                 </div>
               </div>
 
-              <div className="mt-8 flex items-center justify-between gap-4">
-                {/* <Button className="" variant="secondary">
-                  <MagicSvg />
-                  Порівняти свої навички
-                </Button> */}
-
-                <Button className="btn-sm" variant="secondary">
-                  <Mail />
-                  Подати заявку
-                </Button>
-              </div>
+              <JobApplication haveApplied={isApplied} />
             </article>
 
-            {CheckSkills && (
-              <aside className="aside">
-                <div className="border-primary-100 flex flex-col gap-4 rounded-md p-6 shadow-[0_0_0_2px_var(--color-primary-100)] sm:px-6 lg:sticky lg:top-6">
-                  <CheckSkills />
-                </div>
-              </aside>
-            )}
+            <aside className="aside">
+              <AsideCheckSkills />
+            </aside>
           </div>
         </div>
       </section>

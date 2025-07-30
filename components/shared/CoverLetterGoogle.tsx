@@ -99,12 +99,13 @@ export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) =>
 
   return (
     <section className="section container">
-      <h3 className="heading-h2 neutral-900 mb-2">Мотиваційний лист</h3>
+      <h3 className="heading-h3 neutral-900 mb-2">Мотиваційний лист</h3>
       <p className="text-micro neutral-900 mb-4">
         3-4 речення, що пояснюють, чому ви є ідеальним кандидатом на конкретну вакансію
       </p>
 
-      <div className="relative w-[920px]">
+      {/* !ToDo: remove hardcoded width */}
+      <div className="_w-[920px] relative">
         <Textarea
           value={text}
           onChange={handleChange}
@@ -117,7 +118,7 @@ export const CoverLetterGoogle = ({ jobDescription }: CoverLetterGoogleProps) =>
           )}
         />
         <div className="absolute right-8 bottom-8 left-8 flex items-center justify-between">
-          <Button variant="secondary" className="h-15.5 w-56.5" onClick={handleGenerateClick} disabled={isDisabled}>
+          <Button variant="secondary" className="btn-sm" onClick={handleGenerateClick} disabled={isDisabled}>
             <SpriteSvg
               id="icon-AI"
               className={clsx(
