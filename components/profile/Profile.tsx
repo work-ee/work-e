@@ -25,6 +25,13 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
     date_joined: new Date().toLocaleDateString(),
   };
 
+  const [toggleStates, setToggleStates] = useState<{
+    [key in ToggleName]: boolean;
+  }>({
+    autoSendCV: false,
+    autoCompareJobs: false,
+    emailNotifications: true,
+  });
   const [formData, setFormData] = useState({
     first_name: first_name || "",
     last_name: last_name || "",
@@ -43,19 +50,17 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
       [name]: value,
     }));
   };
-
-  const [toggleStates, setToggleStates] = useState<{
-    [key in ToggleName]: boolean;
-  }>({
-    autoSendCV: false,
-    autoCompareJobs: false,
-    emailNotifications: true,
-  });
   const handleToggle = (name: ToggleName) => {
     setToggleStates((prev) => ({
       ...prev,
       [name]: !prev[name],
     }));
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    alert("Form submitted with data:");
   };
 
   return (
@@ -76,7 +81,7 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
         </TabsTrigger>
       </TabsList>
 
-      <form className="flex flex-col gap-6">
+      <form className="flex flex-col gap-6" onSubmit={onSubmit}>
         <TabsContent
           value="profile"
           className="data-[state=active]:animate-in data-[state=active]:fade-in data-[state=active]:zoom-in data-[state=inactive]:animate-fade-out data-[state=inactive]:fade-out data-[state=inactive]:zoom-out"
@@ -85,6 +90,7 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
             <div className="">
               <h2 className="heading-h3">Особисті дані</h2>
             </div>
+
             <div className="flex w-full flex-wrap gap-4">
               <div className="flex-1">
                 <Input
@@ -134,6 +140,7 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
             <div className="flex w-full flex-wrap gap-4">
               <div className="flex-1">
                 <Input
+                  disabled
                   onChange={handleChange}
                   className="w-full"
                   value={formData.linkedin_url}
@@ -148,6 +155,7 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
             <div className="flex w-full flex-wrap gap-4">
               <div className="flex-1">
                 <Input
+                  disabled
                   onChange={handleChange}
                   className="w-full"
                   value={formData.cv}
@@ -224,6 +232,7 @@ export const Profile = ({ user }: { user?: BackendUser }) => {
               <LogOut className="h-4 w-4" />
               <span>Вийти з акаунта</span>
             </button>
+
             <ModalAlertDelProfile />
           </div>
         </div>

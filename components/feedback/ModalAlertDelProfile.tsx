@@ -17,7 +17,7 @@ export function ModalAlertDelProfile() {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <button className="input-text text-error-main flex cursor-pointer items-center gap-1 p-1">
+        <button type="button" className="input-text text-error-main flex cursor-pointer items-center gap-1 p-1">
           <Trash className="h-4 w-4" />
           <span>Видалити акаунт</span>
         </button>
