@@ -15,12 +15,13 @@ export const Step1 = ({ user, onCvUploadSuccess }: StepProps) => {
   return (
     <div>
       <Title
-        title="Серед 10 000+ вакансій уже є й твоя. Але ми не знаємо, яка саме"
-        subtitle="Щодня на платформі з’являються сотні нових можливостей — і ми хочемо показати ті, що ідеально підходять саме
+        // ! ToDO: Fix the title to be more descriptive and without HTML tags
+        title={`Серед 10 000+ вакансій уже є й твоя. <br /> Але ми не знаємо, яка саме`}
+        subtitle="Щодня на платформі з'являються сотні нових можливостей — і ми хочемо показати ті, що ідеально підходять саме
           тобі."
       />
 
-      <h2 className="heading-h3">Щоб допомогти:</h2>
+      {/* <h2 className="heading-h3">Щоб допомогти:</h2> */}
 
       <div className="mt-8 flex justify-center gap-12">
         <Button variant="secondary">

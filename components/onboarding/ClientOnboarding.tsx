@@ -45,11 +45,9 @@ export default function ClientOnboarding({ user, jobs }: StepProps) {
 
           <Current user={user} onCvUploadSuccess={handleCvUploadSuccess} />
 
-          <div className="mt-12 flex items-stretch">
-            {Current === Step2 && <CardList muted data={jobs} />}
-            {Current === Step3 && <CardList moreBtn data={jobs} />}
-            {Current === Step4 && <CardList moreBtn data={jobs} />}
-          </div>
+          {Current === Step2 && <CardList muted data={jobs} />}
+          {Current === Step3 && <CardList moreBtn data={jobs} />}
+          {Current === Step4 && <CardList moreBtn data={jobs} />}
         </div>
       </section>
 

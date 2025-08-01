@@ -52,13 +52,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     async jwt({ token, user, account }) {
-      // -> Saving user data to JWT token
       if (account?.provider) {
         token.provider = account.provider;
       }
 
       if (user?.backendToken) {
         token.backendToken = user.backendToken;
+      }
+
+      if (user?.backendUser) {
         token.backendUser = user.backendUser;
       }
 
@@ -66,10 +68,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     async session({ session, token }) {
-      // -> Saving backend token and user data to session
       if (token.backendToken) {
         session.backendToken = token.backendToken;
-        session.backendUser = token.backendUser;
       }
 
       if (token.backendUser) {

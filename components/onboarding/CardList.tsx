@@ -10,7 +10,7 @@ import { Card } from "./Card";
 
 export const CardList = ({ length = 3, muted = false, moreBtn = false, data = [], ...props }: IJobList) => {
   return (
-    <>
+    <div className="mt-12 flex items-stretch">
       <ul className={cn("grid grid-cols-3 gap-4 text-left", props.className)}>
         {data.slice(0, length).map((item) => (
           <Card key={item.id} id={item.id} slug={item.slug} body={item.body} muted={muted} jobFormat={item.jobFormat} />
@@ -27,6 +27,6 @@ export const CardList = ({ length = 3, muted = false, moreBtn = false, data = []
           <ArrowRightSvg />
         </Link>
       )}
-    </>
+    </div>
   );
 };

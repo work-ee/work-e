@@ -10,22 +10,29 @@ export interface BackendUser {
   avatar_url: string;
   date_joined: string;
 }
-export interface BackendTokens {
-  backendToken: string;
-  backendRefreshToken: string;
-}
+
 export interface ExtendedSessionData {
   backendToken?: string;
-  backendRefreshToken?: string;
   backendUser?: BackendUser;
   provider?: string;
 }
 
+export interface ExtendedUserData {
+  backendToken?: string;
+  backendUser?: BackendUser;
+}
+
 declare module "next-auth" {
   interface Session extends DefaultSession, ExtendedSessionData {}
-  interface User extends DefaultUser, ExtendedSessionData {}
+  interface User extends DefaultUser, ExtendedUserData {}
 }
 
 declare module "next-auth/jwt" {
   interface JWT extends DefaultJWT, ExtendedSessionData {}
+}
+
+// This file is used for sending user data (Profile) to the backend
+export interface IUserFormData extends Omit<BackendUser, "id" | "date_joined"> {
+  username?: string;
+  avatar_url?: string;
 }
