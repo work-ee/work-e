@@ -1,14 +1,9 @@
-import { Profile } from "@/components/profile/Profile";
+import { ProfileMain } from "@/components/profile";
 
-import GetSession from "@/lib/auth/get-session";
+import { fetchCurrentUserData } from "@/lib/utils/user";
 
 export default async function ProfilePage() {
-  const session = await GetSession();
-
-  const { first_name, last_name } = session?.backendUser || {
-    first_name: "Guest",
-    last_name: "User",
-  };
+  const { userData, first_name, last_name } = await fetchCurrentUserData();
 
   return (
     <main className="center-page">
@@ -26,7 +21,7 @@ export default async function ProfilePage() {
 
           <div className="aside-wrapper">
             <article className="article">
-              <Profile user={session?.backendUser} />
+              <ProfileMain user={userData} />
             </article>
           </div>
         </div>

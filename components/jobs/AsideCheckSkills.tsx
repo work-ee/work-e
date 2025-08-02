@@ -2,7 +2,7 @@
 
 import { Check, X } from "lucide-react";
 
-import { ModalCheckSkills } from "../feedback/ModalCheckSkills";
+import { ModalCheckSkills } from "@/components/feedback";
 
 export const AsideCheckSkills = () => {
   return (

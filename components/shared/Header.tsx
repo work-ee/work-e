@@ -6,17 +6,10 @@ import { SignOut } from "@/components/auth/SignOut";
 import { FlagUkrSvg } from "@/components/icons";
 import { Button } from "@/components/ui";
 
-import { auth } from "@/lib/auth";
+import { fetchCurrentUserData } from "@/lib/utils/user";
 
 export const Header = async () => {
-  const session = await auth();
-
-  // -> Add default values for first_name and avatar_url
-  const { avatar_url, first_name } = session?.backendUser || {
-    first_name: session?.user?.name || "Guest",
-    avatar_url: session?.user?.image || null,
-    username: "Guest",
-  };
+  const { session, first_name, avatar_url } = await fetchCurrentUserData();
 
   return (
     <header className="bg-primary-100 flex min-h-[94px] items-center justify-between py-4">

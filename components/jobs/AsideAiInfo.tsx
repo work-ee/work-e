@@ -40,6 +40,7 @@ export const AsideAiInfo = () => {
         }
         buttonText={"Оформити передплату"}
         onButtonClick={() => alert('Done "Автоматична відправка CV"')}
+        backdrop
       />
     </div>
   );

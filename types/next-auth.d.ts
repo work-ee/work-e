@@ -35,4 +35,7 @@ declare module "next-auth/jwt" {
 export interface IUserFormData extends Omit<BackendUser, "id" | "date_joined"> {
   username?: string;
   avatar_url?: string;
+  date_joined?: string;
+  linkedin_url?: string;
+  cv?: string;
 }

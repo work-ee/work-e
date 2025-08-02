@@ -27,6 +27,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers,
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   secret: process.env.AUTH_SECRET!,
   trustHost: true,
@@ -51,7 +52,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
     },
 
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger, session }) {
       if (account?.provider) {
         token.provider = account.provider;
       }
@@ -62,6 +63,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (user?.backendUser) {
         token.backendUser = user.backendUser;
+      }
+
+      if (trigger === "update" && session?.backendUser) {
+        // Update token with new user data
+        token.backendUser = {
+          ...token.backendUser,
+          ...session.backendUser,
+        };
       }
 
       return token;

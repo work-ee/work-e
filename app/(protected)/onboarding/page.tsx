@@ -1,4 +1,4 @@
-import ClientOnboarding from "@/components/onboarding/ClientOnboarding";
+import { OnboardingMain } from "@/components/onboarding";
 
 import GetSession from "@/lib/auth/get-session";
 
@@ -17,7 +17,7 @@ export default async function OnboardingPage() {
   }
   return (
     <main className="center-page">
-      <ClientOnboarding user={session?.user} jobs={jobs} />
+      <OnboardingMain user={session?.user} jobs={jobs} />
     </main>
   );
 }

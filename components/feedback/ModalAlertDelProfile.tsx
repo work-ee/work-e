@@ -13,7 +13,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/shadcn/alert-dialog";
 
-export function ModalAlertDelProfile() {
+export const ModalAlertDelProfile = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -45,4 +45,4 @@ export function ModalAlertDelProfile() {
       </AlertDialogContent>
     </AlertDialog>
   );
-}
+};

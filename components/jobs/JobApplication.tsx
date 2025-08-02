@@ -61,6 +61,7 @@ const JobApplicationComponent = () => {
         text="Вітаю ти подався на вакансію. Чекай відповіді від HR"
         buttonText={"Надсилати автоматично"}
         onButtonClick={() => alert('Done "Автоматична відправка CV"')}
+        backdrop
       />
     </>
   );

@@ -25,7 +25,7 @@ export const Step1 = ({ user, onCvUploadSuccess }: StepProps) => {
 
       <div className="mt-8 flex justify-center gap-12">
         <Button variant="secondary">
-          <LinkedinSvg />
+          <LinkedinSvg className="h-5 w-5" />
           Підв'яжи свій Linkedin
         </Button>
         <CVUploadTrigger email={user?.email} onSuccessUpload={onCvUploadSuccess} />

@@ -18,7 +18,7 @@ type StepProps = {
 
 const steps = [Step1, Step2, Step3, Step4] as const;
 
-export default function ClientOnboarding({ user, jobs }: StepProps) {
+export function OnboardingMain({ user, jobs }: StepProps) {
   const [index, setIndex] = useState<number>(0);
   const [isCVUploaded, setIsCVUploaded] = useState<boolean>(false);
 
