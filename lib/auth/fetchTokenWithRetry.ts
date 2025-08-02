@@ -42,7 +42,7 @@ export async function fetchTokenWithRetry({ url, accessToken, retries = 4, delay
 
       // Retry on network errors if attempts remain
       if (attempt < retries - 1) {
-        console.log(`⏳ Waiting ${delayMs}ms before retry...`);
+        // console.log(`⏳ Waiting ${delayMs}ms before retry...`);
         await new Promise((r) => setTimeout(r, delayMs));
         continue;
       }
