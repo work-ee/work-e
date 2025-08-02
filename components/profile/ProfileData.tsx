@@ -92,7 +92,9 @@ export const ProfileData = ({ handleChange, formData }: ProfileProps) => {
       <div className="mt-2 flex flex-wrap justify-between gap-2">
         <div className="flex gap-2">
           <span className="text-neutral-500">Дата приєднання:</span>
-          {/* <span className="text-neutral-800">{date_joined && new Date(date_joined).toLocaleDateString("uk-UA")}</span> */}
+          <span className="text-neutral-800">
+            {formData.date_joined && new Date(formData.date_joined).toLocaleDateString("uk-UA")}
+          </span>
         </div>
       </div>
     </div>
