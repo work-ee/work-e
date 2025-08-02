@@ -28,15 +28,25 @@ export async function fetchTokenWithRetry({ url, accessToken, retries = 4, delay
 
       console.error(`❌ Backend error:`, text);
       throw new Error(text);
-    } catch (error) {
-      // Handle network errors (like ENOTFOUND)
+    } catch (error: unknown) {
+      console.error(`🔄 Attempt ${attempt + 1} failed:`, error);
+
+      // Handle different types of network errors
       if (error instanceof TypeError && error.message.includes("fetch")) {
         console.error(`🌐 Network error (attempt ${attempt + 1}):`, error.message);
-        if (attempt < retries - 1) {
-          await new Promise((r) => setTimeout(r, delayMs));
-          continue;
-        }
+      } else if (error instanceof Error && error.message?.includes("UND_ERR_CONNECT_TIMEOUT")) {
+        console.error(`⏰ Connection timeout (attempt ${attempt + 1})`);
+      } else if (error instanceof Error && error.message?.includes("ENOTFOUND")) {
+        console.error(`🔍 DNS resolution failed (attempt ${attempt + 1})`);
       }
+
+      // Retry on network errors if attempts remain
+      if (attempt < retries - 1) {
+        console.log(`⏳ Waiting ${delayMs}ms before retry...`);
+        await new Promise((r) => setTimeout(r, delayMs));
+        continue;
+      }
+
       throw error;
     }
   }
