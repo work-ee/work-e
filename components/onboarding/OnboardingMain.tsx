@@ -39,7 +39,14 @@ export function OnboardingMain({ user, jobs }: StepProps) {
   };
 
   useEffect(() => {
-    // clear query parameters after OAuth login
+    // clear query parameters after OAuth login Google or LinkedIn
+
+    if (searchParams.get("state")) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("state");
+      window.history.replaceState({}, "", url.toString());
+    }
+
     if (searchParams.get("code")) {
       const url = new URL(window.location.href);
       url.searchParams.delete("code");
