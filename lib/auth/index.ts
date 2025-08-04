@@ -36,6 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     error: "/auth/error",
     signIn: "/sign-in",
   },
+  // debug: process.env.NODE_ENV === "development",
   callbacks: {
     async signIn({ user, account }) {
       try {

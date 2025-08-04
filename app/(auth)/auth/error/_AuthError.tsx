@@ -32,7 +32,7 @@ export default function AuthError() {
     if (isConfigurationError) {
       router.push("/onboarding");
     }
-  }, [error, router]);
+  }, [error, router, isConfigurationError]);
 
   if (isConfigurationError) {
     return (
