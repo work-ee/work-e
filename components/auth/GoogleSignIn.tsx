@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import clsx from "clsx";
 import { signIn } from "next-auth/react";
+import { toast } from "sonner";
 
 import { GoogleSvg } from "@/components/icons";
 
@@ -20,17 +21,30 @@ export const GoogleSignIn = ({ className = "", children, callbackUrl = "/onboard
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
-    const res = await signIn("google", {
-      redirect: false,
-      callbackUrl,
-    });
 
-    if (res?.ok) {
-      router.push(res.url!);
-    } else {
-      setIsLoading(false);
-      alert("Problem with Google sign in. Please try again later.");
-      console.error("Google sign in error:", res?.error);
+    try {
+      const res = await signIn("google", {
+        redirect: false,
+        callbackUrl,
+      });
+
+      if (res?.error) {
+        throw new Error(res.error);
+      }
+
+      if (res?.ok && res.url) {
+        router.push(res.url);
+      } else {
+        throw new Error("Unexpected response from authentication service");
+      }
+    } catch (error) {
+      console.error("Google sign in error:", error);
+
+      const errorMessage = error instanceof Error ? error.message : "Невідома помилка під час входу";
+
+      toast.error(`Помилка входу через Google: ${errorMessage}`);
+    } finally {
+      // setIsLoading(false);
     }
   };
 

@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { useSearchParams } from "next/navigation";
 
 import { User } from "next-auth";
 
@@ -21,6 +23,7 @@ const steps = [Step1, Step2, Step3, Step4] as const;
 export function OnboardingMain({ user, jobs }: StepProps) {
   const [index, setIndex] = useState<number>(0);
   const [isCVUploaded, setIsCVUploaded] = useState<boolean>(false);
+  const searchParams = useSearchParams();
 
   const Total = steps.length;
   const Current = steps[index];
@@ -34,6 +37,18 @@ export function OnboardingMain({ user, jobs }: StepProps) {
       setIsCVUploaded(true);
     }
   };
+
+  useEffect(() => {
+    // clear query parameters after OAuth login
+    if (searchParams.get("code")) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("code");
+      url.searchParams.delete("scope");
+      url.searchParams.delete("authuser");
+      url.searchParams.delete("prompt");
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, [searchParams]);
 
   return (
     <>
