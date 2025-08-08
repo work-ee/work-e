@@ -9,3 +9,4 @@ export { default as SearchJobSvg } from "./SearchJobSvg";
 export { default as DownloadDocSvg } from "./DownloadDocSvg";
 export { default as ProfileSvg } from "./ProfileSvg";
 export { default as ArrowRightSvg } from "./ArrowRightSvg";
+export { default as MagicSvg } from "./MagicSvg";

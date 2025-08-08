@@ -36,8 +36,15 @@ export const handleGoogleLogin = async ({ user, account }: Props) => {
     return true;
   } catch (err) {
     console.error("❌ handleGoogleLogin exception:", err);
+
+    // More detailed error logging for debugging
+    if (err instanceof Error) {
+      console.error("Error message:", err.message);
+      console.error("Error stack:", err.stack);
+    }
+
     // Throw error with specific message for NextAuth to handle
-    throw new Error("Failed to authenticate with backend server");
+    throw new Error(`Authentication failed: ${err instanceof Error ? err.message : "Unknown error"}`);
   }
 };
 
@@ -66,7 +73,14 @@ export const handleLinkedInLogin = async ({ user, account }: Props) => {
     return true;
   } catch (error) {
     console.error("❌ handleLinkedInLogin exception:", error);
+
+    // More detailed error logging for debugging
+    if (error instanceof Error) {
+      console.error("Error message:", error.message);
+      console.error("Error stack:", error.stack);
+    }
+
     // Throw error with specific message for NextAuth to handle
-    throw new Error("Failed to authenticate with backend server");
+    throw new Error(`Authentication failed: ${error instanceof Error ? error.message : "Unknown error"}`);
   }
 };

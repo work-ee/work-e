@@ -1,9 +1,6 @@
-import React from "react";
-
 import { ProfileSvg } from "@/components/icons";
 import { Button } from "@/components/ui";
 
-import { CardList } from "./CardList";
 import { Title } from "./Title";
 
 export const Step3 = () => {
@@ -19,10 +16,6 @@ export const Step3 = () => {
           <ProfileSvg />
           Заповнити профіль
         </Button>
-      </div>
-
-      <div className="mt-12 flex items-stretch">
-        <CardList moreBtn />
       </div>
     </div>
   );

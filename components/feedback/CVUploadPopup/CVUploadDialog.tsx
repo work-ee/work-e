@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import clsx from "clsx";
 
+import { AlertInfo } from "@/components/feedback";
 import { SpriteSvg } from "@/components/icons/SpriteSvg";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/shadcn/dialog";
@@ -11,8 +12,6 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { useCvUpload } from "@/hooks/useCvUpload";
 
 import { useModalsStore } from "@/stores/modalsStore";
-
-import { InfoDialog } from "../InfoDialog";
 
 interface CVUploadDialogProps {
   open: boolean;
@@ -237,12 +236,21 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
         </DialogContent>
       </Dialog>
 
-      <InfoDialog
+      {/* <InfoDialog
         open={showReminderDialog && remindCV}
         title="Нагадування"
         description="Ей! З твоїм резюме ми зможемо знайти для тебе ще більше крутих пропозицій! Завантаж його, коли будеш готовий "
         onClose={() => setShowReminderDialog(false)}
         onDoNotRemind={handleDoNotRemind}
+      /> */}
+
+      <AlertInfo
+        showOnMount={showReminderDialog && remindCV}
+        title="Нагадування"
+        text="Ей! З твоїм резюме ми зможемо знайти для тебе ще більше крутих пропозицій! Завантаж його, коли будеш готовий"
+        buttonText="Завантажити CV"
+        onButtonClick={handleDoNotRemind}
+        onClose={() => setShowReminderDialog(false)}
       />
     </>
   );

@@ -1,5 +1,3 @@
-import React from "react";
-
 export const Footer = () => {
   return (
     <footer className="bg-primary-100 flex min-h-[94px] items-center justify-center py-4">

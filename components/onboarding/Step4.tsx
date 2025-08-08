@@ -1,10 +1,7 @@
-import React from "react";
-
 import { Search } from "lucide-react";
 
 import { Button } from "@/components/ui";
 
-import { CardList } from "./CardList";
 import { Title } from "./Title";
 
 export const Step4 = () => {
@@ -24,10 +21,6 @@ export const Step4 = () => {
 
       <div className="my-4">
         <p>Ми будемо оновлювати добірки щодня — заходь, щоб не пропустити шанс</p>
-      </div>
-
-      <div className="mt-12 flex items-stretch">
-        <CardList moreBtn />
       </div>
     </div>
   );

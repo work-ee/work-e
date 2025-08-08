@@ -1,20 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { useSearchParams } from "next/navigation";
 
 import { User } from "next-auth";
 
-import { Step1, Step2, Step3, Step4 } from "@/components/onboarding";
-import { SvgProgressCircle } from "@/components/onboarding/SvgProgressCircle";
+import { Step1, Step2, Step3, Step4, SvgProgressCircle } from "@/components/onboarding";
 import { Button } from "@/components/ui";
 
-type StepProps = { user?: User };
+import { IJob } from "@/types/jobs";
+
+import { CardList } from "./CardList";
+
+type StepProps = {
+  user?: User;
+  jobs?: IJob[];
+};
 
 const steps = [Step1, Step2, Step3, Step4] as const;
 
-export default function ClientOnboarding({ user }: StepProps) {
+export function OnboardingMain({ user, jobs }: StepProps) {
   const [index, setIndex] = useState<number>(0);
   const [isCVUploaded, setIsCVUploaded] = useState<boolean>(false);
+  const searchParams = useSearchParams();
 
   const Total = steps.length;
   const Current = steps[index];
@@ -29,6 +38,25 @@ export default function ClientOnboarding({ user }: StepProps) {
     }
   };
 
+  useEffect(() => {
+    // clear query parameters after OAuth login Google or LinkedIn
+
+    if (searchParams.get("state")) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("state");
+      window.history.replaceState({}, "", url.toString());
+    }
+
+    if (searchParams.get("code")) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("code");
+      url.searchParams.delete("scope");
+      url.searchParams.delete("authuser");
+      url.searchParams.delete("prompt");
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, [searchParams]);
+
   return (
     <>
       <section className="section">
@@ -38,6 +66,10 @@ export default function ClientOnboarding({ user }: StepProps) {
           </div>
 
           <Current user={user} onCvUploadSuccess={handleCvUploadSuccess} />
+
+          {Current === Step2 && <CardList muted data={jobs} />}
+          {Current === Step3 && <CardList moreBtn data={jobs} />}
+          {Current === Step4 && <CardList moreBtn data={jobs} />}
         </div>
       </section>
 

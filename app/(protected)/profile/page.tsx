@@ -1,20 +1,15 @@
-import { Profile } from "@/components/profile/Profile";
+import { ProfileMain } from "@/components/profile";
 
-import GetSession from "@/lib/auth/get-session";
+import { fetchCurrentUserData } from "@/lib/utils/user";
 
 export default async function ProfilePage() {
-  const session = await GetSession();
-
-  const { first_name, last_name } = session?.backendUser || {
-    first_name: "Guest",
-    last_name: "User",
-  };
+  const { userData, first_name, last_name } = await fetchCurrentUserData();
 
   return (
     <main className="center-page">
       <section className="section flex-1">
-        <div className="container flex flex-col gap-8">
-          <div>
+        <div className="container">
+          <div className="relative">
             <h1 className="heading-h2">Мій профіль</h1>
             <div className="flex items-center gap-2">
               <span className="text-neutral-500 italic">Welcome: </span>
@@ -24,8 +19,10 @@ export default async function ProfilePage() {
             </div>
           </div>
 
-          <div className="max-w-[870px]">
-            <Profile user={session?.backendUser} />
+          <div className="aside-wrapper">
+            <article className="article">
+              <ProfileMain user={userData} />
+            </article>
           </div>
         </div>
       </section>

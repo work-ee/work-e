@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 
-import { validateCVFile } from "@/lib/utils";
+import { validateCVFile } from "@/lib/utils/cv";
 
 type Status = "idle" | "success" | "error" | "uploading" | "fileSelected";
 

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 
 // Define protected and auth routes for better maintainability
-const protectedRoutes = ["/onboarding", "/profile"];
+const protectedRoutes = ["/onboarding", "/profile", "/jobs", "/jobs/[slug]", "/uiKit"];
 const authRoutes = ["/sign-in", "/sign-up"];
 // const publicRoutes = ["/"];
 

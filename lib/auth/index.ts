@@ -14,6 +14,7 @@ const providers: Provider[] = [
         prompt: "consent",
         access_type: "offline",
         response_type: "code",
+        scope: "openid email profile",
       },
     },
   }),
@@ -27,6 +28,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers,
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   secret: process.env.AUTH_SECRET!,
   trustHost: true,
@@ -34,6 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     error: "/auth/error",
     signIn: "/sign-in",
   },
+  // debug: process.env.NODE_ENV === "development",
   callbacks: {
     async signIn({ user, account }) {
       try {
@@ -51,25 +54,33 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
     },
 
-    async jwt({ token, user, account }) {
-      // -> Saving user data to JWT token
+    async jwt({ token, user, account, trigger, session }) {
       if (account?.provider) {
         token.provider = account.provider;
       }
 
       if (user?.backendToken) {
         token.backendToken = user.backendToken;
+      }
+
+      if (user?.backendUser) {
         token.backendUser = user.backendUser;
+      }
+
+      if (trigger === "update" && session?.backendUser) {
+        // Update token with new user data
+        token.backendUser = {
+          ...token.backendUser,
+          ...session.backendUser,
+        };
       }
 
       return token;
     },
 
     async session({ session, token }) {
-      // -> Saving backend token and user data to session
       if (token.backendToken) {
         session.backendToken = token.backendToken;
-        session.backendUser = token.backendUser;
       }
 
       if (token.backendUser) {
