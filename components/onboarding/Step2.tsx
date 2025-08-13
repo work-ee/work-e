@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { User } from "next-auth";
 
 import { CVUploadTrigger } from "@/components/feedback/CVUploadPopup/CVUploadTrigger";
@@ -20,10 +22,12 @@ export const Step2 = ({ user, onCvUploadSuccess }: StepProps) => {
       />
 
       <div className="mt-8 flex justify-center gap-12">
-        <Button>
-          <ProfileSvg />
-          Заповнити профіль
-        </Button>
+        <Link href="profile">
+          <Button>
+            <ProfileSvg />
+            Заповнити профіль
+          </Button>
+        </Link>
       </div>
 
       <div className="my-4">
