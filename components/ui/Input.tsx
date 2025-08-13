@@ -103,7 +103,18 @@ export const Input: React.FC<InputProps> = ({
     "input-text",
     "text-current",
     "placeholder-current",
-    "disabled:bg-neutral-50 disabled:cursor-not-allowed",
+    "appearance-none",
+    "[&::-webkit-inner-spin-button]:appearance-none",
+    "[&::-webkit-outer-spin-button]:appearance-none",
+    "[&::-webkit-inner-spin-button]:m-0",
+    !disabled && "border-secondary-600 text-secondary-600",
+    !disabled &&
+      "hover:text-secondary-400 hover:border-secondary-400 hover:shadow-[0px_0px_8px_0px_rgba(120,170,227,0.4)]",
+    !disabled &&
+      "active:text-secondary-500 active:border-secondary-500 active:shadow-[0px_0px_8px_0px_rgba(120,170,227,0.6)]",
+    "focus:outline-none",
+    "focus:text-secondary-500 focus:border-secondary-500 focus:shadow-[0px_0px_8px_0px_rgba(120,170,227,0.6)]",
+    disabled && "cursor-not-allowed border-neutral-400 text-neutral-400",
     {
       "rounded-r-[8px]": iconLeft,
       "rounded-l-[8px]": iconRight,
