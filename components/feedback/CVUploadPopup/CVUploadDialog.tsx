@@ -22,10 +22,8 @@ interface CVUploadDialogProps {
 
 export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }: CVUploadDialogProps) {
   const [showReminderDialog, setShowReminderDialog] = useState(false);
-
   const remindCV = useModalsStore((state) => state.remindCV);
   const setRemindCV = useModalsStore((state) => state.setRemindCV);
-
   const {
     fileInputRef,
     fileName,
@@ -70,18 +68,19 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
   return (
     <>
       <Dialog open={open} onOpenChange={(isOpen) => !isOpen && handleDialogClose()}>
-        <DialogContent className="w-[800px] max-w-[unset] gap-6 rounded-2xl border-none p-8">
-          <DialogHeader className="h-[82px]">
-            <DialogTitle className="heading-h2 text-center text-[36px] text-neutral-900">Завантаж своє CV</DialogTitle>
-            <DialogDescription className="text-body text-center text-[18px] text-neutral-700">
+        <DialogContent className="w-[327px] max-w-[unset] gap-4 rounded-xl border-none p-6 md:w-[800px] md:gap-6 md:rounded-2xl md:p-8">
+          <DialogHeader className="h-[73px] md:h-[82px]">
+            <DialogTitle className="heading-h3 md:heading-h2 text-center text-[18px] text-neutral-900 md:text-[36px]">
+              Завантаж своє CV
+            </DialogTitle>
+            <DialogDescription className="text-body text-center text-[14px] text-neutral-700 md:text-[18px]">
               Та ми підберемо для тебе найрелевантніші вакансії
             </DialogDescription>
           </DialogHeader>
-
-          <div className="flex flex-wrap justify-center gap-6">
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
             <div
               className={clsx(
-                "m-auto h-[244px] w-[322px] rounded-xl border p-8 text-center",
+                "m-auto h-[168px] w-[172px] rounded-xl border p-3 text-center md:h-[244px] md:w-[322px] md:p-8",
                 isUploadDisabled
                   ? "pointer-events-none border-neutral-200"
                   : "border-primary-500 hover:border-primary-500 cursor-pointer transition-colors"
@@ -99,13 +98,13 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
               <SpriteSvg
                 id="icon-uploading-filed"
                 className={clsx(
-                  "mx-auto mb-4 h-12 w-12 fill-neutral-50",
+                  "mx-auto mb-2 h-6 w-6 fill-neutral-50 md:mb-4 md:h-12 md:w-12",
                   isUploadDisabled ? "stroke-neutral-400 text-neutral-400" : "text-primary-500 stroke-primary-500"
                 )}
               />
               <p
                 className={clsx(
-                  "text-micro pb-4",
+                  "text-micro pb-2 text-[10px] md:pb-4 md:text-[14px]",
                   status === "success" ? "text-neutral-200" : isUploadDisabled ? "text-neutral-400" : ""
                 )}
               >
@@ -124,7 +123,7 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
               </p>
               <p
                 className={clsx(
-                  "text-micro pb-4",
+                  "text-micro pb-2 text-[10px] md:pb-4 md:text-[14px]",
                   status === "success" ? "text-neutral-200" : isUploadDisabled ? "text-neutral-400" : ""
                 )}
               >
@@ -166,9 +165,9 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
                 disabled={isUploadDisabled}
               />
             </div>
+            <div className="border-primary-500 relative mx-auto flex h-[52px] basis-full items-center gap-2 rounded-lg border px-4 py-3.5 md:h-[72px] md:gap-1">
+              <SpriteSvg id="icon-pdf" className="fill-primary-500 h-6 w-6 text-neutral-900 md:h-10 md:w-10" />
 
-            <div className="border-primary-500 relative mx-auto flex h-[72px] basis-full items-center gap-1 rounded-lg border px-4 py-4">
-              <SpriteSvg id="icon-pdf" className="fill-primary-500 h-10 w-10 text-neutral-900" />
               <div className="flex-1">
                 <div className="mb-1 text-sm">{fileName || "Назва файлу"}</div>
                 <div className="flex h-1 w-full overflow-hidden rounded">
@@ -190,43 +189,53 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
               >
                 <SpriteSvg
                   id="icon-close-without-circle"
-                  className="fill-primary-500 h-[14px] w-[14px] text-neutral-900"
+                  className="fill-primary-500 h-4 w-4 text-neutral-900 md:h-6 md:w-6"
                 />
               </button>
             </div>
-
-            {message ? (
-              <div
-                className={clsx(
-                  "text-body mx-auto text-center",
-                  status === "error" ? "text-error-main" : "text-neutral-900",
-                  status === "uploading" && "animate-pulse"
-                )}
+            <div className="flex w-full flex-col gap-4">
+              {message && (
+                <div
+                  className={clsx(
+                    "text-body mx-auto text-center",
+                    status === "error" ? "text-error-main" : "text-neutral-900",
+                    status === "uploading" && "animate-pulse"
+                  )}
+                >
+                  {message}
+                  {isSecondaryUploadButtonVisible && (
+                    <button
+                      type="button"
+                      onClick={handleManualTrigger}
+                      className="btn text-primary-500 contents cursor-pointer"
+                    >
+                      натиснувши тут
+                    </button>
+                  )}
+                </div>
+              )}
+              {!message && (
+                <p className="text-body hidden text-center md:block">
+                  Якщо раптом у тебе немає CV, не хвилюйся, ти можеш створити його просто зараз
+                </p>
+              )}
+            </div>
+            <div className="flex w-full flex-col-reverse gap-4 md:flex-row md:gap-x-6">
+              <Button
+                variant="secondary"
+                className="h-10 w-full items-center justify-center md:order-first md:h-[62px] md:w-[356px]"
+                onClick={() => {}}
               >
-                {message}{" "}
-                {isSecondaryUploadButtonVisible && (
-                  <button
-                    type="button"
-                    onClick={handleManualTrigger}
-                    className="btn text-primary-500 contents cursor-pointer"
-                  >
-                    натиснувши тут
-                  </button>
-                )}
-              </div>
-            ) : (
-              <p className="text-body text-center">
-                Якщо раптом у тебе немає CV, не хвилюйся, ти можеш створити його просто зараз
-              </p>
-            )}
-
-            <div className="flex gap-x-6">
-              <Button variant="secondary" className="h-[62px] w-[356px] items-center justify-center" onClick={() => {}}>
                 Створити CV
               </Button>
+              {!message && (
+                <p className="text-body text-center md:hidden">
+                  Якщо раптом у тебе немає CV, не хвилюйся, ти можеш створити його просто зараз
+                </p>
+              )}
               <Button
                 disabled={isSubmitDisabled}
-                className="flex h-[62px] w-[356px] items-center justify-center"
+                className="flex h-10 w-full items-center justify-center md:h-[62px] md:w-[356px]"
                 onClick={() => handleSubmit()}
               >
                 Зберегти CV
@@ -235,15 +244,6 @@ export default function CVUploadDialog({ open, email, onClose, onSuccessUpload }
           </div>
         </DialogContent>
       </Dialog>
-
-      {/* <InfoDialog
-        open={showReminderDialog && remindCV}
-        title="Нагадування"
-        description="Ей! З твоїм резюме ми зможемо знайти для тебе ще більше крутих пропозицій! Завантаж його, коли будеш готовий "
-        onClose={() => setShowReminderDialog(false)}
-        onDoNotRemind={handleDoNotRemind}
-      /> */}
-
       <AlertInfo
         showOnMount={showReminderDialog && remindCV}
         title="Нагадування"
