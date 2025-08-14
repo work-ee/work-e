@@ -40,7 +40,7 @@ export const Checkbox: FC<Props> = ({
     disabled: "border-neutral-100 bg-neutral-100 cursor-not-allowed",
   };
 
-  const baseWrapper = clsx("flex items-start gap-2", disabled && "opacity-60");
+  const baseWrapper = clsx("flex items-center gap-2 cursor-pointer", disabled && "opacity-60");
 
   const checkboxBase = clsx(
     "w-8 h-8 rounded-[8px] border bg-neutral-50 flex items-center justify-center transition-colors",

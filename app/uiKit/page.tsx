@@ -505,7 +505,7 @@ export default function UiKit() {
           <div className="rounded-md border border-gray-200 bg-white p-10 shadow-sm">
             <Slider
               min={0}
-              max={100}
+              max={5000}
               fromValue={range.from}
               toValue={range.to}
               onChange={(from, to) => setRange({ from, to })}
