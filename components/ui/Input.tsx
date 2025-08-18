@@ -5,10 +5,10 @@ import clsx from "clsx";
 import { SpriteSvg } from "@/components/icons/SpriteSvg";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  id: string;
+  id?: string;
   label?: string;
   name: string;
-  value: string;
+  value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   type?: string;
@@ -43,7 +43,7 @@ export const Input: React.FC<InputProps> = ({
 }) => {
   const hasIcons = iconLeft || iconRight;
   const isUnlabeled = !label;
-  const showPlaceholder = isUnlabeled && placeholder;
+  const showPlaceholder = placeholder;
   const showErrorMessage = Boolean(error?.trim());
   const showSuccessMessage = !showErrorMessage && Boolean(success?.trim());
   let contentColorClass: string;
@@ -55,9 +55,9 @@ export const Input: React.FC<InputProps> = ({
   } else if (disabled) {
     contentColorClass = "text-neutral-200";
   } else if (isUnlabeled) {
-    contentColorClass = value !== "" ? "text-secondary-200" : "text-secondary-100";
+    contentColorClass = value !== "" ? "text-secondary-200" : "text-secondary-900  focus:border-secondary-500";
   } else {
-    contentColorClass = "text-secondary-100";
+    contentColorClass = "text-secondary-900";
   }
 
   let borderColorClass: string;
@@ -69,9 +69,9 @@ export const Input: React.FC<InputProps> = ({
   } else if (disabled) {
     borderColorClass = "border-neutral-200";
   } else if (isUnlabeled) {
-    borderColorClass = value !== "" ? "border-secondary-200" : "border-secondary-100 focus:border-secondary-500";
+    borderColorClass = value !== "" ? "border-secondary-200" : "border-secondary-900 focus:border-secondary-500";
   } else {
-    borderColorClass = "border-secondary-100";
+    borderColorClass = "border-secondary-900";
   }
 
   let iconBgClass: string;
@@ -154,7 +154,7 @@ export const Input: React.FC<InputProps> = ({
   return (
     <div className={className}>
       {label && (
-        <label htmlFor={id} className="label-text mb-2 block text-neutral-800">
+        <label htmlFor={id} className="label-text text--neutral-900 mb-2 block font-medium text-neutral-800">
           {label}
         </label>
       )}
