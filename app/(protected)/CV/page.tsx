@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import clsx from "clsx";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
@@ -8,53 +8,85 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { DropdownBlock, Input, ResumeFormSection } from "@/components/ui";
 import { Textarea } from "@/components/ui/shadcn/textarea";
 
+import { useProfileStore } from "@/stores/profileStore";
+import { Course, Education, Experience, Language, UserProfile } from "@/types/profile";
+
 type FormValues = {
-  personal: {
-    position: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    country: string;
-    city: string;
+  personalInfo: {
+    desiredPosition?: string;
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phone?: string;
+    country?: string;
+    city?: string;
   };
-  overview: string;
-  experience: { role: string; company: string; start: string; end: string; description: string }[];
-  education: { specialization: string; institution: string; start: string; end: string }[];
-  courses: { specialization: string; institution: string; start: string; end: string; description: string }[];
-  programmingLanguages: { language: string }[];
-  skills: { skill: string }[];
-  foreignLanguages: { language: string; level: string }[];
-  hobbies: string;
+  overview?: string;
+  experience: Experience[];
+  education: Education[];
+  courses: Course[];
+  programmingLanguages: { name: string }[];
+  skills: { name: string }[];
+  foreignLanguages: Language[];
+  hobbies?: string;
 };
 
 export default function CVForm() {
+  const { profile, setProfile } = useProfileStore();
+
   const {
     handleSubmit,
     control,
     register,
     formState: { errors },
+    reset,
   } = useForm<FormValues>({
     defaultValues: {
-      personal: {
-        position: "",
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        country: "",
-        city: "",
+      personalInfo: {
+        desiredPosition: profile.personalInfo?.desiredPosition || "",
+        firstName: profile.personalInfo?.firstName || "",
+        lastName: profile.personalInfo?.lastName || "",
+        email: profile.personalInfo?.email || "",
+        phone: profile.personalInfo?.phone || "",
+        country: profile.personalInfo?.country || "",
+        city: profile.personalInfo?.city || "",
       },
-      overview: "",
-      experience: [{ role: "", company: "", start: "", end: "", description: "" }],
-      education: [{ specialization: "", institution: "", start: "", end: "" }],
-      courses: [{ specialization: "", institution: "", start: "", end: "", description: "" }],
-      programmingLanguages: [{ language: "" }],
-      skills: [{ skill: "" }],
-      foreignLanguages: [{ language: "", level: "" }],
-      hobbies: "",
+      overview: profile.overview || "",
+      experience: profile.experience || [{ position: "", company: "", startDate: "", endDate: "", description: "" }],
+      education: profile.education || [{ specialization: "", institution: "", startDate: "", endDate: "" }],
+      courses: profile.courses || [
+        { specialization: "", institution: "", startDate: "", endDate: "", description: "" },
+      ],
+      programmingLanguages: profile.programmingLanguages?.map((lang) => ({ name: lang })) || [{ name: "" }],
+      skills: profile.skills?.map((skill) => ({ name: skill })) || [{ name: "" }],
+      foreignLanguages: profile.foreignLanguages || [{ name: "", level: undefined }],
+      hobbies: profile.hobbies || "",
     },
   });
+
+  useEffect(() => {
+    reset({
+      personalInfo: {
+        desiredPosition: profile.personalInfo?.desiredPosition || "",
+        firstName: profile.personalInfo?.firstName || "",
+        lastName: profile.personalInfo?.lastName || "",
+        email: profile.personalInfo?.email || "",
+        phone: profile.personalInfo?.phone || "",
+        country: profile.personalInfo?.country || "",
+        city: profile.personalInfo?.city || "",
+      },
+      overview: profile.overview || "",
+      experience: profile.experience || [{ position: "", company: "", startDate: "", endDate: "", description: "" }],
+      education: profile.education || [{ specialization: "", institution: "", startDate: "", endDate: "" }],
+      courses: profile.courses || [
+        { specialization: "", institution: "", startDate: "", endDate: "", description: "" },
+      ],
+      programmingLanguages: profile.programmingLanguages?.map((lang) => ({ name: lang })) || [{ name: "" }],
+      skills: profile.skills?.map((skill) => ({ name: skill })) || [{ name: "" }],
+      foreignLanguages: profile.foreignLanguages || [{ name: "", level: undefined }],
+      hobbies: profile.hobbies || "",
+    });
+  }, [profile, reset]);
 
   const sectionTitles = [
     "Особисті дані",
@@ -90,7 +122,14 @@ export default function CVForm() {
   ];
 
   const onSubmit = (data: FormValues) => {
-    console.log("Form Data:", data);
+    const transformedData: Partial<UserProfile> = {
+      ...data,
+      personalInfo: data.personalInfo,
+      programmingLanguages: data.programmingLanguages?.map((item) => item.name),
+      skills: data.skills?.map((item) => item.name),
+    };
+
+    setProfile(transformedData);
   };
 
   return (
@@ -98,7 +137,6 @@ export default function CVForm() {
       <section className="section flex-1">
         <div className="container">
           <h1 className="heading-h1 mb-10">CV</h1>
-
           <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-[870px] space-y-4">
             <ResumeFormSection
               title={sectionTitles[0]}
@@ -106,36 +144,39 @@ export default function CVForm() {
               isOpen={openSections[0]}
               toggleSection={toggleSection}
             >
-              {/* <div className=""> */}
               <Controller
-                name="personal.position"
+                name="personalInfo.desiredPosition"
                 control={control}
                 rules={{ required: "Вкажіть бажану посаду" }}
                 render={({ field }) => (
                   <DropdownBlock
-                    label="Бажана посада"
-                    triggerText={positionOptions[0].label}
+                    label="Бажана посада *"
+                    triggerText={
+                      positionOptions.find((opt) => opt.value === field.value)?.label || positionOptions[0].label
+                    }
                     options={positionOptions}
                     selectedLabel={positionOptions.find((opt) => opt.value === field.value)?.label}
-                    onSelect={field.onChange}
+                    onSelect={(value) => field.onChange(value)}
                     className="mb-4 w-full"
                   />
                 )}
               />
-              {errors.personal?.position && <p className="text-sm text-red-500">{errors.personal.position.message}</p>}
+              {errors.personalInfo?.desiredPosition && (
+                <p className="text-sm text-red-500">{errors.personalInfo.desiredPosition.message}</p>
+              )}
               <div className="flex flex-wrap justify-between gap-4">
                 <Input
                   label="Ім’я *"
                   placeholder="Оксана"
                   required
-                  {...register("personal.firstName", { required: true })}
+                  {...register("personalInfo.firstName", { required: true })}
                   className="w-91"
                 />
                 <Input
                   label="Прізвище *"
                   placeholder="Антонюк"
                   required
-                  {...register("personal.lastName", { required: true })}
+                  {...register("personalInfo.lastName", { required: true })}
                   className="w-91"
                 />
                 <Input
@@ -143,18 +184,18 @@ export default function CVForm() {
                   placeholder="Oksena.Ankonuk@gmail.com"
                   type="email"
                   required
-                  {...register("personal.email", { required: true })}
+                  {...register("personalInfo.email", { required: true })}
                   className="w-91"
                 />
                 <Input
                   label="Телефон"
                   placeholder="+3806356897"
                   type="tel"
-                  {...register("personal.phone")}
+                  {...register("personalInfo.phone")}
                   className="w-91"
                 />
-                <Input label="Країна" placeholder="Україна" {...register("personal.country")} className="w-91" />
-                <Input label="Місто" placeholder="Львів" {...register("personal.city")} className="w-91" />
+                <Input label="Країна" placeholder="Україна" {...register("personalInfo.country")} className="w-91" />
+                <Input label="Місто" placeholder="Львів" {...register("personalInfo.city")} className="w-91" />
               </div>
             </ResumeFormSection>
 
@@ -183,10 +224,10 @@ export default function CVForm() {
             >
               {experienceArray.fields.map((field, i) => (
                 <div key={field.id} className="mb-4 grid gap-4 border-b pb-4">
-                  <Input label="Посада" {...register(`experience.${i}.role`)} />
+                  <Input label="Посада" {...register(`experience.${i}.position`)} />
                   <Input label="Компанія" {...register(`experience.${i}.company`)} />
-                  <Input label="Початок роботи" type="date" {...register(`experience.${i}.start`)} />
-                  <Input label="Завершення роботи" type="date" {...register(`experience.${i}.end`)} />
+                  <Input label="Початок роботи" type="date" {...register(`experience.${i}.startDate`)} />
+                  <Input label="Завершення роботи" type="date" {...register(`experience.${i}.endDate`)} />
                   <Textarea
                     className="border-secondary-300 input-text min-h-[150px] w-full resize-none rounded-lg border px-8 pt-2.5 outline-none"
                     {...register(`experience.${i}.description`)}
@@ -197,10 +238,10 @@ export default function CVForm() {
                 type="button"
                 onClick={() =>
                   experienceArray.append({
-                    role: "",
+                    position: "",
                     company: "",
-                    start: "",
-                    end: "",
+                    startDate: "",
+                    endDate: "",
                     description: "",
                   })
                 }
@@ -220,8 +261,8 @@ export default function CVForm() {
                 <div key={field.id} className="mb-4 grid gap-4 border-b pb-4">
                   <Input label="Спеціалізація" {...register(`education.${i}.specialization`)} />
                   <Input label="Заклад" {...register(`education.${i}.institution`)} />
-                  <Input label="Початок" type="date" {...register(`education.${i}.start`)} />
-                  <Input label="Завершення" type="date" {...register(`education.${i}.end`)} />
+                  <Input label="Початок" type="date" {...register(`education.${i}.startDate`)} />
+                  <Input label="Завершення" type="date" {...register(`education.${i}.endDate`)} />
                 </div>
               ))}
               <button
@@ -230,8 +271,8 @@ export default function CVForm() {
                   educationArray.append({
                     specialization: "",
                     institution: "",
-                    start: "",
-                    end: "",
+                    startDate: "",
+                    endDate: "",
                   })
                 }
                 className="btn-secondary"
@@ -250,8 +291,8 @@ export default function CVForm() {
                 <div key={field.id} className="mb-4 grid gap-4 border-b pb-4">
                   <Input label="Спеціалізація" {...register(`courses.${i}.specialization`)} />
                   <Input label="Заклад" {...register(`courses.${i}.institution`)} />
-                  <Input label="Початок" type="date" {...register(`courses.${i}.start`)} />
-                  <Input label="Завершення" type="date" {...register(`courses.${i}.end`)} />
+                  <Input label="Початок" type="date" {...register(`courses.${i}.startDate`)} />
+                  <Input label="Завершення" type="date" {...register(`courses.${i}.endDate`)} />
                   <Textarea
                     className="border-secondary-300 input-text min-h-[120px] w-full resize-none rounded-lg border px-8 pt-2.5 outline-none"
                     {...register(`courses.${i}.description`)}
@@ -264,8 +305,8 @@ export default function CVForm() {
                   coursesArray.append({
                     specialization: "",
                     institution: "",
-                    start: "",
-                    end: "",
+                    startDate: "",
+                    endDate: "",
                     description: "",
                   })
                 }
@@ -282,9 +323,9 @@ export default function CVForm() {
               toggleSection={toggleSection}
             >
               {progLangArray.fields.map((field, i) => (
-                <Input key={field.id} label="Мова" {...register(`programmingLanguages.${i}.language`)} />
+                <Input key={field.id} label="Мова" {...register(`programmingLanguages.${i}.name`)} />
               ))}
-              <button type="button" onClick={() => progLangArray.append({ language: "" })} className="btn-secondary">
+              <button type="button" onClick={() => progLangArray.append({ name: "" })} className="btn-secondary">
                 Додати ще мову
               </button>
             </ResumeFormSection>
@@ -296,9 +337,9 @@ export default function CVForm() {
               toggleSection={toggleSection}
             >
               {skillsArray.fields.map((field, i) => (
-                <Input key={field.id} label="Навичка" {...register(`skills.${i}.skill`)} />
+                <Input key={field.id} label="Навичка" {...register(`skills.${i}.name`)} />
               ))}
-              <button type="button" onClick={() => skillsArray.append({ skill: "" })} className="btn-secondary">
+              <button type="button" onClick={() => skillsArray.append({ name: "" })} className="btn-secondary">
                 Додати ще навичку
               </button>
             </ResumeFormSection>
@@ -311,13 +352,13 @@ export default function CVForm() {
             >
               {foreignLangArray.fields.map((field, i) => (
                 <div key={field.id} className="mb-4 grid gap-4 border-b pb-4">
-                  <Input label="Мова" {...register(`foreignLanguages.${i}.language`)} />
+                  <Input label="Мова" {...register(`foreignLanguages.${i}.name`)} />
                   <Input label="Рівень" {...register(`foreignLanguages.${i}.level`)} />
                 </div>
               ))}
               <button
                 type="button"
-                onClick={() => foreignLangArray.append({ language: "", level: "" })}
+                onClick={() => foreignLangArray.append({ name: "", level: undefined })}
                 className="btn-secondary"
               >
                 Додати ще мову

@@ -8,7 +8,6 @@ export async function GET(req: NextRequest) {
 
   let city = "";
   let country = "";
-
   try {
     const geoRes = await fetch(`http://ip-api.com/json/${ip}`);
     const geo = await geoRes.json();
