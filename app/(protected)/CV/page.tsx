@@ -35,7 +35,6 @@ type FormValues = {
 
 export default function CVForm() {
   const { profile, setProfile } = useProfileStore();
-  console.log("Profile1", profile);
 
   const {
     control,
@@ -93,7 +92,6 @@ export default function CVForm() {
         hobbies: value.hobbies,
       };
       debouncedSetProfile(transformedData);
-      console.log("Profile2", profile);
     });
 
     return () => {
@@ -101,6 +99,21 @@ export default function CVForm() {
       debouncedSetProfile.cancel();
     };
   }, [watch, debouncedSetProfile]);
+
+  const onSubmit = (data: FormValues) => {
+    const transformedData: Partial<UserProfile> = {
+      personalInfo: { ...data.personalInfo },
+      overview: data.overview,
+      experience: data.experience?.filter((item) => item !== undefined),
+      education: data.education?.filter((item) => item !== undefined),
+      courses: data.courses?.filter((item) => item !== undefined),
+      programmingLanguages: data.programmingLanguages?.map((item) => item?.name).filter(Boolean),
+      skills: data.skills?.map((item) => item?.name).filter(Boolean),
+      foreignLanguages: data.foreignLanguages?.filter((item) => item !== undefined),
+      hobbies: data.hobbies,
+    };
+    setProfile(transformedData);
+  };
 
   const sectionTitles = [
     "Особисті дані",
@@ -133,21 +146,6 @@ export default function CVForm() {
     { value: "designer", label: "UI/UX дизайнер" },
     { value: "devops", label: "DevOps інженер" },
   ];
-
-  const onSubmit = (data: FormValues) => {
-    const transformedData: Partial<UserProfile> = {
-      personalInfo: { ...data.personalInfo },
-      overview: data.overview,
-      experience: data.experience?.filter((item) => item !== undefined),
-      education: data.education?.filter((item) => item !== undefined),
-      courses: data.courses?.filter((item) => item !== undefined),
-      programmingLanguages: data.programmingLanguages?.map((item) => item?.name).filter(Boolean),
-      skills: data.skills?.map((item) => item?.name).filter(Boolean),
-      foreignLanguages: data.foreignLanguages?.filter((item) => item !== undefined),
-      hobbies: data.hobbies,
-    };
-    setProfile(transformedData);
-  };
 
   return (
     <main className="center-page">
