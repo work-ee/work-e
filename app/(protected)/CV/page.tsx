@@ -166,9 +166,7 @@ export default function CVForm() {
                 render={({ field }) => (
                   <DropdownBlock
                     label="Бажана посада *"
-                    triggerText={
-                      positionOptions.find((opt) => opt.value === field.value)?.label || positionOptions[0].label
-                    }
+                    triggerText={positionOptions.find((opt) => opt.value === field.value)?.label || "Оберіть посаду"}
                     options={positionOptions}
                     selectedLabel={positionOptions.find((opt) => opt.value === field.value)?.label}
                     onSelect={field.onChange}
@@ -176,38 +174,57 @@ export default function CVForm() {
                   />
                 )}
               />
-              {errors.personalInfo?.desiredPosition && (
-                <p className="text-sm text-red-500">{errors.personalInfo.desiredPosition.message}</p>
-              )}
               <div className="flex flex-wrap justify-between gap-4">
                 <Input
                   label="Ім’я *"
-                  {...register("personalInfo.firstName", { required: true })}
+                  error={errors.personalInfo?.firstName?.message}
+                  {...register("personalInfo.firstName", { required: "Вкажіть ім'я" })}
                   placeholder="Оксана"
                   className="w-91"
                 />
                 <Input
                   label="Прізвище *"
-                  {...register("personalInfo.lastName", { required: true })}
+                  error={errors.personalInfo?.lastName?.message}
+                  {...register("personalInfo.lastName", { required: "Вкажіть прізвище" })}
                   placeholder="Антонюк"
                   className="w-91"
                 />
                 <Input
                   label="Email *"
-                  {...register("personalInfo.email", { required: true })}
+                  error={errors.personalInfo?.email?.message}
+                  {...register("personalInfo.email", {
+                    required: "Вкажіть email",
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: "Некоректний формат email",
+                    },
+                  })}
                   placeholder="Oksana@gmail.com"
                   type="email"
                   className="w-91"
                 />
                 <Input
                   label="Телефон"
+                  error={errors.personalInfo?.phone?.message}
                   {...register("personalInfo.phone")}
                   placeholder="+3806356897"
                   type="tel"
                   className="w-91"
                 />
-                <Input label="Країна" {...register("personalInfo.country")} placeholder="Україна" className="w-91" />
-                <Input label="Місто" {...register("personalInfo.city")} placeholder="Львів" className="w-91" />
+                <Input
+                  label="Країна"
+                  error={errors.personalInfo?.country?.message}
+                  {...register("personalInfo.country")}
+                  placeholder="Україна"
+                  className="w-91"
+                />
+                <Input
+                  label="Місто"
+                  error={errors.personalInfo?.city?.message}
+                  {...register("personalInfo.city")}
+                  placeholder="Львів"
+                  className="w-91"
+                />
               </div>
             </ResumeFormSection>
 
@@ -236,10 +253,28 @@ export default function CVForm() {
             >
               {experienceArray.fields.map((field, i) => (
                 <div key={field.id} className="mb-4 grid gap-4 border-b pb-4">
-                  <Input label="Посада" {...register(`experience.${i}.position`)} />
-                  <Input label="Компанія" {...register(`experience.${i}.company`)} />
-                  <Input label="Початок роботи" type="date" {...register(`experience.${i}.startDate`)} />
-                  <Input label="Завершення роботи" type="date" {...register(`experience.${i}.endDate`)} />
+                  <Input
+                    label="Посада"
+                    error={errors.experience?.[i]?.position?.message}
+                    {...register(`experience.${i}.position`, { required: "Вкажіть посаду" })}
+                  />
+                  <Input
+                    label="Компанія"
+                    error={errors.experience?.[i]?.company?.message}
+                    {...register(`experience.${i}.company`, { required: "Вкажіть компанію" })}
+                  />
+                  <Input
+                    label="Початок роботи"
+                    type="date"
+                    error={errors.experience?.[i]?.startDate?.message}
+                    {...register(`experience.${i}.startDate`, { required: "Вкажіть дату початку" })}
+                  />
+                  <Input
+                    label="Завершення роботи"
+                    type="date"
+                    error={errors.experience?.[i]?.endDate?.message}
+                    {...register(`experience.${i}.endDate`, { required: "Вкажіть дату завершення" })}
+                  />
                   <Textarea
                     className="border-secondary-300 input-text min-h-[150px] w-full resize-none rounded-lg border px-8 pt-2.5 outline-none"
                     {...register(`experience.${i}.description`)}
@@ -271,10 +306,28 @@ export default function CVForm() {
             >
               {educationArray.fields.map((field, i) => (
                 <div key={field.id} className="mb-4 grid gap-4 border-b pb-4">
-                  <Input label="Спеціалізація" {...register(`education.${i}.specialization`)} />
-                  <Input label="Заклад" {...register(`education.${i}.institution`)} />
-                  <Input label="Початок" type="date" {...register(`education.${i}.startDate`)} />
-                  <Input label="Завершення" type="date" {...register(`education.${i}.endDate`)} />
+                  <Input
+                    label="Спеціалізація"
+                    error={errors.education?.[i]?.specialization?.message}
+                    {...register(`education.${i}.specialization`, { required: "Вкажіть спеціалізацію" })}
+                  />
+                  <Input
+                    label="Заклад"
+                    error={errors.education?.[i]?.institution?.message}
+                    {...register(`education.${i}.institution`, { required: "Вкажіть заклад" })}
+                  />
+                  <Input
+                    label="Початок"
+                    type="date"
+                    error={errors.education?.[i]?.startDate?.message}
+                    {...register(`education.${i}.startDate`, { required: "Вкажіть дату початку" })}
+                  />
+                  <Input
+                    label="Завершення"
+                    type="date"
+                    error={errors.education?.[i]?.endDate?.message}
+                    {...register(`education.${i}.endDate`, { required: "Вкажіть дату завершення" })}
+                  />
                 </div>
               ))}
               <button
@@ -301,10 +354,28 @@ export default function CVForm() {
             >
               {coursesArray.fields.map((field, i) => (
                 <div key={field.id} className="mb-4 grid gap-4 border-b pb-4">
-                  <Input label="Спеціалізація" {...register(`courses.${i}.specialization`)} />
-                  <Input label="Заклад" {...register(`courses.${i}.institution`)} />
-                  <Input label="Початок" type="date" {...register(`courses.${i}.startDate`)} />
-                  <Input label="Завершення" type="date" {...register(`courses.${i}.endDate`)} />
+                  <Input
+                    label="Спеціалізація"
+                    error={errors.courses?.[i]?.specialization?.message}
+                    {...register(`courses.${i}.specialization`, { required: "Вкажіть спеціалізацію" })}
+                  />
+                  <Input
+                    label="Заклад"
+                    error={errors.courses?.[i]?.institution?.message}
+                    {...register(`courses.${i}.institution`, { required: "Вкажіть заклад" })}
+                  />
+                  <Input
+                    label="Початок"
+                    type="date"
+                    error={errors.courses?.[i]?.startDate?.message}
+                    {...register(`courses.${i}.startDate`, { required: "Вкажіть дату початку" })}
+                  />
+                  <Input
+                    label="Завершення"
+                    type="date"
+                    error={errors.courses?.[i]?.endDate?.message}
+                    {...register(`courses.${i}.endDate`, { required: "Вкажіть дату завершення" })}
+                  />
                   <Textarea
                     className="border-secondary-300 input-text min-h-[120px] w-full resize-none rounded-lg border px-8 pt-2.5 outline-none"
                     {...register(`courses.${i}.description`)}
@@ -335,7 +406,12 @@ export default function CVForm() {
               toggleSection={toggleSection}
             >
               {progLangArray.fields.map((field, i) => (
-                <Input key={field.id} label="Мова" {...register(`programmingLanguages.${i}.name`)} />
+                <Input
+                  key={field.id}
+                  label="Мова"
+                  error={errors.programmingLanguages?.[i]?.name?.message}
+                  {...register(`programmingLanguages.${i}.name`, { required: "Вкажіть мову" })}
+                />
               ))}
               <button type="button" onClick={() => progLangArray.append({ name: "" })} className="btn-secondary">
                 Додати ще мову
@@ -349,7 +425,12 @@ export default function CVForm() {
               toggleSection={toggleSection}
             >
               {skillsArray.fields.map((field, i) => (
-                <Input key={field.id} label="Навичка" {...register(`skills.${i}.name`)} />
+                <Input
+                  key={field.id}
+                  label="Навичка"
+                  error={errors.skills?.[i]?.name?.message}
+                  {...register(`skills.${i}.name`, { required: "Вкажіть навичку" })}
+                />
               ))}
               <button type="button" onClick={() => skillsArray.append({ name: "" })} className="btn-secondary">
                 Додати ще навичку
@@ -364,8 +445,16 @@ export default function CVForm() {
             >
               {foreignLangArray.fields.map((field, i) => (
                 <div key={field.id} className="mb-4 grid gap-4 border-b pb-4">
-                  <Input label="Мова" {...register(`foreignLanguages.${i}.name`)} />
-                  <Input label="Рівень" {...register(`foreignLanguages.${i}.level`)} />
+                  <Input
+                    label="Мова"
+                    error={errors.foreignLanguages?.[i]?.name?.message}
+                    {...register(`foreignLanguages.${i}.name`, { required: "Вкажіть мову" })}
+                  />
+                  <Input
+                    label="Рівень"
+                    error={errors.foreignLanguages?.[i]?.level?.message}
+                    {...register(`foreignLanguages.${i}.level`, { required: "Вкажіть рівень" })}
+                  />
                 </div>
               ))}
               <button
