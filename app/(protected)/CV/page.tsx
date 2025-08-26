@@ -6,7 +6,7 @@ import clsx from "clsx";
 import debounce from "lodash/debounce";
 import { Controller, FieldError, useFieldArray, useForm } from "react-hook-form";
 
-import { DropdownBlock, ResumeFormSection } from "@/components/ui";
+import { AIControlledTextarea, DropdownBlock, ResumeFormSection } from "@/components/ui";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/shadcn/textarea";
 
@@ -562,12 +562,13 @@ export default function CVForm() {
               isOpen={openSections[8]}
               toggleSection={toggleSection}
             >
-              <Textarea
+              {/* <Textarea
                 className={clsx(
                   "border-secondary-300 input-text min-h-[150px] w-full resize-none rounded-lg border px-8 pt-2.5 outline-none"
                 )}
                 {...register("hobbies")}
-              />
+              /> */}
+              <AIControlledTextarea value="" onChange={() => {}} description="Вкажіть своє хобі" />
             </ResumeFormSection>
 
             <div className="mt-6">

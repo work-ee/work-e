@@ -31,7 +31,6 @@ export const AIControlledTextarea = ({
   maxCharLimit = 1500,
   onGenerateClick,
   canGenerate = false,
-  label,
   description,
   error,
   className,
@@ -49,12 +48,7 @@ export const AIControlledTextarea = ({
 
   return (
     <section className={clsx("section container", className)}>
-      {(label || description) && (
-        <>
-          {label && <h3 className="heading-h3 neutral-900 mb-2">{label}</h3>}
-          {description && <p className="text-micro neutral-900 mb-4">{description}</p>}
-        </>
-      )}
+      {description && <>{description && <p className="text-micro neutral-900 mb-4">{description}</p>}</>}
 
       <div className="_w-[920px] relative">
         <Textarea
