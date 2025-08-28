@@ -22,7 +22,7 @@ export const SvgProgressCircle = ({ percent }: Props) => {
   const radius = center - stroke;
   const circumference = 2 * Math.PI * radius;
   const dashOffset = circumference * (1 - progress / 100);
-  const progressColor = progress >= 100 ? "#33B55F" : progress >= 50 ? "#9BEEB7" : "#FF6600";
+  const progressColor = progress >= 100 ? "#33B55F" : progress >= 50 ? "#9BEEB7 " : "#FD7958";
 
   return (
     <div className="relative flex h-[280px] w-[280px] items-center justify-center">

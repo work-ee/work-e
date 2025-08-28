@@ -33,7 +33,7 @@ export const AsideFilterList = () => {
         </div>
         <Slider
           min={0}
-          max={100}
+          max={20000}
           fromValue={range.from}
           toValue={range.to}
           onChange={(from, to) => setRange({ from, to })}

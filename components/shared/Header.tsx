@@ -12,7 +12,7 @@ export const Header = async () => {
   const { session, first_name, avatar_url } = await fetchCurrentUserData();
 
   return (
-    <header className="bg-primary-100 sticky top-0 z-50 flex min-h-[94px] items-center justify-between py-4">
+    <header className="bg-primary-100 sticky top-0 z-50 flex h-[var(--header-height)] items-center justify-between py-4">
       <div className="container">
         <div className="flex items-center justify-between">
           <Link href="/" className="logo heading-h2 text-primary-900">

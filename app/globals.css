@@ -91,6 +91,9 @@
   --color-error-bg: #ffc4c4;
   --color-success-main: #0fbb20;
   --color-success-bg: #d8fedc;
+
+  /*  Custom properties */
+  --header-height: 94px;
 }
 
 .dark {
