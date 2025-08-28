@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Wallet } from "lucide-react";
 
 import { MagicSvg } from "@/components/icons";
@@ -32,13 +34,11 @@ export const ModalCheckSkills = () => {
         </DialogHeader>
 
         <DialogFooter className="mt-2">
-          <Button
-            onClick={() => alert('Done "Порівняти"')}
-            variant="secondary"
-            className="btn-sm w-full min-w-fit justify-center"
-          >
-            Порівняти
-          </Button>
+          <Link href="/matching" className="w-full">
+            <Button variant="secondary" className="btn-sm w-full min-w-fit justify-center">
+              Порівняти
+            </Button>
+          </Link>
 
           <Button
             onClick={() => alert('Done "Оформити передплату"')}
