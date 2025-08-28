@@ -148,11 +148,7 @@ export default function CVForm() {
   ];
 
   const isFieldSuccess = (value: string | undefined, error: FieldError | undefined) => {
-    return !error && value && value.trim() !== "" ? "Дані збережено" : undefined;
-  };
-
-  const isArrayFieldSuccess = (value: string | undefined, error: FieldError | undefined, message: string) => {
-    return !error && value && value.trim() !== "" ? message : undefined;
+    return !error && !!value?.trim();
   };
 
   return (
@@ -270,43 +266,27 @@ export default function CVForm() {
                   <Input
                     label="Посада"
                     error={errors.experience?.[i]?.position?.message}
-                    success={isArrayFieldSuccess(
-                      watch(`experience.${i}.position`),
-                      errors.experience?.[i]?.position,
-                      "Посаду додано"
-                    )}
+                    success={isFieldSuccess(watch(`experience.${i}.position`), errors.experience?.[i]?.position)}
                     {...register(`experience.${i}.position`, { required: "Вкажіть посаду" })}
                   />
                   <Input
                     label="Компанія"
                     error={errors.experience?.[i]?.company?.message}
-                    success={isArrayFieldSuccess(
-                      watch(`experience.${i}.company`),
-                      errors.experience?.[i]?.company,
-                      "Компанію додано"
-                    )}
+                    success={isFieldSuccess(watch(`experience.${i}.company`), errors.experience?.[i]?.company)}
                     {...register(`experience.${i}.company`, { required: "Вкажіть компанію" })}
                   />
                   <Input
                     label="Початок роботи"
                     type="date"
                     error={errors.experience?.[i]?.startDate?.message}
-                    success={isArrayFieldSuccess(
-                      watch(`experience.${i}.startDate`),
-                      errors.experience?.[i]?.startDate,
-                      "Дату додано"
-                    )}
+                    success={isFieldSuccess(watch(`experience.${i}.startDate`), errors.experience?.[i]?.startDate)}
                     {...register(`experience.${i}.startDate`, { required: "Вкажіть дату початку" })}
                   />
                   <Input
                     label="Завершення роботи"
                     type="date"
                     error={errors.experience?.[i]?.endDate?.message}
-                    success={isArrayFieldSuccess(
-                      watch(`experience.${i}.endDate`),
-                      errors.experience?.[i]?.endDate,
-                      "Дату додано"
-                    )}
+                    success={isFieldSuccess(watch(`experience.${i}.endDate`), errors.experience?.[i]?.endDate)}
                     {...register(`experience.${i}.endDate`, { required: "Вкажіть дату завершення" })}
                   />
                   <Textarea
@@ -343,43 +323,30 @@ export default function CVForm() {
                   <Input
                     label="Спеціалізація"
                     error={errors.education?.[i]?.specialization?.message}
-                    success={isArrayFieldSuccess(
+                    success={isFieldSuccess(
                       watch(`education.${i}.specialization`),
-                      errors.education?.[i]?.specialization,
-                      "Спеціалізацію додано"
+                      errors.education?.[i]?.specialization
                     )}
                     {...register(`education.${i}.specialization`, { required: "Вкажіть спеціалізацію" })}
                   />
                   <Input
                     label="Заклад"
                     error={errors.education?.[i]?.institution?.message}
-                    success={isArrayFieldSuccess(
-                      watch(`education.${i}.institution`),
-                      errors.education?.[i]?.institution,
-                      "Заклад додано"
-                    )}
+                    success={isFieldSuccess(watch(`education.${i}.institution`), errors.education?.[i]?.institution)}
                     {...register(`education.${i}.institution`, { required: "Вкажіть заклад" })}
                   />
                   <Input
                     label="Початок"
                     type="date"
                     error={errors.education?.[i]?.startDate?.message}
-                    success={isArrayFieldSuccess(
-                      watch(`education.${i}.startDate`),
-                      errors.education?.[i]?.startDate,
-                      "Дату додано"
-                    )}
+                    success={isFieldSuccess(watch(`education.${i}.startDate`), errors.education?.[i]?.startDate)}
                     {...register(`education.${i}.startDate`, { required: "Вкажіть дату початку" })}
                   />
                   <Input
                     label="Завершення"
                     type="date"
                     error={errors.education?.[i]?.endDate?.message}
-                    success={isArrayFieldSuccess(
-                      watch(`education.${i}.endDate`),
-                      errors.education?.[i]?.endDate,
-                      "Дату додано"
-                    )}
+                    success={isFieldSuccess(watch(`education.${i}.endDate`), errors.education?.[i]?.endDate)}
                     {...register(`education.${i}.endDate`, { required: "Вкажіть дату завершення" })}
                   />
                 </div>
@@ -411,43 +378,27 @@ export default function CVForm() {
                   <Input
                     label="Спеціалізація"
                     error={errors.courses?.[i]?.specialization?.message}
-                    success={isArrayFieldSuccess(
-                      watch(`courses.${i}.specialization`),
-                      errors.courses?.[i]?.specialization,
-                      "Спеціалізацію додано"
-                    )}
+                    success={isFieldSuccess(watch(`courses.${i}.specialization`), errors.courses?.[i]?.specialization)}
                     {...register(`courses.${i}.specialization`, { required: "Вкажіть спеціалізацію" })}
                   />
                   <Input
                     label="Заклад"
                     error={errors.courses?.[i]?.institution?.message}
-                    success={isArrayFieldSuccess(
-                      watch(`courses.${i}.institution`),
-                      errors.courses?.[i]?.institution,
-                      "Заклад додано"
-                    )}
+                    success={isFieldSuccess(watch(`courses.${i}.institution`), errors.courses?.[i]?.institution)}
                     {...register(`courses.${i}.institution`, { required: "Вкажіть заклад" })}
                   />
                   <Input
                     label="Початок"
                     type="date"
                     error={errors.courses?.[i]?.startDate?.message}
-                    success={isArrayFieldSuccess(
-                      watch(`courses.${i}.startDate`),
-                      errors.courses?.[i]?.startDate,
-                      "Дату додано"
-                    )}
+                    success={isFieldSuccess(watch(`courses.${i}.startDate`), errors.courses?.[i]?.startDate)}
                     {...register(`courses.${i}.startDate`, { required: "Вкажіть дату початку" })}
                   />
                   <Input
                     label="Завершення"
                     type="date"
                     error={errors.courses?.[i]?.endDate?.message}
-                    success={isArrayFieldSuccess(
-                      watch(`courses.${i}.endDate`),
-                      errors.courses?.[i]?.endDate,
-                      "Дату додано"
-                    )}
+                    success={isFieldSuccess(watch(`courses.${i}.endDate`), errors.courses?.[i]?.endDate)}
                     {...register(`courses.${i}.endDate`, { required: "Вкажіть дату завершення" })}
                   />
                   <Textarea
@@ -484,10 +435,9 @@ export default function CVForm() {
                   key={field.id}
                   label="Мова"
                   error={errors.programmingLanguages?.[i]?.name?.message}
-                  success={isArrayFieldSuccess(
+                  success={isFieldSuccess(
                     watch(`programmingLanguages.${i}.name`),
-                    errors.programmingLanguages?.[i]?.name,
-                    "Мову додано"
+                    errors.programmingLanguages?.[i]?.name
                   )}
                   {...register(`programmingLanguages.${i}.name`, { required: "Вкажіть мову" })}
                 />
@@ -508,7 +458,7 @@ export default function CVForm() {
                   key={field.id}
                   label="Навичка"
                   error={errors.skills?.[i]?.name?.message}
-                  success={isArrayFieldSuccess(watch(`skills.${i}.name`), errors.skills?.[i]?.name, "Навичку додано")}
+                  success={isFieldSuccess(watch(`skills.${i}.name`), errors.skills?.[i]?.name)}
                   {...register(`skills.${i}.name`, { required: "Вкажіть навичку" })}
                 />
               ))}
@@ -528,21 +478,13 @@ export default function CVForm() {
                   <Input
                     label="Мова"
                     error={errors.foreignLanguages?.[i]?.name?.message}
-                    success={isArrayFieldSuccess(
-                      watch(`foreignLanguages.${i}.name`),
-                      errors.foreignLanguages?.[i]?.name,
-                      "Мову додано"
-                    )}
+                    success={isFieldSuccess(watch(`foreignLanguages.${i}.name`), errors.foreignLanguages?.[i]?.name)}
                     {...register(`foreignLanguages.${i}.name`, { required: "Вкажіть мову" })}
                   />
                   <Input
                     label="Рівень"
                     error={errors.foreignLanguages?.[i]?.level?.message}
-                    success={isArrayFieldSuccess(
-                      watch(`foreignLanguages.${i}.level`),
-                      errors.foreignLanguages?.[i]?.level,
-                      "Рівень додано"
-                    )}
+                    success={isFieldSuccess(watch(`foreignLanguages.${i}.level`), errors.foreignLanguages?.[i]?.level)}
                     {...register(`foreignLanguages.${i}.level`, { required: "Вкажіть рівень" })}
                   />
                 </div>

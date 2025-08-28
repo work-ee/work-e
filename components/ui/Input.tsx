@@ -9,7 +9,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   name: string;
   error?: string;
-  success?: string;
+  success?: boolean | string;
   iconLeft?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
   iconRight?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
   errorIcon?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
@@ -33,16 +33,20 @@ export const Input: React.FC<InputProps> = ({
   className,
   ...rest
 }) => {
+  const isSuccess = Boolean(success);
+  const hasSuccessMessage = typeof success === "string" && success.trim().length > 0;
+
   const showErrorMessage = Boolean(error?.trim());
-  const showSuccessMessage = !showErrorMessage && Boolean(success?.trim());
+  const showSuccessMessage = isSuccess && hasSuccessMessage;
 
   const inputContainerClasses = clsx(
     "relative flex items-stretch rounded-[8px] overflow-hidden border",
     {
       "border-error-main text-error-main": error,
-      "border-success-main text-success-main": success,
+      "border-success-main text-success-main": isSuccess && hasSuccessMessage,
       "border-neutral-200 text-neutral-200": disabled,
-      "border-secondary-900 text-secondary-900": !error && !success && !disabled,
+      "border-secondary-900 text-secondary-900":
+        (!isSuccess || (isSuccess && !hasSuccessMessage)) && !error && !disabled,
       "focus-within:border-secondary-500 focus-within:shadow-[0px_0px_8px_0px_rgba(120,170,227,0.6)]": !disabled,
     },
     className
@@ -61,9 +65,10 @@ export const Input: React.FC<InputProps> = ({
 
   const iconSectionClasses = clsx("flex items-center justify-center w-[44px] pointer-events-none z-10 border-l", {
     "border-error-main text-error-main bg-error-bg": error,
-    "border-success-main text-success-main bg-success-bg": success,
+    "border-success-main text-success-main bg-success-bg": isSuccess && hasSuccessMessage,
     "border-neutral-200 text-neutral-200 bg-neutral-100": disabled,
-    "border-secondary-900 text-secondary-900 bg-secondary-50": !error && !success && !disabled,
+    "border-secondary-900 text-secondary-900 bg-secondary-50":
+      (!isSuccess || (isSuccess && !hasSuccessMessage)) && !error && !disabled,
   });
 
   const renderMessageIcon = (
@@ -72,7 +77,7 @@ export const Input: React.FC<InputProps> = ({
   ) => {
     const messageIconClasses = clsx("h-4 w-4 mr-1", {
       "text-error-main": error,
-      "text-success-main": success,
+      "text-success-main": isSuccess && hasSuccessMessage,
     });
     if (iconProp) {
       const originalClassName = iconProp.props.className;
@@ -88,6 +93,9 @@ export const Input: React.FC<InputProps> = ({
       {label && (
         <label htmlFor={id} className="label-text mb-2 block font-medium text-neutral-800">
           {label}
+          {isSuccess && !hasSuccessMessage && (
+            <SpriteSvg id="icon-double-check" className="text-success-main ml-1 inline-block h-4 w-4" />
+          )}
         </label>
       )}
       <div className={inputContainerClasses}>

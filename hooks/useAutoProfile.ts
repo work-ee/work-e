@@ -10,8 +10,6 @@ export const useAutoProfile = () => {
       try {
         const res = await fetch("/api/auto-profile");
         const data = await res.json();
-        console.log(data);
-
         updatePersonalInfo({
           firstName: data.first_name,
           lastName: data.last_name,
