@@ -7,7 +7,11 @@ export default async function MatchingPage() {
   if (!session) {
     return (
       <main className="center-page">
-        <h1 className="heading-h2">Please log in to access the onboarding process.</h1>
+        <section className="section">
+          <div className="container text-center">
+            <h1 className="heading-h2">Please Log in to access the matching process.</h1>
+          </div>
+        </section>
       </main>
     );
   }
