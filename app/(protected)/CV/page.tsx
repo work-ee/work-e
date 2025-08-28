@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import clsx from "clsx";
+// import clsx from "clsx";
 import debounce from "lodash/debounce";
 import { Controller, FieldError, useFieldArray, useForm } from "react-hook-form";
 
@@ -129,6 +129,9 @@ export default function CVForm() {
 
   const [openSections, setOpenSections] = useState<{ [key: number]: boolean }>({ 0: true });
   const toggleSection = (index: number) => setOpenSections((prev) => ({ ...prev, [index]: !prev[index] }));
+  const [text, setText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   const experienceArray = useFieldArray({ control, name: "experience" });
   const educationArray = useFieldArray({ control, name: "education" });
@@ -149,6 +152,27 @@ export default function CVForm() {
 
   const isFieldSuccess = (value: string | undefined, error: FieldError | undefined) => {
     return !error && !!value?.trim();
+  };
+
+  const handleGenerateClick = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          promptKey: "GENERATE_CV_SUMMARY_UK",
+          data: text,
+        }),
+      });
+      const data = await response.json();
+      setText(data.generatedText);
+    } catch (err) {
+      setError(err as Error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -244,14 +268,15 @@ export default function CVForm() {
               isOpen={openSections[1]}
               toggleSection={toggleSection}
             >
-              <p className="mb-2 text-sm text-neutral-600">
-                Опишіть свої головні досягнення, роль, мотивацію та ключові навички в 2-4 реченнях.
-              </p>
-              <Textarea
-                className={clsx(
-                  "border-secondary-300 input-text min-h-[241px] w-full resize-none rounded-lg border px-8 pt-2.5 outline-none"
-                )}
-                {...register("overview")}
+              <AIControlledTextarea
+                value={text}
+                onChange={setText}
+                isLoading={isLoading}
+                onGenerateClick={handleGenerateClick}
+                canGenerate={true}
+                label="Огляд резюме"
+                description="Опишіть свої головні досягнення, роль, мотивацію та ключові навички в 2-4  реченнях, на основі чого AI зможе згенерувати Огляд"
+                error={error ? error.message : null}
               />
             </ResumeFormSection>
 
