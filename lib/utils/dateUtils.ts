@@ -1,8 +1,3 @@
-// interface Duration {
-//   years: number;
-//   months: number;
-// }
-
 const getYearForm = (count: number): string => {
   if (count === 1) return "рік";
   if (count > 1 && count < 5) return "роки";

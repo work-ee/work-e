@@ -34,6 +34,16 @@ type FormValues = {
   foreignLanguages: Language[];
   hobbies?: string;
 };
+type OverviewData = string;
+
+type ExperienceData = {
+  jobTitle: string;
+  company: string;
+  startDate: string;
+  endDate: string;
+  userInput: string;
+};
+type PromptData = OverviewData | ExperienceData;
 
 export default function CVForm() {
   const { profile, setProfile } = useProfileStore();
@@ -44,6 +54,7 @@ export default function CVForm() {
     handleSubmit,
     formState: { errors },
     watch,
+    setValue,
   } = useForm<FormValues>({
     defaultValues: {
       personalInfo: {
@@ -131,7 +142,7 @@ export default function CVForm() {
 
   const [openSections, setOpenSections] = useState<{ [key: number]: boolean }>({ 0: true });
   const toggleSection = (index: number) => setOpenSections((prev) => ({ ...prev, [index]: !prev[index] }));
-  const [text, setText] = useState("");
+  // const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -156,7 +167,11 @@ export default function CVForm() {
     return !error && !!value?.trim();
   };
 
-  const handleGenerateClick = async () => {
+  const handleGenerateClick = async (
+    promptKey: string,
+    data: PromptData,
+    callback: (generatedText: string) => void
+  ) => {
     setIsLoading(true);
     setError(null);
     try {
@@ -164,12 +179,15 @@ export default function CVForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          promptKey: "GENERATE_CV_SUMMARY_UK",
-          data: text,
+          promptKey,
+          data,
         }),
       });
-      const data = await response.json();
-      setText(data.generatedText);
+      if (!response.ok) {
+        throw new Error("Помилка при генерації тексту.");
+      }
+      const result = await response.json();
+      callback(result.generatedText);
     } catch (err) {
       setError(err as Error);
     } finally {
@@ -271,10 +289,14 @@ export default function CVForm() {
               toggleSection={toggleSection}
             >
               <AIControlledTextarea
-                value={text}
-                onChange={setText}
+                value={watch("overview") || ""}
+                onChange={(text) => setValue("overview", text)}
                 isLoading={isLoading}
-                onGenerateClick={handleGenerateClick}
+                onGenerateClick={() =>
+                  handleGenerateClick("GENERATE_CV_SUMMARY_UK", watch("overview") || "", (generatedText) =>
+                    setValue("overview", generatedText)
+                  )
+                }
                 canGenerate={true}
                 label="Огляд резюме"
                 description="Опишіть свої головні досягнення, роль, мотивацію та ключові навички в 2-4  реченнях, на основі чого AI зможе згенерувати Огляд"
@@ -316,7 +338,7 @@ export default function CVForm() {
                       <p className="text-micro text-secondary-900 mb-4 w-full">
                         Роки {durationText && `: ${durationText}`}
                       </p>
-                      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                         <Input
                           label="Посада"
                           error={errors.experience?.[i]?.position?.message}
@@ -347,9 +369,30 @@ export default function CVForm() {
                           {...register(`experience.${i}.endDate`, { required: "Вкажіть дату завершення" })}
                         />
                       </div>
-                      <Textarea
+                      {/* <Textarea
                         className="border-secondary-300 input-text mt-4 min-h-[150px] w-full resize-none rounded-lg border px-8 pt-2.5 outline-none"
                         {...register(`experience.${i}.description`)}
+                      /> */}
+                      <AIControlledTextarea
+                        value={watch(`experience.${i}.description`) || ""}
+                        onChange={(text) => setValue(`experience.${i}.description`, text)}
+                        isLoading={isLoading}
+                        onGenerateClick={() => {
+                          const dataToGenerate = {
+                            jobTitle: watch(`experience.${i}.position`) || "",
+                            company: watch(`experience.${i}.company`) || "",
+                            startDate: watch(`experience.${i}.startDate`) || "",
+                            endDate: watch(`experience.${i}.endDate`) || "",
+                            userInput: watch(`experience.${i}.description`) || "",
+                          };
+                          handleGenerateClick("GENERATE_EXPERIENCE_DESCRIPTION_UK", dataToGenerate, (generatedText) =>
+                            setValue(`experience.${i}.description`, generatedText)
+                          );
+                        }}
+                        canGenerate={true}
+                        label="Опис досвіду"
+                        description="Опишіть свою головну роль та ключові навички в 2-4  реченнях, на основі чого AI зможе згенерувати Досвід"
+                        error={error ? error.message : null}
                       />
                     </div>
                   );
