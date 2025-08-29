@@ -47,8 +47,8 @@ export const AIControlledTextarea = ({
   const isDisabled = isLoading || !value.trim() || isGenerated;
 
   return (
-    <section className={clsx("section container", className)}>
-      {description && <>{description && <p className="text-micro neutral-900 mb-4">{description}</p>}</>}
+    <section className={clsx(className)}>
+      {description && <>{description && <p className="label-text neutral-900 mb-4">{description}</p>}</>}
 
       <div className="_w-[920px] relative">
         <Textarea

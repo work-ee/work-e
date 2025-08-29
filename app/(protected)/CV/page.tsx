@@ -2,13 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// import clsx from "clsx";
 import debounce from "lodash/debounce";
 import { Controller, FieldError, useFieldArray, useForm } from "react-hook-form";
 
+import { SpriteSvg } from "@/components/icons/SpriteSvg";
 import { AIControlledTextarea, DropdownBlock, ResumeFormSection } from "@/components/ui";
-import { Input } from "@/components/ui/Input";
+import { Button, Input } from "@/components/ui";
 import { Textarea } from "@/components/ui/shadcn/textarea";
+
+import { calculateDuration } from "@/lib/utils/dateUtils";
 
 import { useProfileStore } from "@/stores/profileStore";
 import { Course, Education, Experience, Language, UserProfile } from "@/types/profile";
@@ -279,62 +281,80 @@ export default function CVForm() {
                 error={error ? error.message : null}
               />
             </ResumeFormSection>
-
             <ResumeFormSection
               title={sectionTitles[2]}
               index={2}
               isOpen={openSections[2]}
               toggleSection={toggleSection}
+              actionButton={
+                <Button
+                  variant="secondary"
+                  className="btn-sm mt-6"
+                  type="button"
+                  onClick={() =>
+                    experienceArray.append({
+                      position: "",
+                      company: "",
+                      startDate: "",
+                      endDate: "",
+                      description: "",
+                    })
+                  }
+                >
+                  <SpriteSvg id="icon-plus" className="fill-primary-300 mx-auto h-6 w-6" />
+                </Button>
+              }
             >
-              {experienceArray.fields.map((field, i) => (
-                <div key={field.id} className="mb-4 grid gap-4 border-b pb-4">
-                  <Input
-                    label="Посада"
-                    error={errors.experience?.[i]?.position?.message}
-                    success={isFieldSuccess(watch(`experience.${i}.position`), errors.experience?.[i]?.position)}
-                    {...register(`experience.${i}.position`, { required: "Вкажіть посаду" })}
-                  />
-                  <Input
-                    label="Компанія"
-                    error={errors.experience?.[i]?.company?.message}
-                    success={isFieldSuccess(watch(`experience.${i}.company`), errors.experience?.[i]?.company)}
-                    {...register(`experience.${i}.company`, { required: "Вкажіть компанію" })}
-                  />
-                  <Input
-                    label="Початок роботи"
-                    type="date"
-                    error={errors.experience?.[i]?.startDate?.message}
-                    success={isFieldSuccess(watch(`experience.${i}.startDate`), errors.experience?.[i]?.startDate)}
-                    {...register(`experience.${i}.startDate`, { required: "Вкажіть дату початку" })}
-                  />
-                  <Input
-                    label="Завершення роботи"
-                    type="date"
-                    error={errors.experience?.[i]?.endDate?.message}
-                    success={isFieldSuccess(watch(`experience.${i}.endDate`), errors.experience?.[i]?.endDate)}
-                    {...register(`experience.${i}.endDate`, { required: "Вкажіть дату завершення" })}
-                  />
-                  <Textarea
-                    className="border-secondary-300 input-text min-h-[150px] w-full resize-none rounded-lg border px-8 pt-2.5 outline-none"
-                    {...register(`experience.${i}.description`)}
-                  />
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={() =>
-                  experienceArray.append({
-                    position: "",
-                    company: "",
-                    startDate: "",
-                    endDate: "",
-                    description: "",
-                  })
-                }
-                className="btn-secondary"
-              >
-                Додати ще місце роботи
-              </button>
+              <div className="flex flex-wrap justify-between gap-4">
+                {experienceArray.fields.map((field, i) => {
+                  const startDate = watch(`experience.${i}.startDate`);
+                  const endDate = watch(`experience.${i}.endDate`);
+                  const durationText = calculateDuration(startDate || "", endDate || "");
+                  return (
+                    <div key={field.id} className="mb-4 w-full pb-4">
+                      <p className="text-body text-secondary-900 mb-1 w-full">Назва посади і місце роботи</p>
+                      <p className="text-micro text-secondary-900 mb-4 w-full">
+                        Роки {durationText && `: ${durationText}`}
+                      </p>
+                      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <Input
+                          label="Посада"
+                          error={errors.experience?.[i]?.position?.message}
+                          success={isFieldSuccess(watch(`experience.${i}.position`), errors.experience?.[i]?.position)}
+                          {...register(`experience.${i}.position`, { required: "Вкажіть посаду" })}
+                        />
+                        <Input
+                          label="Компанія"
+                          error={errors.experience?.[i]?.company?.message}
+                          success={isFieldSuccess(watch(`experience.${i}.company`), errors.experience?.[i]?.company)}
+                          {...register(`experience.${i}.company`, { required: "Вкажіть компанію" })}
+                        />
+                        <Input
+                          label="Початок роботи"
+                          type="date"
+                          error={errors.experience?.[i]?.startDate?.message}
+                          success={isFieldSuccess(
+                            watch(`experience.${i}.startDate`),
+                            errors.experience?.[i]?.startDate
+                          )}
+                          {...register(`experience.${i}.startDate`, { required: "Вкажіть дату початку" })}
+                        />
+                        <Input
+                          label="Завершення роботи"
+                          type="date"
+                          error={errors.experience?.[i]?.endDate?.message}
+                          success={isFieldSuccess(watch(`experience.${i}.endDate`), errors.experience?.[i]?.endDate)}
+                          {...register(`experience.${i}.endDate`, { required: "Вкажіть дату завершення" })}
+                        />
+                      </div>
+                      <Textarea
+                        className="border-secondary-300 input-text mt-4 min-h-[150px] w-full resize-none rounded-lg border px-8 pt-2.5 outline-none"
+                        {...register(`experience.${i}.description`)}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </ResumeFormSection>
 
             <ResumeFormSection

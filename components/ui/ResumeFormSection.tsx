@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 import clsx from "clsx";
 
 import { SpriteSvg } from "../icons/SpriteSvg";
@@ -8,12 +10,14 @@ export const ResumeFormSection = ({
   isOpen,
   toggleSection,
   children,
+  actionButton,
 }: {
   title: string;
   index: number;
   isOpen?: boolean;
   toggleSection: (index: number) => void;
-  children: React.ReactNode;
+  children: ReactNode;
+  actionButton?: ReactNode;
 }) => {
   return (
     <fieldset className={clsx("transition-all duration-300", isOpen ? "border-none" : "border-b border-neutral-900")}>
@@ -29,7 +33,6 @@ export const ResumeFormSection = ({
           />
         </button>
       </legend>
-
       <div
         className={clsx(
           "transform overflow-hidden transition-all duration-500 ease-in-out",
@@ -39,6 +42,7 @@ export const ResumeFormSection = ({
         <div className={clsx("transition-all duration-300", isOpen && "border-secondary-900 rounded-2xl border p-8")}>
           {children}
         </div>
+        {isOpen && actionButton}
       </div>
     </fieldset>
   );
