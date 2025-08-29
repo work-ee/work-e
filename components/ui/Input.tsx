@@ -31,11 +31,11 @@ export const Input: React.FC<InputProps> = ({
   disabled = false,
   required,
   className,
+  type = "text",
   ...rest
 }) => {
   const isSuccess = Boolean(success);
   const hasSuccessMessage = typeof success === "string" && success.trim().length > 0;
-
   const showErrorMessage = Boolean(error?.trim());
   const showSuccessMessage = isSuccess && hasSuccessMessage;
 
@@ -60,6 +60,14 @@ export const Input: React.FC<InputProps> = ({
       "cursor-not-allowed": disabled,
       "rounded-r-none": iconLeft,
       "rounded-l-none": iconRight,
+    },
+    {
+      "[&::-webkit-calendar-picker-indicator]:opacity-0": type === "date",
+      "[&::-webkit-calendar-picker-indicator]:absolute": type === "date",
+      "[&::-webkit-calendar-picker-indicator]:w-full": type === "date",
+      "[&::-webkit-calendar-picker-indicator]:h-full": type === "date",
+      "[&::-webkit-calendar-picker-indicator]:cursor-pointer": type === "date",
+      "[&::-webkit-calendar-picker-indicator]:right-0": type === "date",
     }
   );
 
@@ -100,7 +108,15 @@ export const Input: React.FC<InputProps> = ({
       )}
       <div className={inputContainerClasses}>
         {iconLeft && <div className={clsx(iconSectionClasses, "rounded-l-[8px] border-r border-l-0")}>{iconLeft}</div>}
-        <input id={id} name={name} disabled={disabled} required={required} className={inputClasses} {...rest} />
+        <input
+          id={id}
+          name={name}
+          disabled={disabled}
+          required={required}
+          className={inputClasses}
+          type={type}
+          {...rest}
+        />
         {iconRight && <div className={clsx(iconSectionClasses, "rounded-r-[8px] border-l")}>{iconRight}</div>}
       </div>
       {showErrorMessage && (

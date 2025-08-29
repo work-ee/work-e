@@ -142,7 +142,7 @@ export default function CVForm() {
 
   const [openSections, setOpenSections] = useState<{ [key: number]: boolean }>({ 0: true });
   const toggleSection = (index: number) => setOpenSections((prev) => ({ ...prev, [index]: !prev[index] }));
-  // const [text, setText] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -359,20 +359,26 @@ export default function CVForm() {
                             watch(`experience.${i}.startDate`),
                             errors.experience?.[i]?.startDate
                           )}
+                          iconRight={
+                            <svg className="h-5 w-5 fill-current">
+                              <use href="/sprite.svg#icon-schedule"></use>
+                            </svg>
+                          }
                           {...register(`experience.${i}.startDate`, { required: "Вкажіть дату початку" })}
                         />
                         <Input
                           label="Завершення роботи"
                           type="date"
+                          iconRight={
+                            <svg className="h-5 w-5 fill-current">
+                              <use href="/sprite.svg#icon-schedule"></use>
+                            </svg>
+                          }
                           error={errors.experience?.[i]?.endDate?.message}
                           success={isFieldSuccess(watch(`experience.${i}.endDate`), errors.experience?.[i]?.endDate)}
                           {...register(`experience.${i}.endDate`, { required: "Вкажіть дату завершення" })}
                         />
                       </div>
-                      {/* <Textarea
-                        className="border-secondary-300 input-text mt-4 min-h-[150px] w-full resize-none rounded-lg border px-8 pt-2.5 outline-none"
-                        {...register(`experience.${i}.description`)}
-                      /> */}
                       <AIControlledTextarea
                         value={watch(`experience.${i}.description`) || ""}
                         onChange={(text) => setValue(`experience.${i}.description`, text)}
