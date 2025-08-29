@@ -411,54 +411,85 @@ export default function CVForm() {
               index={3}
               isOpen={openSections[3]}
               toggleSection={toggleSection}
+              actionButton={
+                <Button
+                  variant="secondary"
+                  className="btn-sm mt-6"
+                  type="button"
+                  onClick={() =>
+                    educationArray.append({
+                      specialization: "",
+                      institution: "",
+                      startDate: "",
+                      endDate: "",
+                      description: "",
+                    })
+                  }
+                >
+                  <SpriteSvg id="icon-plus" className="fill-primary-300 mx-auto h-6 w-6" />
+                </Button>
+              }
             >
-              {educationArray.fields.map((field, i) => (
-                <div key={field.id} className="mb-4 grid gap-4 border-b pb-4">
-                  <Input
-                    label="Спеціалізація"
-                    error={errors.education?.[i]?.specialization?.message}
-                    success={isFieldSuccess(
-                      watch(`education.${i}.specialization`),
-                      errors.education?.[i]?.specialization
-                    )}
-                    {...register(`education.${i}.specialization`, { required: "Вкажіть спеціалізацію" })}
-                  />
-                  <Input
-                    label="Заклад"
-                    error={errors.education?.[i]?.institution?.message}
-                    success={isFieldSuccess(watch(`education.${i}.institution`), errors.education?.[i]?.institution)}
-                    {...register(`education.${i}.institution`, { required: "Вкажіть заклад" })}
-                  />
-                  <Input
-                    label="Початок"
-                    type="date"
-                    error={errors.education?.[i]?.startDate?.message}
-                    success={isFieldSuccess(watch(`education.${i}.startDate`), errors.education?.[i]?.startDate)}
-                    {...register(`education.${i}.startDate`, { required: "Вкажіть дату початку" })}
-                  />
-                  <Input
-                    label="Завершення"
-                    type="date"
-                    error={errors.education?.[i]?.endDate?.message}
-                    success={isFieldSuccess(watch(`education.${i}.endDate`), errors.education?.[i]?.endDate)}
-                    {...register(`education.${i}.endDate`, { required: "Вкажіть дату завершення" })}
-                  />
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={() =>
-                  educationArray.append({
-                    specialization: "",
-                    institution: "",
-                    startDate: "",
-                    endDate: "",
-                  })
-                }
-                className="btn-secondary"
-              >
-                Додати ще місце навчання
-              </button>
+              <div className="flex flex-wrap justify-between gap-4">
+                {educationArray.fields.map((field, i) => {
+                  const startDate = watch(`education.${i}.startDate`);
+                  const endDate = watch(`education.${i}.endDate`);
+                  const durationText = calculateDuration(startDate || "", endDate || "");
+                  return (
+                    <div key={field.id} className="mb-4 w-full pb-4">
+                      <p className="text-body text-secondary-900 mb-1 w-full">Освіта</p>
+                      <p className="text-micro text-secondary-900 mb-4 w-full">
+                        Роки {durationText && `: ${durationText}`}
+                      </p>
+                      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <Input
+                          label="Спеціалізація"
+                          error={errors.education?.[i]?.specialization?.message}
+                          success={isFieldSuccess(
+                            watch(`education.${i}.specialization`),
+                            errors.education?.[i]?.specialization
+                          )}
+                          {...register(`education.${i}.specialization`, { required: "Вкажіть спеціалізацію" })}
+                        />
+                        <Input
+                          label="Заклад"
+                          error={errors.education?.[i]?.institution?.message}
+                          success={isFieldSuccess(
+                            watch(`education.${i}.institution`),
+                            errors.education?.[i]?.institution
+                          )}
+                          {...register(`education.${i}.institution`, { required: "Вкажіть заклад" })}
+                        />
+                        <Input
+                          label="Початок освіти"
+                          type="date"
+                          iconRight={
+                            <svg className="h-5 w-5 fill-current">
+                              <use href="/sprite.svg#icon-schedule"></use>
+                            </svg>
+                          }
+                          error={errors.education?.[i]?.startDate?.message}
+                          success={isFieldSuccess(watch(`education.${i}.startDate`), errors.education?.[i]?.startDate)}
+                          {...register(`education.${i}.startDate`, { required: "Вкажіть дату початку" })}
+                        />
+                        <Input
+                          label="Завершення освіти"
+                          type="date"
+                          iconRight={
+                            <svg className="h-5 w-5 fill-current">
+                              <use href="/sprite.svg#icon-schedule"></use>
+                            </svg>
+                          }
+                          error={errors.education?.[i]?.endDate?.message}
+                          success={isFieldSuccess(watch(`education.${i}.endDate`), errors.education?.[i]?.endDate)}
+                          {...register(`education.${i}.endDate`, { required: "Вкажіть дату завершення" })}
+                        />
+                      </div>
+                      <AIControlledTextarea value="" onChange={() => {}} description="Опис" />
+                    </div>
+                  );
+                })}
+              </div>
             </ResumeFormSection>
 
             <ResumeFormSection

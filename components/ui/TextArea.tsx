@@ -63,7 +63,7 @@ export const AIControlledTextarea = ({
             }
           )}
         />
-        <div className="absolute right-8 bottom-8 left-8 flex items-center justify-between">
+        <div className="absolute right-8 bottom-8 left-8 flex items-center">
           {showGenerateButton && (
             <Button variant="secondary" className="btn-sm" onClick={onGenerateClick} disabled={isDisabled}>
               <SpriteSvg
@@ -83,7 +83,7 @@ export const AIControlledTextarea = ({
           )}
 
           <div
-            className={clsx("text-sm", {
+            className={clsx("ml-auto text-sm", {
               "text-error-main": error,
               "text-secondary-600": !error,
             })}

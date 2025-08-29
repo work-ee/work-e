@@ -21,6 +21,7 @@ export interface Education {
   institution?: string;
   startDate?: string;
   endDate?: string;
+  description?: string;
 }
 
 export interface Course {
