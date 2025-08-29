@@ -8,7 +8,6 @@ import { Controller, FieldError, useFieldArray, useForm } from "react-hook-form"
 import { SpriteSvg } from "@/components/icons/SpriteSvg";
 import { AIControlledTextarea, DropdownBlock, ResumeFormSection } from "@/components/ui";
 import { Button, Input } from "@/components/ui";
-import { Textarea } from "@/components/ui/shadcn/textarea";
 
 import { calculateDuration } from "@/lib/utils/dateUtils";
 
@@ -497,56 +496,82 @@ export default function CVForm() {
               index={4}
               isOpen={openSections[4]}
               toggleSection={toggleSection}
+              actionButton={
+                <Button
+                  variant="secondary"
+                  className="btn-sm mt-6"
+                  type="button"
+                  onClick={() =>
+                    coursesArray.append({
+                      specialization: "",
+                      institution: "",
+                      startDate: "",
+                      endDate: "",
+                      description: "",
+                    })
+                  }
+                >
+                  <SpriteSvg id="icon-plus" className="fill-primary-300 mx-auto h-6 w-6" />
+                </Button>
+              }
             >
-              {coursesArray.fields.map((field, i) => (
-                <div key={field.id} className="mb-4 grid gap-4 border-b pb-4">
-                  <Input
-                    label="Спеціалізація"
-                    error={errors.courses?.[i]?.specialization?.message}
-                    success={isFieldSuccess(watch(`courses.${i}.specialization`), errors.courses?.[i]?.specialization)}
-                    {...register(`courses.${i}.specialization`, { required: "Вкажіть спеціалізацію" })}
-                  />
-                  <Input
-                    label="Заклад"
-                    error={errors.courses?.[i]?.institution?.message}
-                    success={isFieldSuccess(watch(`courses.${i}.institution`), errors.courses?.[i]?.institution)}
-                    {...register(`courses.${i}.institution`, { required: "Вкажіть заклад" })}
-                  />
-                  <Input
-                    label="Початок"
-                    type="date"
-                    error={errors.courses?.[i]?.startDate?.message}
-                    success={isFieldSuccess(watch(`courses.${i}.startDate`), errors.courses?.[i]?.startDate)}
-                    {...register(`courses.${i}.startDate`, { required: "Вкажіть дату початку" })}
-                  />
-                  <Input
-                    label="Завершення"
-                    type="date"
-                    error={errors.courses?.[i]?.endDate?.message}
-                    success={isFieldSuccess(watch(`courses.${i}.endDate`), errors.courses?.[i]?.endDate)}
-                    {...register(`courses.${i}.endDate`, { required: "Вкажіть дату завершення" })}
-                  />
-                  <Textarea
-                    className="border-secondary-300 input-text min-h-[120px] w-full resize-none rounded-lg border px-8 pt-2.5 outline-none"
-                    {...register(`courses.${i}.description`)}
-                  />
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={() =>
-                  coursesArray.append({
-                    specialization: "",
-                    institution: "",
-                    startDate: "",
-                    endDate: "",
-                    description: "",
-                  })
-                }
-                className="btn-secondary"
-              >
-                Додати ще курси
-              </button>
+              <div className="flex flex-wrap justify-between gap-4">
+                {coursesArray.fields.map((field, i) => {
+                  const startDate = watch(`courses.${i}.startDate`);
+                  const endDate = watch(`courses.${i}.endDate`);
+                  const durationText = calculateDuration(startDate || "", endDate || "");
+                  return (
+                    <div key={field.id} className="mb-4 w-full pb-4">
+                      <p className="text-body text-secondary-900 mb-1 w-full">Назва курсу</p>
+                      <p className="text-micro text-secondary-900 mb-4 w-full">
+                        Роки {durationText && `: ${durationText}`}
+                      </p>
+                      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <Input
+                          label="Спеціалізація"
+                          error={errors.courses?.[i]?.specialization?.message}
+                          success={isFieldSuccess(
+                            watch(`courses.${i}.specialization`),
+                            errors.courses?.[i]?.specialization
+                          )}
+                          {...register(`courses.${i}.specialization`, { required: "Вкажіть спеціалізацію" })}
+                        />
+                        <Input
+                          label="Навчальний заклад"
+                          error={errors.courses?.[i]?.institution?.message}
+                          success={isFieldSuccess(watch(`courses.${i}.institution`), errors.courses?.[i]?.institution)}
+                          {...register(`courses.${i}.institution`, { required: "Вкажіть заклад" })}
+                        />
+                        <Input
+                          label="Початок курсів"
+                          type="date"
+                          iconRight={
+                            <svg className="h-5 w-5 fill-current">
+                              <use href="/sprite.svg#icon-schedule"></use>
+                            </svg>
+                          }
+                          error={errors.courses?.[i]?.startDate?.message}
+                          success={isFieldSuccess(watch(`courses.${i}.startDate`), errors.courses?.[i]?.startDate)}
+                          {...register(`courses.${i}.startDate`, { required: "Вкажіть дату початку" })}
+                        />
+                        <Input
+                          label="Завершення курсів"
+                          type="date"
+                          iconRight={
+                            <svg className="h-5 w-5 fill-current">
+                              <use href="/sprite.svg#icon-schedule"></use>
+                            </svg>
+                          }
+                          error={errors.courses?.[i]?.endDate?.message}
+                          success={isFieldSuccess(watch(`courses.${i}.endDate`), errors.courses?.[i]?.endDate)}
+                          {...register(`courses.${i}.endDate`, { required: "Вкажіть дату завершення" })}
+                        />
+                      </div>
+                      <AIControlledTextarea value="" onChange={() => {}} description="Опис" />
+                    </div>
+                  );
+                })}
+              </div>
             </ResumeFormSection>
 
             <ResumeFormSection
@@ -554,22 +579,36 @@ export default function CVForm() {
               index={5}
               isOpen={openSections[5]}
               toggleSection={toggleSection}
+              actionButton={
+                <Button
+                  variant="secondary"
+                  className="btn-sm mt-6"
+                  type="button"
+                  onClick={() =>
+                    progLangArray.append({
+                      name: "",
+                    })
+                  }
+                >
+                  <SpriteSvg id="icon-plus" className="fill-primary-300 mx-auto h-6 w-6" />
+                </Button>
+              }
             >
               {progLangArray.fields.map((field, i) => (
-                <Input
-                  key={field.id}
-                  label="Мова"
-                  error={errors.programmingLanguages?.[i]?.name?.message}
-                  success={isFieldSuccess(
-                    watch(`programmingLanguages.${i}.name`),
-                    errors.programmingLanguages?.[i]?.name
-                  )}
-                  {...register(`programmingLanguages.${i}.name`, { required: "Вкажіть мову" })}
-                />
+                <>
+                  <p className="text-body text-secondary-900 mb-1 w-full">Мова програмування</p>
+                  <Input
+                    key={field.id}
+                    label="Мова"
+                    error={errors.programmingLanguages?.[i]?.name?.message}
+                    success={isFieldSuccess(
+                      watch(`programmingLanguages.${i}.name`),
+                      errors.programmingLanguages?.[i]?.name
+                    )}
+                    {...register(`programmingLanguages.${i}.name`, { required: "Вкажіть мову програмування" })}
+                  />
+                </>
               ))}
-              <button type="button" onClick={() => progLangArray.append({ name: "" })} className="btn-secondary">
-                Додати ще мову
-              </button>
             </ResumeFormSection>
 
             <ResumeFormSection
@@ -577,19 +616,33 @@ export default function CVForm() {
               index={6}
               isOpen={openSections[6]}
               toggleSection={toggleSection}
+              actionButton={
+                <Button
+                  variant="secondary"
+                  className="btn-sm mt-6"
+                  type="button"
+                  onClick={() =>
+                    skillsArray.append({
+                      name: "",
+                    })
+                  }
+                >
+                  <SpriteSvg id="icon-plus" className="fill-primary-300 mx-auto h-6 w-6" />
+                </Button>
+              }
             >
               {skillsArray.fields.map((field, i) => (
-                <Input
-                  key={field.id}
-                  label="Навичка"
-                  error={errors.skills?.[i]?.name?.message}
-                  success={isFieldSuccess(watch(`skills.${i}.name`), errors.skills?.[i]?.name)}
-                  {...register(`skills.${i}.name`, { required: "Вкажіть навичку" })}
-                />
+                <>
+                  <p className="text-body text-secondary-900 mb-1 w-full">Навичка</p>
+                  <Input
+                    key={field.id}
+                    label="Вкажіть навичку"
+                    error={errors.skills?.[i]?.name?.message}
+                    success={isFieldSuccess(watch(`skills.${i}.name`), errors.skills?.[i]?.name)}
+                    {...register(`skills.${i}.name`, { required: "Вкажіть навичку" })}
+                  />
+                </>
               ))}
-              <button type="button" onClick={() => skillsArray.append({ name: "" })} className="btn-secondary">
-                Додати ще навичку
-              </button>
             </ResumeFormSection>
 
             <ResumeFormSection
@@ -597,30 +650,39 @@ export default function CVForm() {
               index={7}
               isOpen={openSections[7]}
               toggleSection={toggleSection}
+              actionButton={
+                <Button
+                  variant="secondary"
+                  className="btn-sm mt-6"
+                  type="button"
+                  onClick={() => foreignLangArray.append({ name: "", level: undefined })}
+                >
+                  <SpriteSvg id="icon-plus" className="fill-primary-300 mx-auto h-6 w-6" />
+                </Button>
+              }
             >
               {foreignLangArray.fields.map((field, i) => (
-                <div key={field.id} className="mb-4 grid gap-4 border-b pb-4">
-                  <Input
-                    label="Мова"
-                    error={errors.foreignLanguages?.[i]?.name?.message}
-                    success={isFieldSuccess(watch(`foreignLanguages.${i}.name`), errors.foreignLanguages?.[i]?.name)}
-                    {...register(`foreignLanguages.${i}.name`, { required: "Вкажіть мову" })}
-                  />
-                  <Input
-                    label="Рівень"
-                    error={errors.foreignLanguages?.[i]?.level?.message}
-                    success={isFieldSuccess(watch(`foreignLanguages.${i}.level`), errors.foreignLanguages?.[i]?.level)}
-                    {...register(`foreignLanguages.${i}.level`, { required: "Вкажіть рівень" })}
-                  />
-                </div>
+                <>
+                  <p className="text-body text-secondary-900 mb-1 w-full">Іноземна мова</p>
+                  <div key={field.id} className="mb-4 grid gap-4 border-b pb-4">
+                    <Input
+                      label="Вкажіть іноземну мову"
+                      error={errors.foreignLanguages?.[i]?.name?.message}
+                      success={isFieldSuccess(watch(`foreignLanguages.${i}.name`), errors.foreignLanguages?.[i]?.name)}
+                      {...register(`foreignLanguages.${i}.name`, { required: "Вкажіть іноземну мову" })}
+                    />
+                    <Input
+                      label="Оберіть рівеньь"
+                      error={errors.foreignLanguages?.[i]?.level?.message}
+                      success={isFieldSuccess(
+                        watch(`foreignLanguages.${i}.level`),
+                        errors.foreignLanguages?.[i]?.level
+                      )}
+                      {...register(`foreignLanguages.${i}.level`, { required: "Вкажіть рівень" })}
+                    />
+                  </div>
+                </>
               ))}
-              <button
-                type="button"
-                onClick={() => foreignLangArray.append({ name: "", level: undefined })}
-                className="btn-secondary"
-              >
-                Додати ще мову
-              </button>
             </ResumeFormSection>
 
             <ResumeFormSection
@@ -629,19 +691,25 @@ export default function CVForm() {
               isOpen={openSections[8]}
               toggleSection={toggleSection}
             >
-              {/* <Textarea
-                className={clsx(
-                  "border-secondary-300 input-text min-h-[150px] w-full resize-none rounded-lg border px-8 pt-2.5 outline-none"
-                )}
-                {...register("hobbies")}
-              /> */}
               <AIControlledTextarea value="" onChange={() => {}} description="Вкажіть своє хобі" />
             </ResumeFormSection>
 
-            <div className="mt-6">
-              <button type="submit" className="rounded bg-blue-600 px-6 py-2 text-white">
-                Зберегти
-              </button>
+            <div className="flex w-full flex-col-reverse gap-4 md:flex-row md:gap-x-6">
+              <Button
+                variant="secondary"
+                className="h-10 w-full items-center justify-center md:order-first md:h-[62px] md:w-[356px]"
+                onClick={() => {}}
+              >
+                Відмінити
+              </Button>
+
+              <Button
+                // disabled={}
+                className="flex h-10 w-full items-center justify-center md:h-[62px] md:w-[356px]"
+                onClick={() => {}}
+              >
+                Зберегти CV
+              </Button>
             </div>
           </form>
         </div>
