@@ -7,4 +7,5 @@ export { Slider } from "@/components/ui/Slider";
 export { PaginationBlock } from "@/components/ui/PaginationBlock";
 export { DropdownBlock } from "@/components/ui/DropdownBlock";
 export { ResumeFormSection } from "@/components/ui/ResumeFormSection";
+export { ResumeFormListItem } from "@/components/ui/ResumeFormListItem";
 export { AIControlledTextarea } from "@/components/ui/TextArea";

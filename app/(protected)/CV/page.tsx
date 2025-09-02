@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import clsx from "clsx";
 import debounce from "lodash/debounce";
 import { Controller, FieldError, useFieldArray, useForm } from "react-hook-form";
 
 import { SpriteSvg } from "@/components/icons/SpriteSvg";
-import { AIControlledTextarea, DropdownBlock, ResumeFormSection } from "@/components/ui";
+import { AIControlledTextarea, DropdownBlock, ResumeFormListItem, ResumeFormSection } from "@/components/ui";
 import { Button, Input } from "@/components/ui";
 
 import { calculateDuration } from "@/lib/utils/dateUtils";
@@ -141,6 +142,9 @@ export default function CVForm() {
 
   const [openSections, setOpenSections] = useState<{ [key: number]: boolean }>({ 0: true });
   const toggleSection = (index: number) => setOpenSections((prev) => ({ ...prev, [index]: !prev[index] }));
+
+  const [openItems, setOpenItems] = useState<{ [key: string]: boolean }>({});
+  const toggleItem = (id: string) => setOpenItems((prev) => ({ ...prev, [id]: !prev[id] }));
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -302,6 +306,7 @@ export default function CVForm() {
                 error={error ? error.message : null}
               />
             </ResumeFormSection>
+
             <ResumeFormSection
               title={sectionTitles[2]}
               index={2}
@@ -328,15 +333,20 @@ export default function CVForm() {
             >
               <div className="flex flex-wrap justify-between gap-4">
                 {experienceArray.fields.map((field, i) => {
+                  const isItemOpen = openItems[field.id] !== undefined ? openItems[field.id] : true;
                   const startDate = watch(`experience.${i}.startDate`);
                   const endDate = watch(`experience.${i}.endDate`);
                   const durationText = calculateDuration(startDate || "", endDate || "");
+                  const positionTitle = watch(`experience.${i}.position`);
+
                   return (
-                    <div key={field.id} className="mb-4 w-full pb-4">
-                      <p className="text-body text-secondary-900 mb-1 w-full">Назва посади і місце роботи</p>
-                      <p className="text-micro text-secondary-900 mb-4 w-full">
-                        Роки {durationText && `: ${durationText}`}
-                      </p>
+                    <ResumeFormListItem
+                      key={field.id}
+                      title={`${positionTitle?.trim() || "Назва посади і місце роботи"} `}
+                      subtitle={`${durationText || ""} `}
+                      isOpen={isItemOpen}
+                      onToggle={() => toggleItem(field.id)}
+                    >
                       <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                         <Input
                           label="Посада"
@@ -358,21 +368,13 @@ export default function CVForm() {
                             watch(`experience.${i}.startDate`),
                             errors.experience?.[i]?.startDate
                           )}
-                          iconRight={
-                            <svg className="h-5 w-5 fill-current">
-                              <use href="/sprite.svg#icon-schedule"></use>
-                            </svg>
-                          }
+                          iconRight={<SpriteSvg id="icon-schedule" className="h-5 w-5 fill-current" />}
                           {...register(`experience.${i}.startDate`, { required: "Вкажіть дату початку" })}
                         />
                         <Input
                           label="Завершення роботи"
                           type="date"
-                          iconRight={
-                            <svg className="h-5 w-5 fill-current">
-                              <use href="/sprite.svg#icon-schedule"></use>
-                            </svg>
-                          }
+                          iconRight={<SpriteSvg id="icon-schedule" className="h-5 w-5 fill-current" />}
                           error={errors.experience?.[i]?.endDate?.message}
                           success={isFieldSuccess(watch(`experience.${i}.endDate`), errors.experience?.[i]?.endDate)}
                           {...register(`experience.${i}.endDate`, { required: "Вкажіть дату завершення" })}
@@ -396,10 +398,10 @@ export default function CVForm() {
                         }}
                         canGenerate={true}
                         label="Опис досвіду"
-                        description="Опишіть свою головну роль та ключові навички в 2-4  реченнях, на основі чого AI зможе згенерувати Досвід"
+                        description="Опишіть свою головну роль та ключові навички в 2-4 реченнях, на основі чого AI зможе згенерувати Досвід"
                         error={error ? error.message : null}
                       />
-                    </div>
+                    </ResumeFormListItem>
                   );
                 })}
               </div>
@@ -431,60 +433,89 @@ export default function CVForm() {
             >
               <div className="flex flex-wrap justify-between gap-4">
                 {educationArray.fields.map((field, i) => {
+                  const isItemOpen = openItems[field.id] !== undefined ? openItems[field.id] : true;
                   const startDate = watch(`education.${i}.startDate`);
                   const endDate = watch(`education.${i}.endDate`);
                   const durationText = calculateDuration(startDate || "", endDate || "");
+                  const specializationTitle = watch(`education.${i}.specialization`);
+
                   return (
-                    <div key={field.id} className="mb-4 w-full pb-4">
-                      <p className="text-body text-secondary-900 mb-1 w-full">Освіта</p>
-                      <p className="text-micro text-secondary-900 mb-4 w-full">
-                        Роки {durationText && `: ${durationText}`}
-                      </p>
-                      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-                        <Input
-                          label="Спеціалізація"
-                          error={errors.education?.[i]?.specialization?.message}
-                          success={isFieldSuccess(
-                            watch(`education.${i}.specialization`),
-                            errors.education?.[i]?.specialization
-                          )}
-                          {...register(`education.${i}.specialization`, { required: "Вкажіть спеціалізацію" })}
-                        />
-                        <Input
-                          label="Заклад"
-                          error={errors.education?.[i]?.institution?.message}
-                          success={isFieldSuccess(
-                            watch(`education.${i}.institution`),
-                            errors.education?.[i]?.institution
-                          )}
-                          {...register(`education.${i}.institution`, { required: "Вкажіть заклад" })}
-                        />
-                        <Input
-                          label="Початок освіти"
-                          type="date"
-                          iconRight={
-                            <svg className="h-5 w-5 fill-current">
-                              <use href="/sprite.svg#icon-schedule"></use>
-                            </svg>
-                          }
-                          error={errors.education?.[i]?.startDate?.message}
-                          success={isFieldSuccess(watch(`education.${i}.startDate`), errors.education?.[i]?.startDate)}
-                          {...register(`education.${i}.startDate`, { required: "Вкажіть дату початку" })}
-                        />
-                        <Input
-                          label="Завершення освіти"
-                          type="date"
-                          iconRight={
-                            <svg className="h-5 w-5 fill-current">
-                              <use href="/sprite.svg#icon-schedule"></use>
-                            </svg>
-                          }
-                          error={errors.education?.[i]?.endDate?.message}
-                          success={isFieldSuccess(watch(`education.${i}.endDate`), errors.education?.[i]?.endDate)}
-                          {...register(`education.${i}.endDate`, { required: "Вкажіть дату завершення" })}
-                        />
+                    <div key={field.id} className="mb-4 w-full border-b pb-4">
+                      <div
+                        className="flex cursor-pointer items-center justify-between"
+                        onClick={() => toggleItem(field.id)}
+                      >
+                        <div className="flex-1">
+                          <p className="text-body text-secondary-900 mb-1 w-full">
+                            {specializationTitle?.trim() || "Назва освіти і заклад"}
+                          </p>
+                          <p className="text-micro text-secondary-900 mb-4 w-full">
+                            Роки {durationText && `: ${durationText}`}
+                          </p>
+                        </div>
+                        <Button className="h-6 w-6 flex-shrink-0">
+                          <SpriteSvg
+                            id={isItemOpen ? "icon-chevron-up" : "icon-chevron-down"}
+                            className="h-6 w-6 fill-neutral-700"
+                          />
+                        </Button>
                       </div>
-                      <AIControlledTextarea value="" onChange={() => {}} description="Опис" />
+
+                      <div
+                        className={clsx("overflow-hidden transition-all duration-300 ease-in-out", {
+                          "max-h-0 opacity-0": !isItemOpen,
+                          "max-h-full opacity-100": isItemOpen,
+                        })}
+                      >
+                        <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                          <Input
+                            label="Спеціалізація"
+                            error={errors.education?.[i]?.specialization?.message}
+                            success={isFieldSuccess(
+                              watch(`education.${i}.specialization`),
+                              errors.education?.[i]?.specialization
+                            )}
+                            {...register(`education.${i}.specialization`, { required: "Вкажіть спеціалізацію" })}
+                          />
+                          <Input
+                            label="Заклад"
+                            error={errors.education?.[i]?.institution?.message}
+                            success={isFieldSuccess(
+                              watch(`education.${i}.institution`),
+                              errors.education?.[i]?.institution
+                            )}
+                            {...register(`education.${i}.institution`, { required: "Вкажіть заклад" })}
+                          />
+                          <Input
+                            label="Початок освіти"
+                            type="date"
+                            iconRight={
+                              <svg className="h-5 w-5 fill-current">
+                                <use href="/sprite.svg#icon-schedule"></use>
+                              </svg>
+                            }
+                            error={errors.education?.[i]?.startDate?.message}
+                            success={isFieldSuccess(
+                              watch(`education.${i}.startDate`),
+                              errors.education?.[i]?.startDate
+                            )}
+                            {...register(`education.${i}.startDate`, { required: "Вкажіть дату початку" })}
+                          />
+                          <Input
+                            label="Завершення освіти"
+                            type="date"
+                            iconRight={
+                              <svg className="h-5 w-5 fill-current">
+                                <use href="/sprite.svg#icon-schedule"></use>
+                              </svg>
+                            }
+                            error={errors.education?.[i]?.endDate?.message}
+                            success={isFieldSuccess(watch(`education.${i}.endDate`), errors.education?.[i]?.endDate)}
+                            {...register(`education.${i}.endDate`, { required: "Вкажіть дату завершення" })}
+                          />
+                        </div>
+                        <AIControlledTextarea value="" onChange={() => {}} description="Опис" />
+                      </div>
                     </div>
                   );
                 })}
@@ -517,57 +548,86 @@ export default function CVForm() {
             >
               <div className="flex flex-wrap justify-between gap-4">
                 {coursesArray.fields.map((field, i) => {
+                  const isItemOpen = openItems[field.id] !== undefined ? openItems[field.id] : true;
                   const startDate = watch(`courses.${i}.startDate`);
                   const endDate = watch(`courses.${i}.endDate`);
                   const durationText = calculateDuration(startDate || "", endDate || "");
+                  const specializationTitle = watch(`courses.${i}.specialization`);
+
                   return (
                     <div key={field.id} className="mb-4 w-full pb-4">
-                      <p className="text-body text-secondary-900 mb-1 w-full">Назва курсу</p>
-                      <p className="text-micro text-secondary-900 mb-4 w-full">
-                        Роки {durationText && `: ${durationText}`}
-                      </p>
-                      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-                        <Input
-                          label="Спеціалізація"
-                          error={errors.courses?.[i]?.specialization?.message}
-                          success={isFieldSuccess(
-                            watch(`courses.${i}.specialization`),
-                            errors.courses?.[i]?.specialization
-                          )}
-                          {...register(`courses.${i}.specialization`, { required: "Вкажіть спеціалізацію" })}
-                        />
-                        <Input
-                          label="Навчальний заклад"
-                          error={errors.courses?.[i]?.institution?.message}
-                          success={isFieldSuccess(watch(`courses.${i}.institution`), errors.courses?.[i]?.institution)}
-                          {...register(`courses.${i}.institution`, { required: "Вкажіть заклад" })}
-                        />
-                        <Input
-                          label="Початок курсів"
-                          type="date"
-                          iconRight={
-                            <svg className="h-5 w-5 fill-current">
-                              <use href="/sprite.svg#icon-schedule"></use>
-                            </svg>
-                          }
-                          error={errors.courses?.[i]?.startDate?.message}
-                          success={isFieldSuccess(watch(`courses.${i}.startDate`), errors.courses?.[i]?.startDate)}
-                          {...register(`courses.${i}.startDate`, { required: "Вкажіть дату початку" })}
-                        />
-                        <Input
-                          label="Завершення курсів"
-                          type="date"
-                          iconRight={
-                            <svg className="h-5 w-5 fill-current">
-                              <use href="/sprite.svg#icon-schedule"></use>
-                            </svg>
-                          }
-                          error={errors.courses?.[i]?.endDate?.message}
-                          success={isFieldSuccess(watch(`courses.${i}.endDate`), errors.courses?.[i]?.endDate)}
-                          {...register(`courses.${i}.endDate`, { required: "Вкажіть дату завершення" })}
-                        />
+                      <div
+                        className="flex cursor-pointer items-center justify-between"
+                        onClick={() => toggleItem(field.id)}
+                      >
+                        <div className="flex-1">
+                          <p className="text-body text-secondary-900 mb-1 w-full">
+                            {specializationTitle?.trim() || "Назва курсу"}
+                          </p>
+                          <p className="text-micro text-secondary-900 mb-4 w-full">
+                            Роки {durationText && `: ${durationText}`}
+                          </p>
+                        </div>
+                        <button className="h-6 w-6 flex-shrink-0" type="button">
+                          <SpriteSvg
+                            id={isItemOpen ? "icon-arrow" : "icon-arrow-up"}
+                            className="stroke-secondary-900 h-6 w-6 fill-neutral-50"
+                          />
+                        </button>
                       </div>
-                      <AIControlledTextarea value="" onChange={() => {}} description="Опис" />
+
+                      <div
+                        className={clsx("overflow-hidden transition-all duration-300 ease-in-out", {
+                          "max-h-0 opacity-0": !isItemOpen,
+                          "max-h-full opacity-100": isItemOpen,
+                        })}
+                      >
+                        <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                          <Input
+                            label="Спеціалізація"
+                            error={errors.courses?.[i]?.specialization?.message}
+                            success={isFieldSuccess(
+                              watch(`courses.${i}.specialization`),
+                              errors.courses?.[i]?.specialization
+                            )}
+                            {...register(`courses.${i}.specialization`, { required: "Вкажіть спеціалізацію" })}
+                          />
+                          <Input
+                            label="Навчальний заклад"
+                            error={errors.courses?.[i]?.institution?.message}
+                            success={isFieldSuccess(
+                              watch(`courses.${i}.institution`),
+                              errors.courses?.[i]?.institution
+                            )}
+                            {...register(`courses.${i}.institution`, { required: "Вкажіть заклад" })}
+                          />
+                          <Input
+                            label="Початок курсів"
+                            type="date"
+                            iconRight={
+                              <svg className="h-5 w-5 fill-current">
+                                <use href="/sprite.svg#icon-schedule"></use>
+                              </svg>
+                            }
+                            error={errors.courses?.[i]?.startDate?.message}
+                            success={isFieldSuccess(watch(`courses.${i}.startDate`), errors.courses?.[i]?.startDate)}
+                            {...register(`courses.${i}.startDate`, { required: "Вкажіть дату початку" })}
+                          />
+                          <Input
+                            label="Завершення курсів"
+                            type="date"
+                            iconRight={
+                              <svg className="h-5 w-5 fill-current">
+                                <use href="/sprite.svg#icon-schedule"></use>
+                              </svg>
+                            }
+                            error={errors.courses?.[i]?.endDate?.message}
+                            success={isFieldSuccess(watch(`courses.${i}.endDate`), errors.courses?.[i]?.endDate)}
+                            {...register(`courses.${i}.endDate`, { required: "Вкажіть дату завершення" })}
+                          />
+                        </div>
+                        <AIControlledTextarea value="" onChange={() => {}} description="Опис" />
+                      </div>
                     </div>
                   );
                 })}
@@ -594,21 +654,47 @@ export default function CVForm() {
                 </Button>
               }
             >
-              {progLangArray.fields.map((field, i) => (
-                <>
-                  <p className="text-body text-secondary-900 mb-1 w-full">Мова програмування</p>
-                  <Input
-                    key={field.id}
-                    label="Мова"
-                    error={errors.programmingLanguages?.[i]?.name?.message}
-                    success={isFieldSuccess(
-                      watch(`programmingLanguages.${i}.name`),
-                      errors.programmingLanguages?.[i]?.name
-                    )}
-                    {...register(`programmingLanguages.${i}.name`, { required: "Вкажіть мову програмування" })}
-                  />
-                </>
-              ))}
+              {progLangArray.fields.map((field, i) => {
+                const isItemOpen = openItems[field.id] !== undefined ? openItems[field.id] : true;
+                const progLangName = watch(`programmingLanguages.${i}.name`);
+
+                return (
+                  <div key={field.id} className="mb-4 w-full border-b pb-4">
+                    <div
+                      className="flex cursor-pointer items-center justify-between"
+                      onClick={() => toggleItem(field.id)}
+                    >
+                      <p className="text-body text-secondary-900 mb-1 w-full">
+                        {progLangName?.trim() || "Назва мови програмування"}
+                      </p>
+                      <Button className="h-6 w-6 flex-shrink-0">
+                        <SpriteSvg
+                          id={isItemOpen ? "icon-chevron-up" : "icon-chevron-down"}
+                          className="h-6 w-6 fill-neutral-700"
+                        />
+                      </Button>
+                    </div>
+
+                    <div
+                      className={clsx("overflow-hidden transition-all duration-300 ease-in-out", {
+                        "max-h-0 opacity-0": !isItemOpen,
+                        "max-h-full opacity-100": isItemOpen,
+                      })}
+                    >
+                      <Input
+                        key={field.id}
+                        label="Мова"
+                        error={errors.programmingLanguages?.[i]?.name?.message}
+                        success={isFieldSuccess(
+                          watch(`programmingLanguages.${i}.name`),
+                          errors.programmingLanguages?.[i]?.name
+                        )}
+                        {...register(`programmingLanguages.${i}.name`, { required: "Вкажіть мову програмування" })}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
             </ResumeFormSection>
 
             <ResumeFormSection
@@ -631,18 +717,42 @@ export default function CVForm() {
                 </Button>
               }
             >
-              {skillsArray.fields.map((field, i) => (
-                <>
-                  <p className="text-body text-secondary-900 mb-1 w-full">Навичка</p>
-                  <Input
-                    key={field.id}
-                    label="Вкажіть навичку"
-                    error={errors.skills?.[i]?.name?.message}
-                    success={isFieldSuccess(watch(`skills.${i}.name`), errors.skills?.[i]?.name)}
-                    {...register(`skills.${i}.name`, { required: "Вкажіть навичку" })}
-                  />
-                </>
-              ))}
+              {skillsArray.fields.map((field, i) => {
+                const isItemOpen = openItems[field.id] !== undefined ? openItems[field.id] : true;
+                const skillName = watch(`skills.${i}.name`);
+
+                return (
+                  <div key={field.id} className="mb-4 w-full border-b pb-4">
+                    <div
+                      className="flex cursor-pointer items-center justify-between"
+                      onClick={() => toggleItem(field.id)}
+                    >
+                      <p className="text-body text-secondary-900 mb-1 w-full">{skillName?.trim() || "Назва навички"}</p>
+                      <Button className="h-6 w-6 flex-shrink-0">
+                        <SpriteSvg
+                          id={isItemOpen ? "icon-chevron-up" : "icon-chevron-down"}
+                          className="h-6 w-6 fill-neutral-700"
+                        />
+                      </Button>
+                    </div>
+
+                    <div
+                      className={clsx("overflow-hidden transition-all duration-300 ease-in-out", {
+                        "max-h-0 opacity-0": !isItemOpen,
+                        "max-h-full opacity-100": isItemOpen,
+                      })}
+                    >
+                      <Input
+                        key={field.id}
+                        label="Вкажіть навичку"
+                        error={errors.skills?.[i]?.name?.message}
+                        success={isFieldSuccess(watch(`skills.${i}.name`), errors.skills?.[i]?.name)}
+                        {...register(`skills.${i}.name`, { required: "Вкажіть навичку" })}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
             </ResumeFormSection>
 
             <ResumeFormSection
@@ -661,28 +771,55 @@ export default function CVForm() {
                 </Button>
               }
             >
-              {foreignLangArray.fields.map((field, i) => (
-                <>
-                  <p className="text-body text-secondary-900 mb-1 w-full">Іноземна мова</p>
-                  <div key={field.id} className="mb-4 grid gap-4 border-b pb-4">
-                    <Input
-                      label="Вкажіть іноземну мову"
-                      error={errors.foreignLanguages?.[i]?.name?.message}
-                      success={isFieldSuccess(watch(`foreignLanguages.${i}.name`), errors.foreignLanguages?.[i]?.name)}
-                      {...register(`foreignLanguages.${i}.name`, { required: "Вкажіть іноземну мову" })}
-                    />
-                    <Input
-                      label="Оберіть рівеньь"
-                      error={errors.foreignLanguages?.[i]?.level?.message}
-                      success={isFieldSuccess(
-                        watch(`foreignLanguages.${i}.level`),
-                        errors.foreignLanguages?.[i]?.level
-                      )}
-                      {...register(`foreignLanguages.${i}.level`, { required: "Вкажіть рівень" })}
-                    />
+              {foreignLangArray.fields.map((field, i) => {
+                const isItemOpen = openItems[field.id] !== undefined ? openItems[field.id] : true;
+                const langName = watch(`foreignLanguages.${i}.name`);
+
+                return (
+                  <div key={field.id} className="mb-4 w-full border-b pb-4">
+                    <div
+                      className="flex cursor-pointer items-center justify-between"
+                      onClick={() => toggleItem(field.id)}
+                    >
+                      <p className="text-body text-secondary-900 mb-1 w-full">
+                        {langName?.trim() || "Назва іноземної мови"}
+                      </p>
+                      <Button className="h-6 w-6 flex-shrink-0">
+                        <SpriteSvg
+                          id={isItemOpen ? "icon-chevron-up" : "icon-chevron-down"}
+                          className="h-6 w-6 fill-neutral-700"
+                        />
+                      </Button>
+                    </div>
+
+                    <div
+                      className={clsx("overflow-hidden transition-all duration-300 ease-in-out", {
+                        "max-h-0 opacity-0": !isItemOpen,
+                        "max-h-full opacity-100": isItemOpen,
+                      })}
+                    >
+                      <Input
+                        label="Вкажіть іноземну мову"
+                        error={errors.foreignLanguages?.[i]?.name?.message}
+                        success={isFieldSuccess(
+                          watch(`foreignLanguages.${i}.name`),
+                          errors.foreignLanguages?.[i]?.name
+                        )}
+                        {...register(`foreignLanguages.${i}.name`, { required: "Вкажіть іноземну мову" })}
+                      />
+                      <Input
+                        label="Оберіть рівень"
+                        error={errors.foreignLanguages?.[i]?.level?.message}
+                        success={isFieldSuccess(
+                          watch(`foreignLanguages.${i}.level`),
+                          errors.foreignLanguages?.[i]?.level
+                        )}
+                        {...register(`foreignLanguages.${i}.level`, { required: "Вкажіть рівень" })}
+                      />
+                    </div>
                   </div>
-                </>
-              ))}
+                );
+              })}
             </ResumeFormSection>
 
             <ResumeFormSection
@@ -704,7 +841,6 @@ export default function CVForm() {
               </Button>
 
               <Button
-                // disabled={}
                 className="flex h-10 w-full items-center justify-center md:h-[62px] md:w-[356px]"
                 onClick={() => {}}
               >
