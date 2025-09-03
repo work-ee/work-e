@@ -18,7 +18,7 @@ export const ResumeFormListItem = ({ title, subtitle, isOpen, onToggle, children
       <div className="flex cursor-pointer items-center justify-between" onClick={onToggle}>
         <div className="flex-1">
           <p className="text-body text-secondary-900 mb-1 w-full">{title}</p>
-          {subtitle && <p className="text-micro text-secondary-900 mb-4 w-full">Роки {subtitle && `: ${subtitle}`}</p>}
+          {subtitle && <p className="text-micro text-secondary-900 mb-4 w-full">{subtitle && ` ${subtitle}`}</p>}
         </div>
         <button
           className="h-6 w-6 flex-shrink-0 cursor-pointer"
