@@ -11,6 +11,7 @@ import { Button, Input } from "@/components/ui";
 
 import { calculateDuration } from "@/lib/utils/dateUtils";
 
+import { updateUserProfile } from "@/actions/server/user";
 import { useProfileStore } from "@/stores/profileStore";
 import { Course, Education, Experience, Language, UserProfile } from "@/types/profile";
 
@@ -53,6 +54,7 @@ export default function CVForm() {
     handleSubmit,
     formState: { errors },
     watch,
+    reset,
     setValue,
   } = useForm<FormValues>({
     defaultValues: {
@@ -81,6 +83,9 @@ export default function CVForm() {
       hobbies: profile.hobbies || "",
     },
   });
+
+  const [isSaving, setIsSaving] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
 
   const debouncedSetProfile = useRef(
     debounce((data: Partial<UserProfile>) => {
@@ -112,7 +117,9 @@ export default function CVForm() {
     };
   }, [watch, debouncedSetProfile]);
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
+    setIsSaving(true);
+    setMessage(null);
     const transformedData: Partial<UserProfile> = {
       personalInfo: { ...data.personalInfo },
       overview: data.overview,
@@ -125,6 +132,27 @@ export default function CVForm() {
       hobbies: data.hobbies,
     };
     setProfile(transformedData);
+    try {
+      // у тебе в store є profile з id користувача?
+      const userId = 60;
+
+      const result = await updateUserProfile(transformedData, userId);
+
+      if (result.success) {
+        setMessage("✅ Дані збережено успішно");
+      } else {
+        setMessage("❌ Помилка при збереженні");
+      }
+    } catch (err) {
+      setMessage("❌ Сталася помилка");
+      console.error(err);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+  const handleCancel = () => {
+    reset(); // скидує форму до defaultValues
+    setMessage("Форму скинуто");
   };
 
   const sectionTitles = [
@@ -490,7 +518,11 @@ export default function CVForm() {
                           {...register(`education.${i}.endDate`, { required: "Вкажіть дату завершення" })}
                         />
                       </div>
-                      <AIControlledTextarea value="" onChange={() => {}} description="Опис" />
+                      <AIControlledTextarea
+                        value={watch(`education.${i}.description`) || ""}
+                        onChange={(text) => setValue(`education.${i}.description`, text)}
+                        description="Опис"
+                      />
                     </ResumeFormListItem>
                   );
                 })}
@@ -578,7 +610,11 @@ export default function CVForm() {
                           {...register(`courses.${i}.endDate`, { required: "Вкажіть дату завершення" })}
                         />
                       </div>
-                      <AIControlledTextarea value="" onChange={() => {}} description="Опис" />
+                      <AIControlledTextarea
+                        value={watch(`courses.${i}.description`) || ""}
+                        onChange={(text) => setValue(`courses.${i}.description`, text)}
+                        description="Опис"
+                      />
                     </ResumeFormListItem>
                   );
                 })}
@@ -730,25 +766,32 @@ export default function CVForm() {
               isOpen={openSections[8]}
               toggleSection={toggleSection}
             >
-              <AIControlledTextarea value="" onChange={() => {}} description="Вкажіть своє хобі" />
+              <AIControlledTextarea
+                value={watch("hobbies") || ""}
+                onChange={(text) => setValue("hobbies", text)}
+                description="Вкажіть своє хобі"
+              />
             </ResumeFormSection>
 
             <div className="flex w-full flex-col-reverse gap-4 md:flex-row md:gap-x-6">
               <Button
                 variant="secondary"
                 className="h-10 w-full items-center justify-center md:order-first md:h-[62px] md:w-[356px]"
-                onClick={() => {}}
+                onClick={handleCancel}
               >
                 Відмінити
               </Button>
 
               <Button
+                type="submit"
+                disabled={isSaving}
                 className="flex h-10 w-full items-center justify-center md:h-[62px] md:w-[356px]"
                 onClick={() => {}}
               >
                 Зберегти CV
               </Button>
             </div>
+            {message && <p className="mt-2 text-sm">{message}</p>}
           </form>
         </div>
       </section>

@@ -48,7 +48,7 @@ export async function updateUserProfile(formData: IUserFormData, userId: number)
     }
 
     const response = await fetch(`${process.env.API_URL}/api/users/${userId}/`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Token ${token}`,

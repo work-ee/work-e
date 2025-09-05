@@ -23,7 +23,6 @@ export const handleGoogleLogin = async ({ user, account }: Props) => {
       url: `${process.env.API_URL}/api/users/google/login/`,
       accessToken: account.access_token,
     });
-
     // console.log("🚨", data, "🏁");
 
     // -> Saving backend token and user data to the user object
