@@ -34,6 +34,7 @@ type FormValues = {
   foreignLanguages: Language[];
   hobbies?: string;
 };
+
 type OverviewData = string;
 
 type ExperienceData = {
@@ -46,7 +47,7 @@ type ExperienceData = {
 type PromptData = OverviewData | ExperienceData;
 
 export default function CVForm() {
-  const { profile, setProfile } = useProfileStore();
+  const { profile, setProfile, isProfileLoading } = useProfileStore();
 
   const {
     control,
@@ -73,7 +74,7 @@ export default function CVForm() {
         : [{ position: "", company: "", startDate: "", endDate: "", description: "" }],
       education: profile.education?.length
         ? profile.education
-        : [{ specialization: "", institution: "", startDate: "", endDate: "" }],
+        : [{ specialization: "", institution: "", startDate: "", endDate: "", description: "" }],
       courses: profile.courses?.length
         ? profile.courses
         : [{ specialization: "", institution: "", startDate: "", endDate: "", description: "" }],
@@ -84,7 +85,6 @@ export default function CVForm() {
     },
   });
 
-  const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
   const debouncedSetProfile = useRef(
@@ -96,7 +96,11 @@ export default function CVForm() {
   useEffect(() => {
     const subscription = watch((value) => {
       const transformedData: Partial<UserProfile> = {
-        personalInfo: { ...value.personalInfo },
+        ...profile,
+        personalInfo: {
+          ...profile.personalInfo,
+          ...value.personalInfo,
+        },
         overview: value.overview,
         experience: value.experience?.filter((item) => item !== undefined),
         education: value.education?.filter((item) => item !== undefined),
@@ -115,28 +119,77 @@ export default function CVForm() {
       subscription.unsubscribe();
       debouncedSetProfile.cancel();
     };
-  }, [watch, debouncedSetProfile]);
+  }, [watch, debouncedSetProfile, profile]);
 
   const onSubmit = async (data: FormValues) => {
-    setIsSaving(true);
+    // setIsSaving(true);
     setMessage(null);
+
+    const userId = profile.personalInfo?.id;
+
+    function mapProfileToBackend(profile: UserProfile) {
+      return {
+        desired_position: profile.personalInfo?.desiredPosition,
+        first_name: profile.personalInfo?.firstName,
+        last_name: profile.personalInfo?.lastName,
+        email: profile.personalInfo?.email,
+        phone: profile.personalInfo?.phone,
+        country: profile.personalInfo?.country,
+        city: profile.personalInfo?.city,
+        overview: profile.overview,
+        experience: profile.experience
+          ?.map(
+            (exp) =>
+              `Position: ${exp.position || ""}, Company: ${exp.company || ""}, ` +
+              `Start: ${exp.startDate || ""}, End: ${exp.endDate || ""}, Description: ${exp.description || ""}`
+          )
+          .join(" | "),
+        education: profile.education
+          ?.map(
+            (edu) =>
+              `Specialization: ${edu.specialization || ""}, Institution: ${edu.institution || ""}, ` +
+              `Start: ${edu.startDate || ""}, End: ${edu.endDate || ""}, Description: ${edu.description || ""}`
+          )
+          .join(" | "),
+        courses: profile.courses
+          ?.map(
+            (course) =>
+              `Specialization: ${course.specialization || ""}, Institution: ${course.institution || ""}, ` +
+              `Start: ${course.startDate || ""}, End: ${course.endDate || ""}, Description: ${course.description || ""}`
+          )
+          .join(" | "),
+        programming_languages: profile.programmingLanguages?.join(", "),
+        skills: profile.skills?.join(", "),
+        foreign_languages: profile.foreignLanguages?.map((lang) => `${lang.name || ""}:${lang.level || ""}`).join(", "),
+        hobbies: profile.hobbies,
+      };
+    }
+
     const transformedData: Partial<UserProfile> = {
-      personalInfo: { ...data.personalInfo },
+      ...profile,
+      personalInfo: {
+        ...profile.personalInfo,
+        ...data.personalInfo,
+      },
       overview: data.overview,
-      experience: data.experience?.filter((item) => item !== undefined),
-      education: data.education?.filter((item) => item !== undefined),
-      courses: data.courses?.filter((item) => item !== undefined),
+      experience: data.experience,
+      education: data.education,
+      courses: data.courses,
       programmingLanguages: data.programmingLanguages?.map((item) => item?.name).filter(Boolean),
       skills: data.skills?.map((item) => item?.name).filter(Boolean),
-      foreignLanguages: data.foreignLanguages?.filter((item) => item !== undefined),
+      foreignLanguages: data.foreignLanguages,
       hobbies: data.hobbies,
     };
-    setProfile(transformedData);
-    try {
-      // у тебе в store є profile з id користувача?
-      const userId = 60;
 
-      const result = await updateUserProfile(transformedData, userId);
+    setProfile(transformedData);
+    const userPayload = mapProfileToBackend(profile);
+
+    try {
+      if (!userId) {
+        throw new Error("User ID не знайдено. Дані профілю не завантажені.");
+      }
+
+      const result = await updateUserProfile(userPayload, Number(userId));
 
       if (result.success) {
         setMessage("✅ Дані збережено успішно");
@@ -146,12 +199,11 @@ export default function CVForm() {
     } catch (err) {
       setMessage("❌ Сталася помилка");
       console.error(err);
-    } finally {
-      setIsSaving(false);
     }
   };
+
   const handleCancel = () => {
-    reset(); // скидує форму до defaultValues
+    reset();
     setMessage("Форму скинуто");
   };
 
@@ -784,11 +836,12 @@ export default function CVForm() {
 
               <Button
                 type="submit"
-                disabled={isSaving}
+                // disabled={isSaving}
+                disabled={isProfileLoading}
                 className="flex h-10 w-full items-center justify-center md:h-[62px] md:w-[356px]"
                 onClick={() => {}}
               >
-                Зберегти CV
+                {isProfileLoading ? "Завантаження..." : "Зберегти CV"}
               </Button>
             </div>
             {message && <p className="mt-2 text-sm">{message}</p>}

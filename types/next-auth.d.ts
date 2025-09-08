@@ -32,10 +32,42 @@ declare module "next-auth/jwt" {
 }
 
 // This file is used for sending user data (Profile) to the backend
-export interface IUserFormData extends Omit<BackendUser, "id" | "date_joined"> {
+// export interface IUserFormData extends Omit<BackendUser, "id" | "date_joined"> {
+export interface IUserFormData {
   username?: string;
   avatar_url?: string;
   date_joined?: string;
   linkedin_url?: string;
   cv?: string;
+
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  linkedin_id?: string;
+  password?: string;
+  last_login?: string;
+  is_superuser?: boolean;
+  is_staff?: boolean;
+  is_active?: boolean;
+  google_id?: string | null;
+  overview?: string | null;
+  hobbies?: string | null;
+  motivation_letter?: string | null;
+  linkedin?: string | null;
+  github?: string | null;
+  ip?: string | null;
+  programming_languages?: string | null;
+  skills?: string | null;
+  personal_info?: number | null;
+  groups?: number[];
+  user_permissions?: number[];
+
+  experience?: string;
+  education?: string;
+  courses?: string;
+  foreign_languages?: string;
+  desired_position?: string;
+  phone?: string;
+  country?: string;
+  city?: string;
 }

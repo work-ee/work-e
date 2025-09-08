@@ -1,4 +1,5 @@
 export interface PersonalInfo {
+  id?: string;
   desiredPosition?: string;
   firstName?: string;
   lastName?: string;
@@ -55,6 +56,7 @@ export interface UserProfile {
 }
 
 interface ProfileState {
+  isProfileLoading: boolean;
   profile: UserProfile;
 
   setProfile: (profile: Partial<UserProfile>) => void;

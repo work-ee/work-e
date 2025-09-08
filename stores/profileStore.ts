@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { ProfileState } from "@/types/profile";
 
 export const useProfileStore = create<ProfileState>((set) => ({
+  isProfileLoading: true,
   profile: {},
 
   setProfile: (profile) =>

@@ -12,6 +12,7 @@ export const useAutoProfile = () => {
         const data = await res.json();
         if (data && data.userData) {
           updatePersonalInfo({
+            id: data.userData.id,
             firstName: data.first_name,
             lastName: data.last_name,
             email: data.userData.email,
@@ -19,10 +20,11 @@ export const useAutoProfile = () => {
             city: data.city,
           });
         }
-
         setIp(data.ip);
       } catch (err) {
         console.error("Автоматичне заповнення не вдалося", err);
+      } finally {
+        useProfileStore.setState({ isProfileLoading: false });
       }
     };
 
