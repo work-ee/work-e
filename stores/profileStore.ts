@@ -1,5 +1,6 @@
 import { create } from "zustand";
 
+import { getCurrentUser } from "@/actions/server/user";
 import { ProfileState } from "@/types/profile";
 
 export const useProfileStore = create<ProfileState>((set) => ({
@@ -182,4 +183,50 @@ export const useProfileStore = create<ProfileState>((set) => ({
         userAgent: ua,
       },
     })),
+
+  fetchCurrentUser: async () => {
+    set({ isProfileLoading: true });
+    try {
+      const user = await getCurrentUser();
+      if (user) {
+        const profileData = {
+          personalInfo: {
+            id: user.data?.id || 0,
+            firstName: user.data?.first_name || "",
+            lastName: user.data?.last_name || "",
+            email: user.data?.email || "",
+            avatarUrl: user.data?.avatar_url || "",
+            linkedinUrl: user.data?.linkedin || "",
+            desiredPosition: user.data?.desired_position || "",
+            phone: user.data?.phone || "",
+            country: user.data?.country || "",
+            city: user.data?.city || "",
+          },
+          overview: user.data?.overview,
+          experience: user.data?.experience ? JSON.parse(user.data.experience) : [],
+          education: user.data?.education ? JSON.parse(user.data.education) : [],
+          courses: user.data?.courses ? JSON.parse(user.data.courses) : [],
+          programmingLanguages: user.data?.programming_languages?.split(", ") || [],
+          skills: user.data?.skills?.split(", ") || [],
+          foreignLanguages: user.data?.foreign_languages ? JSON.parse(user.data.foreign_languages) : [],
+          hobbies: user.data?.hobbies,
+          motivationLetter: user.data?.motivation_letter,
+          linkedin: user.data?.linkedin,
+          github: user.data?.github,
+          ip: user.data?.ip,
+          userAgent: user.data?.userAgent,
+        };
+
+        set({
+          profile: profileData,
+          isProfileLoading: false,
+        });
+      } else {
+        set({ isProfileLoading: false });
+      }
+    } catch (err) {
+      console.error("Error fetching user:", err);
+      set({ isProfileLoading: false });
+    }
+  },
 }));

@@ -47,7 +47,7 @@ type ExperienceData = {
 type PromptData = OverviewData | ExperienceData;
 
 export default function CVForm() {
-  const { profile, setProfile, isProfileLoading } = useProfileStore();
+  const { profile, setProfile, isProfileLoading, fetchCurrentUser } = useProfileStore();
 
   const {
     control,
@@ -80,7 +80,7 @@ export default function CVForm() {
         : [{ specialization: "", institution: "", startDate: "", endDate: "", description: "" }],
       programmingLanguages: profile.programmingLanguages?.map((name) => ({ name })) || [{ name: "" }],
       skills: profile.skills?.map((name) => ({ name })) || [{ name: "" }],
-      foreignLanguages: profile.foreignLanguages || [{ name: "", level: undefined }],
+      foreignLanguages: profile.foreignLanguages?.length ? profile.foreignLanguages : [{ name: "", level: undefined }],
       hobbies: profile.hobbies || "",
     },
   });
@@ -122,7 +122,6 @@ export default function CVForm() {
   }, [watch, debouncedSetProfile, profile]);
 
   const onSubmit = async (data: FormValues) => {
-    // setIsSaving(true);
     setMessage(null);
 
     const userId = profile.personalInfo?.id;
@@ -193,6 +192,7 @@ export default function CVForm() {
 
       if (result.success) {
         setMessage("✅ Дані збережено успішно");
+        await fetchCurrentUser();
       } else {
         setMessage("❌ Помилка при збереженні");
       }
@@ -243,6 +243,14 @@ export default function CVForm() {
     { value: "pm", label: "Project Manager" },
     { value: "designer", label: "UI/UX дизайнер" },
     { value: "devops", label: "DevOps інженер" },
+  ];
+
+  const levelLangOptions = [
+    { value: "beginner", label: "Beginner" },
+    { value: "intermediate", label: "Intermediate" },
+    { value: "advanced", label: "Advanced" },
+    { value: "fluent", label: "Fluent" },
+    { value: "native", label: "Native" },
   ];
 
   const isFieldSuccess = (value: string | undefined, error: FieldError | undefined) => {
@@ -431,13 +439,13 @@ export default function CVForm() {
                           label="Посада"
                           error={errors.experience?.[i]?.position?.message}
                           success={isFieldSuccess(watch(`experience.${i}.position`), errors.experience?.[i]?.position)}
-                          {...register(`experience.${i}.position`, { required: "Вкажіть посаду" })}
+                          {...register(`experience.${i}.position`)}
                         />
                         <Input
                           label="Компанія"
                           error={errors.experience?.[i]?.company?.message}
                           success={isFieldSuccess(watch(`experience.${i}.company`), errors.experience?.[i]?.company)}
-                          {...register(`experience.${i}.company`, { required: "Вкажіть компанію" })}
+                          {...register(`experience.${i}.company`)}
                         />
                         <Input
                           label="Початок роботи"
@@ -448,7 +456,7 @@ export default function CVForm() {
                             errors.experience?.[i]?.startDate
                           )}
                           iconRight={<SpriteSvg id="icon-schedule" className="h-5 w-5 fill-current" />}
-                          {...register(`experience.${i}.startDate`, { required: "Вкажіть дату початку" })}
+                          {...register(`experience.${i}.startDate`)}
                         />
                         <Input
                           label="Завершення роботи"
@@ -456,7 +464,7 @@ export default function CVForm() {
                           iconRight={<SpriteSvg id="icon-schedule" className="h-5 w-5 fill-current" />}
                           error={errors.experience?.[i]?.endDate?.message}
                           success={isFieldSuccess(watch(`experience.${i}.endDate`), errors.experience?.[i]?.endDate)}
-                          {...register(`experience.${i}.endDate`, { required: "Вкажіть дату завершення" })}
+                          {...register(`experience.${i}.endDate`)}
                         />
                       </div>
                       <AIControlledTextarea
@@ -534,7 +542,7 @@ export default function CVForm() {
                             watch(`education.${i}.specialization`),
                             errors.education?.[i]?.specialization
                           )}
-                          {...register(`education.${i}.specialization`, { required: "Вкажіть спеціалізацію" })}
+                          {...register(`education.${i}.specialization`)}
                         />
                         <Input
                           label="Заклад"
@@ -543,7 +551,7 @@ export default function CVForm() {
                             watch(`education.${i}.institution`),
                             errors.education?.[i]?.institution
                           )}
-                          {...register(`education.${i}.institution`, { required: "Вкажіть заклад" })}
+                          {...register(`education.${i}.institution`)}
                         />
                         <Input
                           label="Початок освіти"
@@ -555,7 +563,7 @@ export default function CVForm() {
                           }
                           error={errors.education?.[i]?.startDate?.message}
                           success={isFieldSuccess(watch(`education.${i}.startDate`), errors.education?.[i]?.startDate)}
-                          {...register(`education.${i}.startDate`, { required: "Вкажіть дату початку" })}
+                          {...register(`education.${i}.startDate`)}
                         />
                         <Input
                           label="Завершення освіти"
@@ -567,7 +575,7 @@ export default function CVForm() {
                           }
                           error={errors.education?.[i]?.endDate?.message}
                           success={isFieldSuccess(watch(`education.${i}.endDate`), errors.education?.[i]?.endDate)}
-                          {...register(`education.${i}.endDate`, { required: "Вкажіть дату завершення" })}
+                          {...register(`education.${i}.endDate`)}
                         />
                       </div>
                       <AIControlledTextarea
@@ -629,13 +637,13 @@ export default function CVForm() {
                             watch(`courses.${i}.specialization`),
                             errors.courses?.[i]?.specialization
                           )}
-                          {...register(`courses.${i}.specialization`, { required: "Вкажіть спеціалізацію" })}
+                          {...register(`courses.${i}.specialization`)}
                         />
                         <Input
                           label="Навчальний заклад"
                           error={errors.courses?.[i]?.institution?.message}
                           success={isFieldSuccess(watch(`courses.${i}.institution`), errors.courses?.[i]?.institution)}
-                          {...register(`courses.${i}.institution`, { required: "Вкажіть заклад" })}
+                          {...register(`courses.${i}.institution`)}
                         />
                         <Input
                           label="Початок курсів"
@@ -647,7 +655,7 @@ export default function CVForm() {
                           }
                           error={errors.courses?.[i]?.startDate?.message}
                           success={isFieldSuccess(watch(`courses.${i}.startDate`), errors.courses?.[i]?.startDate)}
-                          {...register(`courses.${i}.startDate`, { required: "Вкажіть дату початку" })}
+                          {...register(`courses.${i}.startDate`)}
                         />
                         <Input
                           label="Завершення курсів"
@@ -659,7 +667,7 @@ export default function CVForm() {
                           }
                           error={errors.courses?.[i]?.endDate?.message}
                           success={isFieldSuccess(watch(`courses.${i}.endDate`), errors.courses?.[i]?.endDate)}
-                          {...register(`courses.${i}.endDate`, { required: "Вкажіть дату завершення" })}
+                          {...register(`courses.${i}.endDate`)}
                         />
                       </div>
                       <AIControlledTextarea
@@ -713,7 +721,7 @@ export default function CVForm() {
                         watch(`programmingLanguages.${i}.name`),
                         errors.programmingLanguages?.[i]?.name
                       )}
-                      {...register(`programmingLanguages.${i}.name`, { required: "Вкажіть мову програмування" })}
+                      {...register(`programmingLanguages.${i}.name`)}
                     />
                   </ResumeFormListItem>
                 );
@@ -757,7 +765,7 @@ export default function CVForm() {
                       label="Вкажіть навичку"
                       error={errors.skills?.[i]?.name?.message}
                       success={isFieldSuccess(watch(`skills.${i}.name`), errors.skills?.[i]?.name)}
-                      {...register(`skills.${i}.name`, { required: "Вкажіть навичку" })}
+                      {...register(`skills.${i}.name`)}
                     />
                   </ResumeFormListItem>
                 );
@@ -774,7 +782,7 @@ export default function CVForm() {
                   variant="secondary"
                   className="btn-sm mt-6"
                   type="button"
-                  onClick={() => foreignLangArray.append({ name: "", level: undefined })}
+                  onClick={() => foreignLangArray.append({ name: "", level: "Beginner" })}
                 >
                   <SpriteSvg id="icon-plus" className="fill-primary-300 mx-auto h-6 w-6" />
                 </Button>
@@ -783,7 +791,6 @@ export default function CVForm() {
               {foreignLangArray.fields.map((field, i) => {
                 const isItemOpen = openItems[field.id] !== undefined ? openItems[field.id] : true;
                 const langName = watch(`foreignLanguages.${i}.name`);
-
                 return (
                   <ResumeFormListItem
                     key={field.id}
@@ -795,17 +802,22 @@ export default function CVForm() {
                     <Input
                       label="Вкажіть іноземну мову"
                       error={errors.foreignLanguages?.[i]?.name?.message}
-                      success={isFieldSuccess(watch(`foreignLanguages.${i}.name`), errors.foreignLanguages?.[i]?.name)}
-                      {...register(`foreignLanguages.${i}.name`, { required: "Вкажіть іноземну мову" })}
+                      success={isFieldSuccess(langName, errors.foreignLanguages?.[i]?.name)}
+                      {...register(`foreignLanguages.${i}.name`)}
                     />
-                    <Input
-                      label="Оберіть рівень"
-                      error={errors.foreignLanguages?.[i]?.level?.message}
-                      success={isFieldSuccess(
-                        watch(`foreignLanguages.${i}.level`),
-                        errors.foreignLanguages?.[i]?.level
+                    <Controller
+                      name={`foreignLanguages.${i}.level`}
+                      control={control}
+                      render={({ field }) => (
+                        <DropdownBlock
+                          label="Оберіть рівень"
+                          triggerText={levelLangOptions.find((opt) => opt.value === field.value)?.label || "Оберіть"}
+                          options={levelLangOptions}
+                          selectedLabel={levelLangOptions.find((opt) => opt.value === field.value)?.label}
+                          onSelect={field.onChange}
+                          className="mb-4 w-full"
+                        />
                       )}
-                      {...register(`foreignLanguages.${i}.level`, { required: "Вкажіть рівень" })}
                     />
                   </ResumeFormListItem>
                 );
@@ -836,7 +848,6 @@ export default function CVForm() {
 
               <Button
                 type="submit"
-                // disabled={isSaving}
                 disabled={isProfileLoading}
                 className="flex h-10 w-full items-center justify-center md:h-[62px] md:w-[356px]"
                 onClick={() => {}}

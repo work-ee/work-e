@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useProfileStore } from "@/stores/profileStore";
 
 export const useAutoProfile = () => {
-  const { setProfile, updatePersonalInfo, setIp, setUserAgent } = useProfileStore();
+  const { setProfile, updatePersonalInfo, setIp, setUserAgent, fetchCurrentUser } = useProfileStore();
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -25,9 +25,10 @@ export const useAutoProfile = () => {
         console.error("Автоматичне заповнення не вдалося", err);
       } finally {
         useProfileStore.setState({ isProfileLoading: false });
+        fetchCurrentUser();
       }
     };
 
     fetchProfileData();
-  }, [setProfile, updatePersonalInfo, setIp, setUserAgent]);
+  }, [setProfile, updatePersonalInfo, setIp, setUserAgent, fetchCurrentUser]);
 };

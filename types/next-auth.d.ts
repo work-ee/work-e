@@ -71,3 +71,35 @@ export interface IUserFormData {
   country?: string;
   city?: string;
 }
+
+export interface BackendUserResponse {
+  id: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  avatar_url: string;
+  linkedin?: string;
+  desired_position?: string;
+  phone?: string;
+  country?: string;
+  city?: string;
+  overview?: string;
+  experience?: string;
+  education?: string;
+  courses?: string;
+  programming_languages?: string;
+  skills?: string;
+  foreign_languages?: string;
+  hobbies?: string;
+  motivation_letter?: string;
+  github?: string;
+  ip?: string;
+  userAgent?: string;
+}
+
+interface GetCurrentUserResult {
+  success: boolean;
+  data?: BackendUserResponse;
+  error?: string;
+}

@@ -4,9 +4,9 @@ import { revalidatePath } from "next/cache";
 
 import { auth } from "@/lib/auth";
 
-import { IUserFormData } from "@/types/next-auth";
+import { GetCurrentUserResult, IUserFormData } from "@/types/next-auth";
 
-export async function getCurrentUser() {
+export async function getCurrentUser(): Promise<GetCurrentUserResult> {
   try {
     const session = await auth();
     const token = session?.backendToken || session?.user?.backendToken;

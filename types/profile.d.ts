@@ -1,5 +1,5 @@
 export interface PersonalInfo {
-  id?: string;
+  id?: number;
   desiredPosition?: string;
   firstName?: string;
   lastName?: string;
@@ -89,4 +89,6 @@ interface ProfileState {
 
   setIp: (ip: string) => void;
   setUserAgent: (ua: string) => void;
+
+  fetchCurrentUser: () => Promise<void>;
 }
