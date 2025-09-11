@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import clsx from "clsx";
@@ -11,6 +12,12 @@ interface Props {
   params: Promise<{
     slug: string;
   }>;
+}
+
+export const dynamicParameters = false;
+
+export async function generateStaticParams() {
+  return [{ id: "1" }, { id: "2" }, { id: "3" }];
 }
 
 export default async function JobArticlePage({ params }: Props) {
@@ -112,14 +119,14 @@ export default async function JobArticlePage({ params }: Props) {
                 {body?.url && (
                   <div className="mt-6 text-sm text-gray-500">
                     <span className="font-semibold">Source:</span>{" "}
-                    <a
+                    <Link
                       href={body.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline"
                     >
                       {body.url}
-                    </a>
+                    </Link>
                   </div>
                 )}
               </div>

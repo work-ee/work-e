@@ -14,6 +14,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/shadcn/dialog";
 
+import { ROUTES } from "@/lib/constants";
+
 export const ModalCheckSkills = () => {
   return (
     <Dialog>
@@ -34,7 +36,7 @@ export const ModalCheckSkills = () => {
         </DialogHeader>
 
         <DialogFooter className="mt-2">
-          <Link href="/matching" className="w-full">
+          <Link href={ROUTES.matching} className="w-full">
             <Button variant="secondary" className="btn-sm w-full min-w-fit justify-center">
               Порівняти
             </Button>

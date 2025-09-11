@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { ArrowRightSvg } from "@/components/icons";
 
+import { ROUTES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 import { IJobList } from "@/types/jobs";
@@ -21,7 +22,7 @@ export const CardList = ({ length = 3, muted = false, moreBtn = false, data = []
 
       {moreBtn && (
         <Link
-          href="/jobs"
+          href={ROUTES.jobs}
           className="hover:bg-secondary-50 ml-4 flex cursor-pointer items-center rounded-2xl px-4 py-6 transition-shadow hover:shadow-[0_0_0_2px_var(--color-primary-100)]"
         >
           <ArrowRightSvg />

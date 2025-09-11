@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 
 import AppInitializerWrapper from "@/components/initializer/AppInitializerWrapper";
 import { Footer, Header } from "@/components/shared";
@@ -21,9 +22,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${rubik.variable} ${nunitoSans.variable} antialiased`}>
         <AppInitializerWrapper />
-        <Header />
-        {children}
-        <Footer />
+        <SessionProvider>
+          <Header />
+          {children}
+          <Footer />
+        </SessionProvider>
 
         <Toaster
           expand={false}
