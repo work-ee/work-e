@@ -1,5 +1,7 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { useEffect, useRef, useState } from "react";
 
 import debounce from "lodash/debounce";
@@ -10,30 +12,31 @@ import { AIControlledTextarea, DropdownBlock, ResumeFormListItem, ResumeFormSect
 import { Button, Input } from "@/components/ui";
 
 import { calculateDuration } from "@/lib/utils/dateUtils";
+import { FormValues, cvSchema } from "@/lib/validation/cvSchema";
 
 import { updateUserProfile } from "@/actions/server/user";
 import { useProfileStore } from "@/stores/profileStore";
-import { Course, Education, Experience, Language, UserProfile } from "@/types/profile";
+import { UserProfile } from "@/types/profile";
 
-type FormValues = {
-  personalInfo: {
-    desiredPosition?: string;
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    phone?: string;
-    country?: string;
-    city?: string;
-  };
-  overview?: string;
-  experience: Experience[];
-  education: Education[];
-  courses: Course[];
-  programmingLanguages: { name: string }[];
-  skills: { name: string }[];
-  foreignLanguages: Language[];
-  hobbies?: string;
-};
+// export type FormValues = {
+//   personalInfo: {
+//     desiredPosition: string;
+//     firstName: string;
+//     lastName: string;
+//     email: string;
+//     phone?: string;
+//     country?: string;
+//     city?: string;
+//   };
+//   overview: string;
+//   experience: Experience[];
+//   education: Education[];
+//   courses: Course[];
+//   programmingLanguages: { name: string }[];
+//   skills: { name: string }[];
+//   foreignLanguages: Language[];
+//   hobbies: string;
+// };
 
 type OverviewData = string;
 
@@ -83,6 +86,7 @@ export default function CVForm() {
       foreignLanguages: profile.foreignLanguages?.length ? profile.foreignLanguages : [{ name: "", level: undefined }],
       hobbies: profile.hobbies || "",
     },
+    resolver: zodResolver(cvSchema),
   });
 
   const [message, setMessage] = useState<string | null>(null);
@@ -174,8 +178,10 @@ export default function CVForm() {
       experience: data.experience,
       education: data.education,
       courses: data.courses,
-      programmingLanguages: data.programmingLanguages?.map((item) => item?.name).filter(Boolean),
-      skills: data.skills?.map((item) => item?.name).filter(Boolean),
+      programmingLanguages: data.programmingLanguages
+        ?.map((item) => item?.name)
+        .filter((name): name is string => typeof name === "string"),
+      skills: data.skills?.map((item) => item?.name).filter((name): name is string => typeof name === "string"),
       foreignLanguages: data.foreignLanguages,
       hobbies: data.hobbies,
     };
