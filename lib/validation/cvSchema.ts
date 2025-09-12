@@ -11,10 +11,6 @@ const nameValidator = (fieldName: string) =>
     .regex(/^[a-zA-Zа-яА-ЯіІїЇєЄ\s'-]+$/, `${fieldName} може містити тільки літери, пробіли, дефіси та апострофи`)
     .refine((val) => val.trim().length > 0, `${fieldName} не може бути пустим`);
 
-const dateStringSchema = z
-  .string()
-  .refine((date) => /^\d{4}-\d{2}$/.test(date), "Невірний формат дати. Використовуйте YYYY-MM.");
-
 const phoneSchema = z
   .string()
   .refine(
@@ -42,37 +38,37 @@ const personalInfoSchema = z.object({
 const experienceSchema = z.object({
   position: z.string().optional(),
   company: z.string().optional(),
-  startDate: dateStringSchema.optional(),
-  endDate: dateStringSchema.optional(),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
   description: z.string().optional(),
 });
 
 const educationSchema = z.object({
   specialization: z.string().optional(),
   institution: z.string().optional(),
-  startDate: dateStringSchema.optional(),
-  endDate: dateStringSchema.optional(),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
   description: z.string().optional(),
 });
 
 const courseSchema = z.object({
   specialization: z.string().optional(),
   institution: z.string().optional(),
-  startDate: dateStringSchema.optional(),
-  endDate: dateStringSchema.optional(),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
   description: z.string().optional(),
 });
 
 const programmingLanguageSchema = z.object({
-  name: z.string().min(1, "Вкажіть назву мови програмування.").optional(),
+  name: z.string().optional(),
 });
 
 const skillSchema = z.object({
-  name: z.string().min(1, "Вкажіть назву навички.").optional(),
+  name: z.string().optional(),
 });
 
 const foreignLanguageSchema = z.object({
-  name: z.string().min(1, "Вкажіть назву іноземної мови.").optional(),
+  name: z.string().optional(),
   level: z.enum(["Beginner", "Intermediate", "Advanced", "Fluent", "Native"]).optional(),
 });
 

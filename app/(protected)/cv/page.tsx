@@ -18,26 +18,6 @@ import { updateUserProfile } from "@/actions/server/user";
 import { useProfileStore } from "@/stores/profileStore";
 import { UserProfile } from "@/types/profile";
 
-// export type FormValues = {
-//   personalInfo: {
-//     desiredPosition: string;
-//     firstName: string;
-//     lastName: string;
-//     email: string;
-//     phone?: string;
-//     country?: string;
-//     city?: string;
-//   };
-//   overview: string;
-//   experience: Experience[];
-//   education: Education[];
-//   courses: Course[];
-//   programmingLanguages: { name: string }[];
-//   skills: { name: string }[];
-//   foreignLanguages: Language[];
-//   hobbies: string;
-// };
-
 type OverviewData = string;
 
 type ExperienceData = {
@@ -720,7 +700,6 @@ export default function CVForm() {
                     onToggle={() => toggleItem(field.id)}
                   >
                     <Input
-                      key={field.id}
                       label="Мова"
                       error={errors.programmingLanguages?.[i]?.name?.message}
                       success={isFieldSuccess(
@@ -767,7 +746,6 @@ export default function CVForm() {
                     onToggle={() => toggleItem(field.id)}
                   >
                     <Input
-                      key={field.id}
                       label="Вкажіть навичку"
                       error={errors.skills?.[i]?.name?.message}
                       success={isFieldSuccess(watch(`skills.${i}.name`), errors.skills?.[i]?.name)}
