@@ -24,9 +24,7 @@ export const LinkedinSignIn = ({ className = "", children, callbackUrl = "/onboa
         redirectTo: callbackUrl,
       });
     } catch (error) {
-      console.error("LinkedIn sign in error:", error);
       const errorMessage = error instanceof Error ? error.message : "Невідома помилка під час входу";
-
       toast.error(`Помилка входу через LinkedIn: ${errorMessage}`);
     } finally {
       // setIsLoading(false);

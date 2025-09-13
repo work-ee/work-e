@@ -24,9 +24,7 @@ export const GoogleSignIn = ({ className = "", children, callbackUrl = "/onboard
         redirectTo: callbackUrl,
       });
     } catch (error) {
-      console.error("Google sign in error:", error);
       const errorMessage = error instanceof Error ? error.message : "Невідома помилка під час входу";
-
       toast.error(`Помилка входу через Google: ${errorMessage}`);
     } finally {
       // setIsLoading(false);
