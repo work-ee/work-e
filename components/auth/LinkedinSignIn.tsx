@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 
-import { useRouter } from "next/navigation";
-
 import clsx from "clsx";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
@@ -17,31 +15,16 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 export const LinkedinSignIn = ({ className = "", children, callbackUrl = "/onboarding", ...props }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const handleLinkedinSignIn = async () => {
     setIsLoading(true);
 
     try {
-      const res = await signIn("linkedin", {
-        redirect: false,
-        callbackUrl,
+      await signIn("linkedin", {
+        redirectTo: callbackUrl,
       });
-
-      if (res?.error) {
-        throw new Error(res.error);
-      }
-
-      if (res?.ok && res.url) {
-        router.push(res.url);
-      } else {
-        throw new Error("Unexpected response from authentication service");
-      }
     } catch (error) {
-      console.error("LinkedIn sign in error:", error);
-
       const errorMessage = error instanceof Error ? error.message : "Невідома помилка під час входу";
-
       toast.error(`Помилка входу через LinkedIn: ${errorMessage}`);
     } finally {
       // setIsLoading(false);

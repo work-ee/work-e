@@ -5,11 +5,11 @@ import clsx from "clsx";
 import { SpriteSvg } from "@/components/icons/SpriteSvg";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  id: string;
+  id?: string;
   label?: string;
   name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   type?: string;
   error?: string;

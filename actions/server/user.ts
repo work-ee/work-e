@@ -2,72 +2,95 @@
 
 import { revalidatePath } from "next/cache";
 
-import { auth } from "@/lib/auth";
+import { UserProfileSchema } from "@/lib/validations/user";
 
-import { IUserFormData } from "@/types/next-auth";
+import { UserService } from "@/actions/client/user-service";
+
+export type UserState = {
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  linkedin_url?: string;
+  cv?: string;
+  avatar_url?: string;
+  date_joined?: string;
+  errors?: {
+    first_name?: string;
+    last_name?: string;
+    username?: string;
+    email?: string;
+    linkedin_url?: string;
+    cv?: string;
+    avatar_url?: string;
+    date_joined?: string;
+    _general?: string;
+  };
+};
 
 export async function getCurrentUser() {
   try {
-    const session = await auth();
-    const token = session?.backendToken || session?.user?.backendToken;
-
-    if (!token) {
-      console.error("No authentication token found");
-      return { success: false, error: "No authentication token found" };
-    }
-
-    const response = await fetch(`${process.env.API_URL}/api/users/current/`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Failed to get current user: ${response.status} ${errorText}`);
-    }
-
-    const currentUser = await response.json();
-
-    return { success: true, data: currentUser };
+    const result = await UserService.getCurrentUser();
+    return result;
   } catch (error) {
     console.error("Error getting current user:", error);
     return { success: false, error: "Failed to get current user" };
   }
 }
 
-export async function updateUserProfile(formData: IUserFormData, userId: number) {
-  try {
-    const session = await auth();
-    const token = session?.backendToken || session?.user?.backendToken;
+export async function updateUserProfile(userId: string, _prev: UserState, formData: FormData): Promise<UserState> {
+  const rawData = {
+    first_name: formData.get("first_name") as string,
+    last_name: formData.get("last_name") as string,
+    email: formData.get("email") as string,
+    linkedin_url: formData.get("linkedin_url") as string,
+    cv: formData.get("cv") as string,
+  };
 
-    if (!token) {
-      return { success: false, error: "No authentication token found" };
-    }
+  const validationResult = UserProfileSchema.safeParse(rawData);
 
-    const response = await fetch(`${process.env.API_URL}/api/users/${userId}/`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      body: JSON.stringify(formData),
+  if (!validationResult.success) {
+    const errors: UserState["errors"] = {};
+
+    validationResult.error.errors.forEach((error) => {
+      const field = error.path[0] as keyof NonNullable<UserState["errors"]>;
+      if (field && !errors![field]) {
+        errors![field] = error.message;
+      }
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Failed to update profile: ${response.status} ${errorText}`);
+    return {
+      errors,
+      ...rawData,
+    };
+  }
+
+  const { data } = validationResult;
+
+  try {
+    const result = await UserService.updateProfile(data, Number(userId));
+
+    if (!result.success) {
+      return {
+        ...rawData,
+        errors: {
+          _general: result.error || "Failed to update user",
+        },
+      };
     }
 
-    const result = await response.json();
     revalidatePath("/profile");
-
-    return { success: true, data: result };
+    return {
+      errors: {},
+      ...data,
+    };
   } catch (error) {
-    console.error("Error updating profile:", error);
-    return { success: false, error: "Failed to update profile" };
+    console.error("Error updating user:", error);
+    return {
+      errors: {
+        _general: error instanceof Error ? error.message : "Failed to update user",
+      },
+      ...rawData,
+    };
   }
 }
 
@@ -77,23 +100,13 @@ export async function updateUserSettings(settings: {
   emailNotifications: boolean;
 }) {
   try {
-    return { success: true, data: settings };
-    const response = await fetch(`${process.env.API_URL}/api/users/settings`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(settings),
-    });
+    const result = await UserService.updateSettings(settings);
 
-    if (!response.ok) {
-      throw new Error("Failed to update settings");
+    if (result.success) {
+      revalidatePath("/profile");
     }
 
-    const result = await response.json();
-    revalidatePath("/profile");
-
-    return { success: true, data: result };
+    return result;
   } catch (error) {
     console.error("Error updating settings:", error);
     return { success: false, error: "Failed to update settings" };

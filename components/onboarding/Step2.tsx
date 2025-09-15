@@ -6,6 +6,8 @@ import { CVUploadTrigger } from "@/components/feedback/CVUploadPopup/CVUploadTri
 import { ProfileSvg } from "@/components/icons";
 import { Button } from "@/components/ui";
 
+import { ROUTES } from "@/lib/constants";
+
 import { Title } from "./Title";
 
 interface StepProps {
@@ -22,7 +24,7 @@ export const Step2 = ({ user, onCvUploadSuccess }: StepProps) => {
       />
 
       <div className="mt-8 flex justify-center gap-12">
-        <Link href="profile">
+        <Link href={ROUTES.profile}>
           <Button>
             <ProfileSvg />
             Заповнити профіль

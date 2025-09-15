@@ -7,13 +7,13 @@ export interface BackendUser {
   username: string;
   first_name: string;
   last_name: string;
-  avatar_url: string;
+  avatar_url: string | null;
   date_joined: string;
 }
 
 export interface ExtendedSessionData {
   backendToken?: string;
-  backendUser?: BackendUser;
+  backendUser?: Partial<BackendUser>;
   provider?: string;
 }
 
