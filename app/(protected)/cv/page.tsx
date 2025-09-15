@@ -2,9 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-import debounce from "lodash/debounce";
 import { Controller, FieldError, useFieldArray, useForm } from "react-hook-form";
 
 import { SpriteSvg } from "@/components/icons/SpriteSvg";
@@ -13,6 +12,8 @@ import { Button, Input } from "@/components/ui";
 
 import { calculateDuration } from "@/lib/utils/dateUtils";
 import { FormValues, cvSchema } from "@/lib/validation/cvSchema";
+
+import { useDebouncedCallback } from "@/hooks/useDebouncedCallback";
 
 import { updateUserProfile } from "@/actions/server/user";
 import { useProfileStore } from "@/stores/profileStore";
@@ -71,11 +72,12 @@ export default function CVForm() {
 
   const [message, setMessage] = useState<string | null>(null);
 
-  const debouncedSetProfile = useRef(
-    debounce((data: Partial<UserProfile>) => {
-      setProfile(data);
-    }, 1000)
-  ).current;
+  // const debouncedSetProfile = useRef(
+  //   debounce((data: Partial<UserProfile>) => {
+  //     setProfile(data);
+  //   }, 1000)
+  // ).current;
+  const debouncedSetProfile = useDebouncedCallback(setProfile, 1000);
 
   useEffect(() => {
     const subscription = watch((value) => {
