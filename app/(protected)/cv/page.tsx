@@ -19,6 +19,8 @@ import { updateUserProfile } from "@/actions/server/user";
 import { useProfileStore } from "@/stores/profileStore";
 import { UserProfile } from "@/types/profile";
 
+import { PersonalInfoSection } from "./PersonalInfoSection";
+
 type OverviewData = string;
 
 type ExperienceData = {
@@ -215,16 +217,6 @@ export default function CVForm() {
   const skillsArray = useFieldArray({ control, name: "skills" });
   const foreignLangArray = useFieldArray({ control, name: "foreignLanguages" });
 
-  const positionOptions = [
-    { value: "frontend", label: "Front-end розробник" },
-    { value: "backend", label: "Back-end розробник" },
-    { value: "fullstack", label: "Full-stack розробник" },
-    { value: "qa", label: "QA інженер" },
-    { value: "pm", label: "Project Manager" },
-    { value: "designer", label: "UI/UX дизайнер" },
-    { value: "devops", label: "DevOps інженер" },
-  ];
-
   const levelLangOptions = [
     { value: "beginner", label: "Beginner" },
     { value: "intermediate", label: "Intermediate" },
@@ -277,79 +269,7 @@ export default function CVForm() {
               isOpen={openSections[0]}
               toggleSection={toggleSection}
             >
-              <Controller
-                name="personalInfo.desiredPosition"
-                control={control}
-                rules={{ required: "Вкажіть бажану посаду" }}
-                render={({ field }) => (
-                  <DropdownBlock
-                    label="Бажана посада *"
-                    triggerText={positionOptions.find((opt) => opt.value === field.value)?.label || "Оберіть посаду"}
-                    options={positionOptions}
-                    selectedLabel={positionOptions.find((opt) => opt.value === field.value)?.label}
-                    onSelect={field.onChange}
-                    className="mb-4 w-full"
-                  />
-                )}
-              />
-              <div className="flex flex-wrap justify-between gap-4">
-                <Input
-                  label="Ім’я *"
-                  error={errors.personalInfo?.firstName?.message}
-                  success={isFieldSuccess(watch("personalInfo.firstName"), errors.personalInfo?.firstName)}
-                  {...register("personalInfo.firstName", { required: "Вкажіть ім'я" })}
-                  placeholder="Оксана"
-                  className="w-91"
-                />
-                <Input
-                  label="Прізвище *"
-                  error={errors.personalInfo?.lastName?.message}
-                  success={isFieldSuccess(watch("personalInfo.lastName"), errors.personalInfo?.lastName)}
-                  {...register("personalInfo.lastName", { required: "Вкажіть прізвище" })}
-                  placeholder="Антонюк"
-                  className="w-91"
-                />
-                <Input
-                  label="Email *"
-                  error={errors.personalInfo?.email?.message}
-                  success={isFieldSuccess(watch("personalInfo.email"), errors.personalInfo?.email)}
-                  {...register("personalInfo.email", {
-                    required: "Вкажіть email",
-                    pattern: {
-                      value: /^\S+@\S+$/i,
-                      message: "Некоректний формат email",
-                    },
-                  })}
-                  placeholder="Oksana@gmail.com"
-                  type="email"
-                  className="w-91"
-                />
-                <Input
-                  label="Телефон"
-                  error={errors.personalInfo?.phone?.message}
-                  success={isFieldSuccess(watch("personalInfo.phone"), errors.personalInfo?.phone)}
-                  {...register("personalInfo.phone")}
-                  placeholder="+3806356897"
-                  type="tel"
-                  className="w-91"
-                />
-                <Input
-                  label="Країна"
-                  error={errors.personalInfo?.country?.message}
-                  success={isFieldSuccess(watch("personalInfo.country"), errors.personalInfo?.country)}
-                  {...register("personalInfo.country")}
-                  placeholder="Україна"
-                  className="w-91"
-                />
-                <Input
-                  label="Місто"
-                  error={errors.personalInfo?.city?.message}
-                  success={isFieldSuccess(watch("personalInfo.city"), errors.personalInfo?.city)}
-                  {...register("personalInfo.city")}
-                  placeholder="Львів"
-                  className="w-91"
-                />
-              </div>
+              <PersonalInfoSection control={control} register={register} errors={errors} watch={watch} />
             </ResumeFormSection>
 
             <ResumeFormSection
