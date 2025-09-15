@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { AsideCheckSkills } from "@/components/jobs/AsideCheckSkills";
 import { JobApplication } from "@/components/jobs/JobApplication";
 
-import { getJobBySlug } from "@/actions/server/jobs";
+import { getJobBySlug, getJobsData } from "@/actions/server/jobs";
 
 interface Props {
   params: Promise<{
@@ -17,7 +17,8 @@ interface Props {
 export const dynamicParameters = false;
 
 export async function generateStaticParams() {
-  return [{ id: "1" }, { id: "2" }, { id: "3" }];
+  const jobs = await getJobsData();
+  return jobs.map((job) => ({ slug: job.slug }));
 }
 
 export default async function JobArticlePage({ params }: Props) {
@@ -26,7 +27,8 @@ export default async function JobArticlePage({ params }: Props) {
 
   const { body, jobFormat, isApplied } = job || {};
 
-  if (!job) {
+  if (!job || !body) {
+    console.error(`Job not found for slug: ${slug}`);
     notFound();
   }
 
