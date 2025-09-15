@@ -8,7 +8,7 @@ import path from "path";
 import { IJob } from "@/types/jobs";
 
 // React cache for deduplication across the same request
-const getJobsData = cache(async (): Promise<IJob[]> => {
+export const getJobsData = cache(async (): Promise<IJob[]> => {
   try {
     const filePath = path.join(process.cwd(), "public", "data", "jobs.json");
     const file = await fs.readFile(filePath, "utf8");
@@ -26,8 +26,7 @@ const getJobsData = cache(async (): Promise<IJob[]> => {
 export const getJobBySlug = cache(async (slug: string): Promise<IJob | null> => {
   try {
     const jobs = await getJobsData();
-    const job = jobs.find((job) => job.slug === slug);
-    return job || null;
+    return jobs.find((job) => job.slug === slug) || null;
   } catch (error) {
     console.error("Error getting job by slug:", error);
     return null;
