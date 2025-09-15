@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { getTranslations } from "next-intl/server";
+
 import { Button } from "@/components/ui";
 
 import { auth } from "@/lib/auth";
@@ -10,18 +12,19 @@ import { SignOut } from "./SignOut";
 
 export const SignInBtn = async () => {
   const session = await auth();
+  const t = await getTranslations();
 
   if (!session) {
     return (
       <div className="flex items-center gap-4">
         <Link href={ROUTES.login}>
           <Button type="submit" variant="secondary" className="btn-sm">
-            Увійти
+            {t("signIn")}
           </Button>
         </Link>
         <Link href={ROUTES.register}>
           <Button variant="secondary" className="btn-sm">
-            Зареєструватись
+            {t("register")}
           </Button>
         </Link>
       </div>
@@ -45,7 +48,7 @@ export const SignInBtn = async () => {
         </div>
         <span className="flex-initial">{first_name}</span>
       </Link>
-      <SignOut />
+      <SignOut>{t("signOut")}</SignOut>
     </div>
   );
 };

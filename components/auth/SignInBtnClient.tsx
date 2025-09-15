@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import Link from "next/link";
 
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui";
 
@@ -14,6 +15,7 @@ import { SignOut } from "./SignOut";
 
 export const SignInBtnClient = () => {
   const { data: session, status } = useSession();
+  const t = useTranslations();
 
   const { first_name, avatar_url } = useMemo(() => {
     const firstName = session?.backendUser?.first_name || session?.user?.name || "Guest";
@@ -36,12 +38,12 @@ export const SignInBtnClient = () => {
       <div className="flex items-center gap-4">
         <Link href={ROUTES.login}>
           <Button type="submit" variant="secondary" className="btn-sm">
-            Увійти
+            {t("signIn")}
           </Button>
         </Link>
         <Link href={ROUTES.register}>
           <Button variant="secondary" className="btn-sm">
-            Зареєструватись
+            {t("register")}
           </Button>
         </Link>
       </div>
@@ -63,7 +65,7 @@ export const SignInBtnClient = () => {
         </div>
         <span className="flex-initial">{first_name}</span>
       </Link>
-      <SignOut />
+      <SignOut>{t("signOut")}</SignOut>
     </div>
   );
 };
