@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useEffect, useState } from "react";
 
-import { Controller, FieldError, useFieldArray, useForm } from "react-hook-form";
+import { Controller, FieldError, useFieldArray, useForm, useWatch } from "react-hook-form";
 
 import { SpriteSvg } from "@/components/icons/SpriteSvg";
 import { AIControlledTextarea, DropdownBlock, ResumeFormListItem, ResumeFormSection } from "@/components/ui";
@@ -71,41 +71,33 @@ export default function CVForm() {
   });
 
   const [message, setMessage] = useState<string | null>(null);
-
-  // const debouncedSetProfile = useRef(
-  //   debounce((data: Partial<UserProfile>) => {
-  //     setProfile(data);
-  //   }, 1000)
-  // ).current;
   const debouncedSetProfile = useDebouncedCallback(setProfile, 1000);
 
-  useEffect(() => {
-    const subscription = watch((value) => {
-      const transformedData: Partial<UserProfile> = {
-        ...profile,
-        personalInfo: {
-          ...profile.personalInfo,
-          ...value.personalInfo,
-        },
-        overview: value.overview,
-        experience: value.experience?.filter((item) => item !== undefined),
-        education: value.education?.filter((item) => item !== undefined),
-        courses: value.courses?.filter((item) => item !== undefined),
-        programmingLanguages: value.programmingLanguages
-          ?.map((item) => item?.name)
-          .filter((name): name is string => typeof name === "string"),
-        skills: value.skills?.map((item) => item?.name).filter((name): name is string => typeof name === "string"),
-        foreignLanguages: value.foreignLanguages?.filter((item) => item !== undefined),
-        hobbies: value.hobbies,
-      };
-      debouncedSetProfile(transformedData);
-    });
+  const watchedFields = useWatch({ control });
 
-    return () => {
-      subscription.unsubscribe();
-      debouncedSetProfile.cancel();
+  useEffect(() => {
+    const transformedData: Partial<UserProfile> = {
+      ...profile,
+      personalInfo: {
+        ...profile.personalInfo,
+        ...watchedFields.personalInfo,
+      },
+      overview: watchedFields.overview,
+      experience: watchedFields.experience?.filter((item) => item !== undefined),
+      education: watchedFields.education?.filter((item) => item !== undefined),
+      courses: watchedFields.courses?.filter((item) => item !== undefined),
+      programmingLanguages: watchedFields.programmingLanguages
+        ?.map((item) => item?.name)
+        .filter((name): name is string => typeof name === "string"),
+      skills: watchedFields.skills
+        ?.map((item) => item?.name)
+        .filter((name): name is string => typeof name === "string"),
+      foreignLanguages: watchedFields.foreignLanguages?.filter((item) => item !== undefined),
+      hobbies: watchedFields.hobbies,
     };
-  }, [watch, debouncedSetProfile, profile]);
+
+    debouncedSetProfile(transformedData);
+  }, [watchedFields, debouncedSetProfile, profile]);
 
   const onSubmit = async (data: FormValues) => {
     setMessage(null);
