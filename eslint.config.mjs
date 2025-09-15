@@ -16,6 +16,7 @@ export default [
       "**/out/**",
       "**/coverage/**",
       "**/_temp/**",
+      "next-env.d.ts",
     ],
   },
   js.configs.recommended,
