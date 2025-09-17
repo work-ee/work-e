@@ -10,6 +10,7 @@ import { SpriteSvg } from "@/components/icons/SpriteSvg";
 import { AIControlledTextarea, DropdownBlock, ResumeFormListItem, ResumeFormSection } from "@/components/ui";
 import { Button, Input } from "@/components/ui";
 
+import { LEVEL_LANG_OPTIONS } from "@/lib/constants/languageLevels";
 import { calculateDuration } from "@/lib/utils/dateUtils";
 import { FormValues, cvSchema } from "@/lib/validation/cvSchema";
 
@@ -19,6 +20,7 @@ import { updateUserProfile } from "@/actions/server/user";
 import { useProfileStore } from "@/stores/profileStore";
 import { UserProfile } from "@/types/profile";
 
+import { DynamicFormSection } from "./DynamicFormSection";
 import { PersonalInfoSection } from "./PersonalInfoSection";
 
 type OverviewData = string;
@@ -217,14 +219,6 @@ export default function CVForm() {
   const skillsArray = useFieldArray({ control, name: "skills" });
   const foreignLangArray = useFieldArray({ control, name: "foreignLanguages" });
 
-  const levelLangOptions = [
-    { value: "beginner", label: "Beginner" },
-    { value: "intermediate", label: "Intermediate" },
-    { value: "advanced", label: "Advanced" },
-    { value: "fluent", label: "Fluent" },
-    { value: "native", label: "Native" },
-  ];
-
   const isFieldSuccess = (value: string | undefined, error: FieldError | undefined) => {
     return !error && !!value?.trim();
   };
@@ -318,80 +312,18 @@ export default function CVForm() {
                 </Button>
               }
             >
-              <div className="flex flex-wrap justify-between gap-4">
-                {experienceArray.fields.map((field, i) => {
-                  const isItemOpen = openItems[field.id] !== undefined ? openItems[field.id] : true;
-                  const startDate = watch(`experience.${i}.startDate`);
-                  const endDate = watch(`experience.${i}.endDate`);
-                  const durationText = calculateDuration(startDate || "", endDate || "");
-                  const positionTitle = watch(`experience.${i}.position`);
-
-                  return (
-                    <ResumeFormListItem
-                      key={field.id}
-                      title={`${positionTitle?.trim() || "Назва посади і місце роботи"} `}
-                      subtitle={`${durationText || ""} `}
-                      isOpen={isItemOpen}
-                      onToggle={() => toggleItem(field.id)}
-                    >
-                      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-                        <Input
-                          label="Посада"
-                          error={errors.experience?.[i]?.position?.message}
-                          success={isFieldSuccess(watch(`experience.${i}.position`), errors.experience?.[i]?.position)}
-                          {...register(`experience.${i}.position`)}
-                        />
-                        <Input
-                          label="Компанія"
-                          error={errors.experience?.[i]?.company?.message}
-                          success={isFieldSuccess(watch(`experience.${i}.company`), errors.experience?.[i]?.company)}
-                          {...register(`experience.${i}.company`)}
-                        />
-                        <Input
-                          label="Початок роботи"
-                          type="date"
-                          error={errors.experience?.[i]?.startDate?.message}
-                          success={isFieldSuccess(
-                            watch(`experience.${i}.startDate`),
-                            errors.experience?.[i]?.startDate
-                          )}
-                          iconRight={<SpriteSvg id="icon-schedule" className="h-5 w-5 fill-current" />}
-                          {...register(`experience.${i}.startDate`)}
-                        />
-                        <Input
-                          label="Завершення роботи"
-                          type="date"
-                          iconRight={<SpriteSvg id="icon-schedule" className="h-5 w-5 fill-current" />}
-                          error={errors.experience?.[i]?.endDate?.message}
-                          success={isFieldSuccess(watch(`experience.${i}.endDate`), errors.experience?.[i]?.endDate)}
-                          {...register(`experience.${i}.endDate`)}
-                        />
-                      </div>
-                      <AIControlledTextarea
-                        value={watch(`experience.${i}.description`) || ""}
-                        onChange={(text) => setValue(`experience.${i}.description`, text)}
-                        isLoading={isLoading}
-                        onGenerateClick={() => {
-                          const dataToGenerate = {
-                            jobTitle: watch(`experience.${i}.position`) || "",
-                            company: watch(`experience.${i}.company`) || "",
-                            startDate: watch(`experience.${i}.startDate`) || "",
-                            endDate: watch(`experience.${i}.endDate`) || "",
-                            userInput: watch(`experience.${i}.description`) || "",
-                          };
-                          handleGenerateClick("GENERATE_EXPERIENCE_DESCRIPTION_UK", dataToGenerate, (generatedText) =>
-                            setValue(`experience.${i}.description`, generatedText)
-                          );
-                        }}
-                        canGenerate={true}
-                        label="Опис досвіду"
-                        description="Опишіть свою головну роль та ключові навички в 2-4 реченнях, на основі чого AI зможе згенерувати Досвід"
-                        error={error ? error.message : null}
-                      />
-                    </ResumeFormListItem>
-                  );
-                })}
-              </div>
+              <DynamicFormSection
+                register={register}
+                errors={errors}
+                watch={watch}
+                setValue={setValue}
+                arr={experienceArray}
+                openItems={openItems}
+                toggleItem={toggleItem}
+                calculateDuration={calculateDuration}
+                isLoading={isLoading}
+                handleGenerateClick={handleGenerateClick}
+              />
             </ResumeFormSection>
 
             <ResumeFormSection
@@ -709,9 +641,9 @@ export default function CVForm() {
                       render={({ field }) => (
                         <DropdownBlock
                           label="Оберіть рівень"
-                          triggerText={levelLangOptions.find((opt) => opt.value === field.value)?.label || "Оберіть"}
-                          options={levelLangOptions}
-                          selectedLabel={levelLangOptions.find((opt) => opt.value === field.value)?.label}
+                          triggerText={LEVEL_LANG_OPTIONS.find((opt) => opt.value === field.value)?.label || "Оберіть"}
+                          options={LEVEL_LANG_OPTIONS}
+                          selectedLabel={LEVEL_LANG_OPTIONS.find((opt) => opt.value === field.value)?.label}
                           onSelect={field.onChange}
                           className="mb-4 w-full"
                         />
