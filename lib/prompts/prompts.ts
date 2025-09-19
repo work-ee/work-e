@@ -22,6 +22,8 @@ Your task is to analyze the following "Job Description" and create a **concise (
     Your task is to act as a professional career consultant.
     Based on the following unstructured text provided by the user, please generate a concise and impactful resume summary.
 
+    **CRITICAL INSTRUCTION: The generated cover letter MUST NOT contain ANY placeholders, square brackets, or any text that needs to be filled in by the user. IF THE COMPANY NAME OR JOB TITLE CANNOT BE CONFIDENTLY EXTRACTED, USE GENERIC PHRASES LIKE "your company" or "the position" INSTEAD OF PLACEHOLDERS.**
+
     User's input:
     ${userInput}
 
@@ -42,6 +44,8 @@ Your task is to analyze the following "Job Description" and create a **concise (
     userInput: string;
   }) => `
     You are a professional resume writer. Your task is to generate a compelling and detailed job description for a resume, based on the following information.
+
+    **CRITICAL INSTRUCTION: The generated cover letter MUST NOT contain ANY placeholders, square brackets, or any text that needs to be filled in by the user. IF THE COMPANY NAME OR JOB TITLE CANNOT BE CONFIDENTLY EXTRACTED, USE GENERIC PHRASES LIKE "your company" or "the position" INSTEAD OF PLACEHOLDERS.**
 
     Job Details:
     - Job Title: ${data.jobTitle}

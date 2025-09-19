@@ -1,10 +1,12 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import { FieldError, UseFormReturn } from "react-hook-form";
 
 import { SpriteSvg } from "@/components/icons/SpriteSvg";
 import { AIControlledTextarea, Input, ResumeFormListItem } from "@/components/ui";
 
+import { handleGenerateClick } from "@/lib/actions/handleGenerateClick";
+import { calculateDuration } from "@/lib/utils/dateUtils";
 import { FormValues } from "@/lib/validation/cvSchema";
 
 interface Props {
@@ -15,35 +17,11 @@ interface Props {
   arr: { fields: { id: string }[] };
   openItems: Record<string, boolean>;
   toggleItem: (id: string) => void;
-  calculateDuration: (start: string, end: string) => string | null;
   isLoading: boolean;
-  handleGenerateClick: (
-    type: string,
-    data: {
-      jobTitle: string;
-      company: string;
-      startDate: string;
-      endDate: string;
-      userInput: string;
-    },
-    callback: (generatedText: string) => void
-  ) => void;
-  error?: FieldError;
 }
 
-export const DynamicFormSection: FC<Props> = ({
-  register,
-  errors,
-  watch,
-  setValue,
-  arr,
-  openItems,
-  toggleItem,
-  calculateDuration,
-  isLoading,
-  handleGenerateClick,
-  error,
-}) => {
+export const DynamicFormSection: FC<Props> = ({ register, errors, watch, setValue, arr, openItems, toggleItem }) => {
+  const [loading, setLoading] = useState(false);
   const isFieldSuccess = (value: string | undefined, error: FieldError | undefined) => !error && !!value?.trim();
 
   return (
@@ -97,23 +75,24 @@ export const DynamicFormSection: FC<Props> = ({
             <AIControlledTextarea
               value={watch(`experience.${i}.description`) || ""}
               onChange={(text) => setValue(`experience.${i}.description`, text)}
-              isLoading={isLoading}
+              isLoading={loading}
               onGenerateClick={() => {
-                const dataToGenerate = {
-                  jobTitle: watch(`experience.${i}.position`) || "",
-                  company: watch(`experience.${i}.company`) || "",
-                  startDate: watch(`experience.${i}.startDate`) || "",
-                  endDate: watch(`experience.${i}.endDate`) || "",
-                  userInput: watch(`experience.${i}.description`) || "",
-                };
-                handleGenerateClick("GENERATE_EXPERIENCE_DESCRIPTION_UK", dataToGenerate, (generatedText) =>
-                  setValue(`experience.${i}.description`, generatedText)
-                );
+                handleGenerateClick({
+                  promptKey: "GENERATE_EXPERIENCE_DESCRIPTION_UK",
+                  data: {
+                    jobTitle: watch(`experience.${i}.position`) || "",
+                    company: watch(`experience.${i}.company`) || "",
+                    startDate: watch(`experience.${i}.startDate`) || "",
+                    endDate: watch(`experience.${i}.endDate`) || "",
+                    userInput: watch(`experience.${i}.description`) || "",
+                  },
+                  callback: (generatedText) => setValue(`experience.${i}.description`, generatedText),
+                  setIsLoading: setLoading,
+                });
               }}
               canGenerate
               label="Опис досвіду"
               description="Опишіть свою головну роль та ключові навички в 2-4 реченнях, на основі чого AI зможе згенерувати Досвід"
-              error={error?.message || null}
             />
           </ResumeFormListItem>
         );

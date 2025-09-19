@@ -7,7 +7,7 @@ import { BackendUser } from "@/types/next-auth";
 
 export interface UserData {
   session: Session | null;
-  userData: BackendUser | null;
+  userData: BackendUser | null | undefined;
   first_name: string;
   last_name: string;
   avatar_url: string | null;

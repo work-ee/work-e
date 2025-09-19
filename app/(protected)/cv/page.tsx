@@ -10,6 +10,7 @@ import { SpriteSvg } from "@/components/icons/SpriteSvg";
 import { AIControlledTextarea, DropdownBlock, ResumeFormListItem, ResumeFormSection } from "@/components/ui";
 import { Button, Input } from "@/components/ui";
 
+import { handleGenerateClick } from "@/lib/actions/handleGenerateClick";
 import { LEVEL_LANG_OPTIONS } from "@/lib/constants/languageLevels";
 import { calculateDuration } from "@/lib/utils/dateUtils";
 import { FormValues, cvSchema } from "@/lib/validation/cvSchema";
@@ -22,17 +23,6 @@ import { UserProfile } from "@/types/profile";
 
 import { DynamicFormSection } from "./DynamicFormSection";
 import { PersonalInfoSection } from "./PersonalInfoSection";
-
-type OverviewData = string;
-
-type ExperienceData = {
-  jobTitle: string;
-  company: string;
-  startDate: string;
-  endDate: string;
-  userInput: string;
-};
-type PromptData = OverviewData | ExperienceData;
 
 export default function CVForm() {
   const { profile, setProfile, isProfileLoading, fetchCurrentUser } = useProfileStore();
@@ -210,7 +200,7 @@ export default function CVForm() {
   const toggleItem = (id: string) => setOpenItems((prev) => ({ ...prev, [id]: !prev[id] }));
 
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  // const [error, setError] = useState<Error | null>(null);
 
   const experienceArray = useFieldArray({ control, name: "experience" });
   const educationArray = useFieldArray({ control, name: "education" });
@@ -221,34 +211,6 @@ export default function CVForm() {
 
   const isFieldSuccess = (value: string | undefined, error: FieldError | undefined) => {
     return !error && !!value?.trim();
-  };
-
-  const handleGenerateClick = async (
-    promptKey: string,
-    data: PromptData,
-    callback: (generatedText: string) => void
-  ) => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch("/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          promptKey,
-          data,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error("Помилка при генерації тексту.");
-      }
-      const result = await response.json();
-      callback(result.generatedText);
-    } catch (err) {
-      setError(err as Error);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   return (
@@ -276,15 +238,18 @@ export default function CVForm() {
                 value={watch("overview") || ""}
                 onChange={(text) => setValue("overview", text)}
                 isLoading={isLoading}
-                onGenerateClick={() =>
-                  handleGenerateClick("GENERATE_CV_SUMMARY_UK", watch("overview") || "", (generatedText) =>
-                    setValue("overview", generatedText)
-                  )
-                }
+                onGenerateClick={() => {
+                  handleGenerateClick({
+                    promptKey: "GENERATE_CV_SUMMARY_UK",
+                    data: watch("overview") || "",
+                    callback: (generatedText: string) => setValue("overview", generatedText),
+                    setIsLoading,
+                  });
+                }}
                 canGenerate={true}
                 label="Огляд резюме"
                 description="Опишіть свої головні досягнення, роль, мотивацію та ключові навички в 2-4  реченнях, на основі чого AI зможе згенерувати Огляд"
-                error={error ? error.message : null}
+                // error={error ? error.message : null}
               />
             </ResumeFormSection>
 
@@ -320,9 +285,7 @@ export default function CVForm() {
                 arr={experienceArray}
                 openItems={openItems}
                 toggleItem={toggleItem}
-                calculateDuration={calculateDuration}
                 isLoading={isLoading}
-                handleGenerateClick={handleGenerateClick}
               />
             </ResumeFormSection>
 

@@ -8,7 +8,7 @@ export interface BackendUser {
   first_name: string;
   last_name: string;
   avatar_url: string;
-  date_joined: string;
+  date_joined?: string;
 }
 
 export interface ExtendedSessionData {
