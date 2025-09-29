@@ -1,11 +1,12 @@
 import { FC, useState } from "react";
 
-import { FieldError, UseFormReturn } from "react-hook-form";
+import { FieldError, FieldPath, UseFormReturn } from "react-hook-form";
 
 import { SpriteSvg } from "@/components/icons/SpriteSvg";
 import { AIControlledTextarea, Input, ResumeFormListItem } from "@/components/ui";
 
 import { handleGenerateClick } from "@/lib/actions/handleGenerateClick";
+import { sectionsConfig } from "@/lib/constants/sectionsConfig";
 import { calculateDuration } from "@/lib/utils/dateUtils";
 import { FormValues } from "@/lib/validation/cvSchema";
 
@@ -18,81 +19,101 @@ interface Props {
   openItems: Record<string, boolean>;
   toggleItem: (id: string) => void;
   isLoading: boolean;
+  name: "experience" | "education" | "courses";
 }
 
-export const DynamicFormSection: FC<Props> = ({ register, errors, watch, setValue, arr, openItems, toggleItem }) => {
+export const DynamicFormSection: FC<Props> = ({
+  register,
+  errors,
+  watch,
+  setValue,
+  arr,
+  openItems,
+  toggleItem,
+  name,
+}) => {
   const [loading, setLoading] = useState(false);
-  const isFieldSuccess = (value: string | undefined, error: FieldError | undefined) => !error && !!value?.trim();
+  const config = sectionsConfig[name];
+
+  if (!config) {
+    console.error(`Configuration for section "${name}" not found.`);
+    return null;
+  }
+
+  const isFieldSuccess = (value: string | undefined, error?: FieldError) => !error && !!value?.trim();
+
+  const filterNonNullable = <T,>(item: T): item is NonNullable<T> => item !== undefined;
+
+  const sectionErrors = Object.values(errors?.[name] ?? {}).filter(filterNonNullable) as Record<string, FieldError>[];
 
   return (
     <div className="flex flex-wrap justify-between gap-4">
       {arr.fields.map((field, i) => {
         const isItemOpen = openItems[field.id] ?? true;
-        const startDate = watch(`experience.${i}.startDate`);
-        const endDate = watch(`experience.${i}.endDate`);
-        const durationText = calculateDuration(startDate || "", endDate || "");
-        const positionTitle = watch(`experience.${i}.position`);
+
+        const startDate = watch(`${name}.${i}.startDate` as FieldPath<FormValues>) || "";
+        const endDate = watch(`${name}.${i}.endDate` as FieldPath<FormValues>) || "";
+        const durationText = calculateDuration(String(startDate), String(endDate));
+
+        const titleField = watch(`${name}.${i}.${config.titleField}` as FieldPath<FormValues>);
+        const titleText = String(titleField || config.defaultTitle);
+
+        const currentErrors = sectionErrors[i] ?? {};
 
         return (
           <ResumeFormListItem
             key={field.id}
-            title={positionTitle?.trim() || "Назва посади і місце роботи"}
+            title={titleText}
             subtitle={durationText || ""}
             isOpen={isItemOpen}
             onToggle={() => toggleItem(field.id)}
           >
             <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-              <Input
-                label="Посада"
-                error={errors.experience?.[i]?.position?.message}
-                success={isFieldSuccess(watch(`experience.${i}.position`), errors.experience?.[i]?.position)}
-                {...register(`experience.${i}.position`)}
-              />
-              <Input
-                label="Компанія"
-                error={errors.experience?.[i]?.company?.message}
-                success={isFieldSuccess(watch(`experience.${i}.company`), errors.experience?.[i]?.company)}
-                {...register(`experience.${i}.company`)}
-              />
-              <Input
-                label="Початок роботи"
-                type="date"
-                error={errors.experience?.[i]?.startDate?.message}
-                success={isFieldSuccess(watch(`experience.${i}.startDate`), errors.experience?.[i]?.startDate)}
-                iconRight={<SpriteSvg id="icon-schedule" className="h-5 w-5 fill-current" />}
-                {...register(`experience.${i}.startDate`)}
-              />
-              <Input
-                label="Завершення роботи"
-                type="date"
-                iconRight={<SpriteSvg id="icon-schedule" className="h-5 w-5 fill-current" />}
-                error={errors.experience?.[i]?.endDate?.message}
-                success={isFieldSuccess(watch(`experience.${i}.endDate`), errors.experience?.[i]?.endDate)}
-                {...register(`experience.${i}.endDate`)}
-              />
+              {config.fields.map((fieldConfig) => (
+                <Input
+                  key={fieldConfig.name}
+                  label={fieldConfig.label}
+                  type={fieldConfig.type}
+                  iconRight={
+                    fieldConfig.type === "date" ? (
+                      <SpriteSvg id="icon-schedule" className="h-5 w-5 fill-current" />
+                    ) : undefined
+                  }
+                  error={currentErrors?.[fieldConfig.name]?.message}
+                  success={isFieldSuccess(
+                    String(watch(`${name}.${i}.${fieldConfig.name}` as FieldPath<FormValues>)),
+                    currentErrors?.[fieldConfig.name]
+                  )}
+                  {...register(`${name}.${i}.${fieldConfig.name}` as FieldPath<FormValues>)}
+                />
+              ))}
             </div>
 
             <AIControlledTextarea
-              value={watch(`experience.${i}.description`) || ""}
-              onChange={(text) => setValue(`experience.${i}.description`, text)}
+              value={String(watch(`${name}.${i}.description` as FieldPath<FormValues>) || "")}
+              onChange={(text) => setValue(`${name}.${i}.description` as FieldPath<FormValues>, text)}
               isLoading={loading}
               onGenerateClick={() => {
+                if (!config.description.promptKey) return;
+
                 handleGenerateClick({
-                  promptKey: "GENERATE_EXPERIENCE_DESCRIPTION_UK",
+                  promptKey: config.description.promptKey,
                   data: {
-                    jobTitle: watch(`experience.${i}.position`) || "",
-                    company: watch(`experience.${i}.company`) || "",
-                    startDate: watch(`experience.${i}.startDate`) || "",
-                    endDate: watch(`experience.${i}.endDate`) || "",
-                    userInput: watch(`experience.${i}.description`) || "",
+                    jobTitle: String(watch(`${name}.${i}.position` as FieldPath<FormValues>) || ""),
+                    company: String(watch(`${name}.${i}.company` as FieldPath<FormValues>) || ""),
+                    startDate: String(watch(`${name}.${i}.startDate` as FieldPath<FormValues>) || ""),
+                    endDate: String(watch(`${name}.${i}.endDate` as FieldPath<FormValues>) || ""),
+                    userInput: String(watch(`${name}.${i}.description` as FieldPath<FormValues>) || ""),
                   },
-                  callback: (generatedText) => setValue(`experience.${i}.description`, generatedText),
+                  callback: (generatedText) =>
+                    setValue(`${name}.${i}.description` as FieldPath<FormValues>, generatedText),
                   setIsLoading: setLoading,
                 });
               }}
-              canGenerate
-              label="Опис досвіду"
-              description="Опишіть свою головну роль та ключові навички в 2-4 реченнях, на основі чого AI зможе згенерувати Досвід"
+              canGenerate={!!config.description.promptKey}
+              label={config.description.label}
+              description={config.description.description}
+              error={currentErrors?.description?.message}
             />
           </ResumeFormListItem>
         );

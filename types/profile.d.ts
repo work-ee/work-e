@@ -33,10 +33,10 @@ export interface Course {
   description?: string;
 }
 
-export interface Language {
-  name?: string;
-  level?: "Beginner" | "Intermediate" | "Advanced" | "Fluent" | "Native";
-}
+export type Language = {
+  name?: string | undefined;
+  level?: "beginner" | "intermediate" | "advanced" | "fluent" | "native";
+};
 
 export interface UserProfile {
   personalInfo?: PersonalInfo;

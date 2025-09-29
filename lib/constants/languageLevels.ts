@@ -1,7 +1,7 @@
 export const LEVEL_LANG_OPTIONS = [
-  { value: "beginner", label: "Beginner" },
-  { value: "intermediate", label: "Intermediate" },
-  { value: "advanced", label: "Advanced" },
-  { value: "fluent", label: "Fluent" },
-  { value: "native", label: "Native" },
+  { value: "beginner", label: "beginner" },
+  { value: "intermediate", label: "intermediate" },
+  { value: "advanced", label: "advanced" },
+  { value: "fluent", label: "fluent" },
+  { value: "native", label: "native" },
 ];

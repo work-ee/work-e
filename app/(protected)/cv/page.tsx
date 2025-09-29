@@ -12,14 +12,13 @@ import { Button, Input } from "@/components/ui";
 
 import { handleGenerateClick } from "@/lib/actions/handleGenerateClick";
 import { LEVEL_LANG_OPTIONS } from "@/lib/constants/languageLevels";
-import { calculateDuration } from "@/lib/utils/dateUtils";
 import { FormValues, cvSchema } from "@/lib/validation/cvSchema";
 
 import { useDebouncedCallback } from "@/hooks/useDebouncedCallback";
 
 import { updateUserProfile } from "@/actions/server/user";
 import { useProfileStore } from "@/stores/profileStore";
-import { UserProfile } from "@/types/profile";
+import { Language, UserProfile } from "@/types/profile";
 
 import { DynamicFormSection } from "./DynamicFormSection";
 import { PersonalInfoSection } from "./PersonalInfoSection";
@@ -86,7 +85,12 @@ export default function CVForm() {
       skills: watchedFields.skills
         ?.map((item) => item?.name)
         .filter((name): name is string => typeof name === "string"),
-      foreignLanguages: watchedFields.foreignLanguages?.filter((item) => item !== undefined),
+      foreignLanguages: watchedFields.foreignLanguages
+        ?.filter((item): item is { name: string; level: Language["level"] } => Boolean(item?.name && item?.level))
+        .map((lang) => ({
+          name: lang.name || "",
+          level: lang.level || "beginner",
+        })),
       hobbies: watchedFields.hobbies,
     };
 
@@ -200,7 +204,6 @@ export default function CVForm() {
   const toggleItem = (id: string) => setOpenItems((prev) => ({ ...prev, [id]: !prev[id] }));
 
   const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState<Error | null>(null);
 
   const experienceArray = useFieldArray({ control, name: "experience" });
   const educationArray = useFieldArray({ control, name: "education" });
@@ -249,7 +252,6 @@ export default function CVForm() {
                 canGenerate={true}
                 label="Огляд резюме"
                 description="Опишіть свої головні досягнення, роль, мотивацію та ключові навички в 2-4  реченнях, на основі чого AI зможе згенерувати Огляд"
-                // error={error ? error.message : null}
               />
             </ResumeFormSection>
 
@@ -286,6 +288,7 @@ export default function CVForm() {
                 openItems={openItems}
                 toggleItem={toggleItem}
                 isLoading={isLoading}
+                name="experience"
               />
             </ResumeFormSection>
 
@@ -313,75 +316,17 @@ export default function CVForm() {
                 </Button>
               }
             >
-              <div className="flex flex-wrap justify-between gap-4">
-                {educationArray.fields.map((field, i) => {
-                  const isItemOpen = openItems[field.id] !== undefined ? openItems[field.id] : true;
-                  const startDate = watch(`education.${i}.startDate`);
-                  const endDate = watch(`education.${i}.endDate`);
-                  const durationText = calculateDuration(startDate || "", endDate || "");
-                  const specializationTitle = watch(`education.${i}.specialization`);
-
-                  return (
-                    <ResumeFormListItem
-                      key={field.id}
-                      title={`${specializationTitle?.trim() || "Освіта"} `}
-                      subtitle={`${durationText || ""} `}
-                      isOpen={isItemOpen}
-                      onToggle={() => toggleItem(field.id)}
-                    >
-                      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-                        <Input
-                          label="Спеціалізація"
-                          error={errors.education?.[i]?.specialization?.message}
-                          success={isFieldSuccess(
-                            watch(`education.${i}.specialization`),
-                            errors.education?.[i]?.specialization
-                          )}
-                          {...register(`education.${i}.specialization`)}
-                        />
-                        <Input
-                          label="Заклад"
-                          error={errors.education?.[i]?.institution?.message}
-                          success={isFieldSuccess(
-                            watch(`education.${i}.institution`),
-                            errors.education?.[i]?.institution
-                          )}
-                          {...register(`education.${i}.institution`)}
-                        />
-                        <Input
-                          label="Початок освіти"
-                          type="date"
-                          iconRight={
-                            <svg className="h-5 w-5 fill-current">
-                              <use href="/sprite.svg#icon-schedule"></use>
-                            </svg>
-                          }
-                          error={errors.education?.[i]?.startDate?.message}
-                          success={isFieldSuccess(watch(`education.${i}.startDate`), errors.education?.[i]?.startDate)}
-                          {...register(`education.${i}.startDate`)}
-                        />
-                        <Input
-                          label="Завершення освіти"
-                          type="date"
-                          iconRight={
-                            <svg className="h-5 w-5 fill-current">
-                              <use href="/sprite.svg#icon-schedule"></use>
-                            </svg>
-                          }
-                          error={errors.education?.[i]?.endDate?.message}
-                          success={isFieldSuccess(watch(`education.${i}.endDate`), errors.education?.[i]?.endDate)}
-                          {...register(`education.${i}.endDate`)}
-                        />
-                      </div>
-                      <AIControlledTextarea
-                        value={watch(`education.${i}.description`) || ""}
-                        onChange={(text) => setValue(`education.${i}.description`, text)}
-                        description="Опис"
-                      />
-                    </ResumeFormListItem>
-                  );
-                })}
-              </div>
+              <DynamicFormSection
+                register={register}
+                errors={errors}
+                watch={watch}
+                setValue={setValue}
+                arr={educationArray}
+                openItems={openItems}
+                toggleItem={toggleItem}
+                isLoading={isLoading}
+                name="education"
+              />
             </ResumeFormSection>
 
             <ResumeFormSection
@@ -408,72 +353,17 @@ export default function CVForm() {
                 </Button>
               }
             >
-              <div className="flex flex-wrap justify-between gap-4">
-                {coursesArray.fields.map((field, i) => {
-                  const isItemOpen = openItems[field.id] !== undefined ? openItems[field.id] : true;
-                  const startDate = watch(`courses.${i}.startDate`);
-                  const endDate = watch(`courses.${i}.endDate`);
-                  const durationText = calculateDuration(startDate || "", endDate || "");
-                  const specializationTitle = watch(`courses.${i}.specialization`);
-
-                  return (
-                    <ResumeFormListItem
-                      key={field.id}
-                      title={`${specializationTitle?.trim() || "Назва курсу"} `}
-                      subtitle={`${durationText || ""} `}
-                      isOpen={isItemOpen}
-                      onToggle={() => toggleItem(field.id)}
-                    >
-                      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-                        <Input
-                          label="Спеціалізація"
-                          error={errors.courses?.[i]?.specialization?.message}
-                          success={isFieldSuccess(
-                            watch(`courses.${i}.specialization`),
-                            errors.courses?.[i]?.specialization
-                          )}
-                          {...register(`courses.${i}.specialization`)}
-                        />
-                        <Input
-                          label="Навчальний заклад"
-                          error={errors.courses?.[i]?.institution?.message}
-                          success={isFieldSuccess(watch(`courses.${i}.institution`), errors.courses?.[i]?.institution)}
-                          {...register(`courses.${i}.institution`)}
-                        />
-                        <Input
-                          label="Початок курсів"
-                          type="date"
-                          iconRight={
-                            <svg className="h-5 w-5 fill-current">
-                              <use href="/sprite.svg#icon-schedule"></use>
-                            </svg>
-                          }
-                          error={errors.courses?.[i]?.startDate?.message}
-                          success={isFieldSuccess(watch(`courses.${i}.startDate`), errors.courses?.[i]?.startDate)}
-                          {...register(`courses.${i}.startDate`)}
-                        />
-                        <Input
-                          label="Завершення курсів"
-                          type="date"
-                          iconRight={
-                            <svg className="h-5 w-5 fill-current">
-                              <use href="/sprite.svg#icon-schedule"></use>
-                            </svg>
-                          }
-                          error={errors.courses?.[i]?.endDate?.message}
-                          success={isFieldSuccess(watch(`courses.${i}.endDate`), errors.courses?.[i]?.endDate)}
-                          {...register(`courses.${i}.endDate`)}
-                        />
-                      </div>
-                      <AIControlledTextarea
-                        value={watch(`courses.${i}.description`) || ""}
-                        onChange={(text) => setValue(`courses.${i}.description`, text)}
-                        description="Опис"
-                      />
-                    </ResumeFormListItem>
-                  );
-                })}
-              </div>
+              <DynamicFormSection
+                register={register}
+                errors={errors}
+                watch={watch}
+                setValue={setValue}
+                arr={coursesArray}
+                openItems={openItems}
+                toggleItem={toggleItem}
+                isLoading={isLoading}
+                name="courses"
+              />
             </ResumeFormSection>
 
             <ResumeFormSection
@@ -575,7 +465,7 @@ export default function CVForm() {
                   variant="secondary"
                   className="btn-sm mt-6"
                   type="button"
-                  onClick={() => foreignLangArray.append({ name: "", level: "Beginner" })}
+                  onClick={() => foreignLangArray.append({ name: "", level: undefined })}
                 >
                   <SpriteSvg id="icon-plus" className="fill-primary-300 mx-auto h-6 w-6" />
                 </Button>
