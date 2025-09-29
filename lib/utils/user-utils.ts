@@ -1,9 +1,9 @@
 import { cache } from "react";
 
-import { auth } from "@/lib/auth";
-
 import { UserService } from "@/actions/client/user-service";
 import type { BackendUser } from "@/types/next-auth";
+
+import { GetCachedAuth } from "../auth/get-session";
 
 export interface UserData {
   user: BackendUser | null;
@@ -15,7 +15,7 @@ export interface UserData {
 }
 
 export const getCurrentUserData = cache(async (): Promise<UserData> => {
-  const session = await auth();
+  const session = await GetCachedAuth();
 
   if (!session) {
     throw new Error("User not authenticated");

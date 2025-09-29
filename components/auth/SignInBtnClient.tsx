@@ -24,7 +24,7 @@ export const SignInBtnClient = () => {
     return { first_name: firstName, avatar_url: avatarUrl };
   }, [session?.backendUser?.first_name, session?.backendUser?.avatar_url, session?.user?.name, session?.user?.image]);
 
-  if (status === "loading" && session) {
+  if (status === "loading") {
     return (
       <div className="flex items-center gap-4">
         <div className="h-8 w-16 animate-pulse rounded bg-gray-200"></div>

@@ -14,18 +14,24 @@ import { setUserLocale } from "@/i18n/locale";
 export const LocaleSwitcher = () => {
   const currentLocale = useLocale();
   const [isPending, startTransition] = useTransition();
-  const [locale] = React.useState<Locale>(currentLocale as Locale);
+  const [locale, setLocale] = React.useState<Locale>(currentLocale as Locale);
+
+  React.useEffect(() => {
+    setLocale(currentLocale as Locale);
+  }, [currentLocale]);
 
   function onChange(value: string) {
-    const locale = value as Locale;
+    const newLocale = value as Locale;
+    setLocale(newLocale);
+
     startTransition(() => {
-      setUserLocale(locale);
+      setUserLocale(newLocale);
     });
   }
 
   return (
-    <div className="relative">
-      <Select defaultValue={locale} onValueChange={onChange} disabled={isPending}>
+    <div className="relative min-w-30" suppressHydrationWarning>
+      <Select value={locale} onValueChange={onChange} disabled={isPending}>
         <SelectTrigger
           data-size="lg"
           className="text-primary-900 min-w-28 cursor-pointer border-0 text-lg font-black shadow-none focus-visible:ring-0"

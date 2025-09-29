@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { auth } from "@/lib/auth";
+import { GetCachedAuth } from "@/lib/auth/get-session";
 import { COOKIE_NAME } from "@/lib/constants";
 
 // Define protected and auth routes for better maintainability
@@ -9,7 +9,7 @@ const authRoutes = ["/sign-in", "/sign-up"];
 // const publicRoutes = ["/"];
 
 export default async function middleware(req: NextRequest) {
-  const session = await auth();
+  const session = await GetCachedAuth();
   const { pathname } = req.nextUrl;
   const isLoggedIn = !!session?.user;
 
