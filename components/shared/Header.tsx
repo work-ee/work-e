@@ -3,9 +3,7 @@ import React, { Suspense } from "react";
 import Link from "next/link";
 
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
-import { SignInBtn } from "@/components/auth/SignInBtn";
-
-// import { SignInBtnClient } from "@/components/auth/SignInBtnClient";
+import { SignInBtnClient } from "@/components/auth/SignInBtnClient";
 
 import { ROUTES } from "@/lib/constants";
 
@@ -20,11 +18,10 @@ export const Header = async () => {
 
           <div className="flex items-center gap-2">
             <Suspense fallback={<div className="h-10 w-20 animate-pulse rounded bg-gray-200" />}>
-              <SignInBtn />
-              {/* <SignInBtnClient /> */}
+              <SignInBtnClient />
             </Suspense>
 
-            <Suspense fallback={<div className="h-10 w-20 animate-pulse rounded bg-gray-200" />}>
+            <Suspense fallback={<div className="h-10 min-w-28 animate-pulse rounded bg-gray-200" />}>
               <LocaleSwitcher />
             </Suspense>
           </div>
