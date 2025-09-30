@@ -5,6 +5,8 @@ import AppInitializerWrapper from "@/components/initializer/AppInitializerWrappe
 import { Footer, Header } from "@/components/shared";
 import { Toaster } from "@/components/ui/shadcn/sonner";
 
+import { GetCachedAuth } from "@/lib/auth/get-session";
+
 import { getMessages } from "@/i18n/getMessages";
 
 import AppProviders from "./AppProviders";
@@ -23,13 +25,14 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   const messages = await getMessages(locale);
+  const session = await GetCachedAuth();
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${rubik.variable} ${nunitoSans.variable} antialiased`}>
         <AppInitializerWrapper />
 
-        <AppProviders locale={locale} messages={messages}>
+        <AppProviders locale={locale} messages={messages} session={session}>
           <Header />
           {children}
           <Footer />

@@ -1,8 +1,15 @@
 import { ProfileMain } from "@/components/profile";
 
+import { GetCachedAuth } from "@/lib/auth/get-session";
 import { getCurrentUserData } from "@/lib/utils/user-utils";
 
 export default async function ProfilePage() {
+  const session = await GetCachedAuth();
+
+  if (!session) {
+    throw new Error("User not authenticated");
+  }
+
   const { user, first_name, last_name } = await getCurrentUserData();
 
   return (

@@ -57,7 +57,6 @@ export function ProfileMain({ user }: { user: BackendUser | null }) {
         },
       });
     } else if (state.errors && Object.keys(state.errors).length > 0 && !isPending) {
-      // setMessage({ type: "error", text: "Будь ласка, виправте помилки у формі" });
       setMessage({ type: "error", text: state.errors._general || "Будь ласка, виправте помилки у формі" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -102,7 +101,7 @@ export function ProfileMain({ user }: { user: BackendUser | null }) {
         backdrop
         title={"Автоматична відправка CV"}
         text={
-          "Зверни увагу! Доступно лише 100 безкоштовних відправок. Для того щоб продовжити “Автоматична відправка CV”- оберіть передоплату"
+          'Зверни увагу! Доступно лише 100 безкоштовних відправок. Для того щоб продовжити "Автоматична відправка CV"- оберіть передоплату'
         }
         buttonText={"Оформити передплату"}
         onButtonClick={() => alert('Done "Автоматична відправка CV"')}
@@ -114,7 +113,7 @@ export function ProfileMain({ user }: { user: BackendUser | null }) {
         backdrop
         title={"Автоматичне порівняння вакансій"}
         text={
-          "Зверни увагу! Доступно лише 3 безкоштовні перевірки, Для того щоб продовжити “Автоматичне порівняння вакансій”- оберіть передоплату"
+          'Зверни увагу! Доступно лише 3 безкоштовні перевірки, Для того щоб продовжити "Автоматичне порівняння вакансій"- оберіть передоплату'
         }
         buttonText={"Оформити передплату"}
         onButtonClick={() => alert('Done "Передоплата ПОРІВНЯННЯ"')}
