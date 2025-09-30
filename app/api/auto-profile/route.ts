@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { fetchCurrentUserData } from "@/lib/utils/user";
+import { getCurrentUserData } from "@/lib/utils/user-utils";
 
 export async function GET(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "0.0.0.0";
@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
 
   let userData = {};
   try {
-    userData = await fetchCurrentUserData();
+    userData = await getCurrentUserData();
   } catch (e) {
     console.error("Failed to fetch current user data:", e);
   }

@@ -3,6 +3,8 @@ import Link from "next/link";
 import { GoogleSignIn } from "@/components/auth/GoogleSignIn";
 import { LinkedinSignIn } from "@/components/auth/LinkedinSignIn";
 
+import { ROUTES } from "@/lib/constants";
+
 const Page = async () => {
   return (
     <main className="center-page">
@@ -19,7 +21,7 @@ const Page = async () => {
             </div>
 
             <p>
-              <Link href="/sign-up" className="text-link font-rubik font-medium">
+              <Link href={ROUTES.register} className="text-link font-rubik font-medium">
                 зареєструватись
               </Link>
             </p>

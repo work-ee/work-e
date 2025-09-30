@@ -8,6 +8,10 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   id?: string;
   label?: string;
   name: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  type?: string;
   error?: string;
   success?: boolean | string;
   iconLeft?: React.ReactElement<React.SVGProps<SVGSVGElement>>;

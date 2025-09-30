@@ -7,6 +7,8 @@ import { LinkedinSignIn } from "@/components/auth/LinkedinSignIn";
 import { BuildingSvg, SearchJobSvg } from "@/components/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs";
 
+import { ROUTES } from "@/lib/constants";
+
 export default async function Register() {
   return (
     <main className="center-page">
@@ -21,9 +23,9 @@ export default async function Register() {
               <TabsList className="flex h-auto justify-between gap-4 rounded-none bg-white p-0">
                 <TabsTrigger
                   value="sign-in"
-                  className="data-[state=active]:bg-secondary-50 data-[state=active]:outline-primary-700 h-auto min-w-[18rem] cursor-pointer p-5 outline transition duration-300"
+                  className="data-[state=active]:bg-secondary-50 data-[state=active]:text-primary-900 h-auto min-w-[18rem] cursor-pointer p-5 shadow-[0_0_0_2px_var(--color-neutral-100)] transition duration-300 data-[state=active]:shadow-[0_0_0_2px_var(--color-primary-100)]"
                 >
-                  <div className="text-primary-900 flex flex-col items-center gap-3">
+                  <div className="flex flex-col items-center gap-3">
                     <SearchJobSvg className="size-12" />
                     <h3 className="heading-h3">Шукаю роботу</h3>
                   </div>
@@ -31,9 +33,9 @@ export default async function Register() {
 
                 <TabsTrigger
                   value="sign-up"
-                  className="data-[state=active]:bg-secondary-50 data-[state=active]:outline-primary-700 h-auto min-w-[18rem] cursor-pointer p-5 outline transition duration-300"
+                  className="data-[state=active]:bg-secondary-50 data-[state=active]:text-primary-900 h-auto min-w-[18rem] cursor-pointer p-5 shadow-[0_0_0_2px_var(--color-neutral-100)] transition duration-300 data-[state=active]:shadow-[0_0_0_2px_var(--color-primary-100)]"
                 >
-                  <div className="text-primary-900 flex flex-col items-center gap-3">
+                  <div className="flex flex-col items-center gap-3">
                     <BuildingSvg className="size-12" />
                     <h3 className="heading-h3">Шукаю спеціаліста</h3>
                   </div>
@@ -52,7 +54,7 @@ export default async function Register() {
                   </div>
 
                   <div className="text-neutral-800">
-                    <Link className="text-link font-rubik font-medium" href="/sign-in">
+                    <Link className="text-link font-rubik font-medium" href={ROUTES.login}>
                       Увійти в існуючий
                     </Link>
                   </div>

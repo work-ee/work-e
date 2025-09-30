@@ -9,6 +9,8 @@ import { ArrowBigLeft, CircleCheckBig, CircleX, Send } from "lucide-react";
 import { MatchingPreload, SvgProgressCounter } from "@/components/matching";
 import { Button } from "@/components/ui";
 
+import { ROUTES } from "@/lib/constants";
+
 const TextMatch1 = () => {
   return (
     <div>
@@ -129,7 +131,7 @@ export const MatchingMain = () => {
 
         <div className="mt-18">
           <div className="mt-8 flex justify-center gap-12">
-            <Link href="/jobs">
+            <Link href={ROUTES.jobs}>
               <Button variant="secondary" className="btn-sm min-w-[320px] justify-center">
                 <ArrowBigLeft />
                 Інші вакансії

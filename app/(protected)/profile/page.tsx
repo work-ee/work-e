@@ -1,9 +1,9 @@
 import { ProfileMain } from "@/components/profile";
 
-import { fetchCurrentUserData } from "@/lib/utils/user";
+import { getCurrentUserData } from "@/lib/utils/user-utils";
 
 export default async function ProfilePage() {
-  const { userData, first_name, last_name } = await fetchCurrentUserData();
+  const { user, first_name, last_name } = await getCurrentUserData();
 
   return (
     <main className="center-page">
@@ -21,7 +21,7 @@ export default async function ProfilePage() {
 
           <div className="aside-wrapper">
             <article className="article">
-              <ProfileMain user={userData} />
+              <ProfileMain user={user} />
             </article>
           </div>
         </div>

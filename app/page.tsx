@@ -1,13 +1,19 @@
+import { getTranslations } from "next-intl/server";
+
 import { CheckArrowSvg, ClockSvg, SafetySvg } from "@/components/icons";
 
-export default async function Home() {
+export default async function HomePage() {
+  const t = await getTranslations();
+
   return (
     <main className="center-page">
       <section className="section">
         <div className="container">
           <div className="text-center">
-            <h1 className="heading-h1 mb-4">Швидкий пошук роботи на Work - E</h1>
-            <p className="heading-h3 mb-4">Для всіх хто працює в IT</p>
+            {/* <h1 className="heading-h1 mb-4">Швидкий пошук роботи на Work - E</h1> */}
+            {/* <p className="heading-h3 mb-4">Для всіх хто працює в IT</p> */}
+            <h1 className="heading-h1 mb-4">{t("HomePage.title")}</h1>
+            <p className="heading-h3 mb-4">{t("HomePage.subtitle")}</p>
           </div>
         </div>
       </section>
@@ -17,15 +23,15 @@ export default async function Home() {
           <ul className="grid grid-cols-3">
             <li className="flex flex-col items-center gap-2 text-center">
               <b className="heading-h2 text-primary-700 font-black">90,000+</b>
-              <p className="heading-h3">потенційних кандидатів</p>
+              <p className="heading-h3">{t("HomePage.stats.candidates")}</p>
             </li>
             <li className="flex flex-col items-center gap-2 text-center">
               <b className="heading-h2 text-primary-700 font-black">50,000+</b>
-              <p className="heading-h3">IT-компаній</p>
+              <p className="heading-h3">{t("HomePage.stats.companies")}</p>
             </li>
             <li className="flex flex-col items-center gap-2 text-center">
               <b className="heading-h2 text-primary-700 font-black">100%</b>
-              <p className="heading-h3">автоматизації процесів</p>
+              <p className="heading-h3">{t("HomePage.stats.automation")}</p>
             </li>
           </ul>
         </div>
@@ -33,10 +39,7 @@ export default async function Home() {
 
       <section className="section">
         <div className="container">
-          <p className="mx-auto max-w-2xl text-center">
-            Розкажи про свій досвід і очікування від роботи. Ми допоможемо створити для тебе ідеальне резюме та
-            супроводжуючий лист, а також підберем найкращі вакансії. Всього за кілька хвилин.
-          </p>
+          <p className="mx-auto max-w-2xl text-center">{t("HomePage.description")}</p>
         </div>
       </section>
 
@@ -44,28 +47,28 @@ export default async function Home() {
         <div className="container">
           <ul className="grid justify-around gap-12 xl:grid-cols-3">
             <li className="bg-secondary-50 flex flex-col items-center gap-4 rounded-2xl px-4 py-6 text-center">
-              <h3 className="heading-h3 text-primary-700">
-                Чому саме <br /> Work-e?
-              </h3>
-              {/* <img src="./icons/checked.svg" alt="" /> */}
+              <h3
+                className="heading-h3 text-primary-700"
+                dangerouslySetInnerHTML={{ __html: t("HomePage.faq.1.question") }}
+              />
               <CheckArrowSvg />
-              <p>За допомогою AI створіть ідеальне резюме та супроводжуючий лист, підберіть вакансії для себе.</p>
+              <p dangerouslySetInnerHTML={{ __html: t("HomePage.faq.1.answer") }} />
             </li>
             <li className="bg-secondary-50 flex flex-col items-center gap-4 rounded-2xl px-4 py-6 text-center">
-              <h3 className="heading-h3 text-primary-700">Як швидко я отримаю вакансії?</h3>
-              {/* <img src="./icons/time.svg" alt="" /> */}
+              <h3
+                className="heading-h3 text-primary-700"
+                dangerouslySetInnerHTML={{ __html: t("HomePage.faq.2.question") }}
+              />
               <ClockSvg />
-              <p>
-                Залежить від вашого досвіду, <br /> але наш AI швидко підбере найкращі варіанти.
-              </p>
+              <p dangerouslySetInnerHTML={{ __html: t("HomePage.faq.2.answer") }} />
             </li>
             <li className="bg-secondary-50 flex flex-col items-center gap-4 rounded-2xl px-4 py-6 text-center">
-              <h3 className="heading-h3 text-primary-700">Чи можна залишитися анонімним?</h3>
-              {/* <img src="./icons/incognito.svg" alt="" /> */}
+              <h3
+                className="heading-h3 text-primary-700"
+                dangerouslySetInnerHTML={{ __html: t("HomePage.faq.3.question") }}
+              />
               <SafetySvg />
-              <p>
-                Ваші дані захищені. Ви можете <br /> вибрати, коли і кому показувати ваші контакти.
-              </p>
+              <p dangerouslySetInnerHTML={{ __html: t("HomePage.faq.3.answer") }} />
             </li>
           </ul>
         </div>

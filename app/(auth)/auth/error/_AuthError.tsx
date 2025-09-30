@@ -7,6 +7,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui";
 
+import { ROUTES } from "@/lib/constants";
+
 const errorMessages = {
   Configuration: "You are already signed in! Redirecting you to your dashboard...",
   AccessDenied: "You do not have permission to sign in. \n Please contact support if you believe this is an error.",
@@ -61,13 +63,13 @@ export default function AuthError() {
       </div>
 
       <div className="mt-8 flex flex-wrap justify-center gap-4">
-        <Link href="/sign-in">
+        <Link href={ROUTES.login}>
           <Button variant="secondary" className="w-full justify-center">
             Try signing in again
           </Button>
         </Link>
 
-        <Link href="/">
+        <Link href={ROUTES.home}>
           <Button className="w-full justify-center">Return to Home</Button>
         </Link>
       </div>

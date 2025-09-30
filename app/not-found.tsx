@@ -3,6 +3,8 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui";
 
+import { ROUTES } from "@/lib/constants";
+
 export const metadata = {
   title: "404 – Сторінку не знайдено",
 };
@@ -26,7 +28,7 @@ export default function NotFound() {
               Перевірте адресу або поверніться на головну.
             </p>
             <div className="mt-8 flex w-full flex-1 flex-wrap justify-center gap-4">
-              <Link href="/" className="flex-1">
+              <Link href={ROUTES.home} className="flex-1">
                 <Button className="w-full justify-center">Повернутись на головну</Button>
               </Link>
             </div>

@@ -1,0 +1,29 @@
+{
+  "signIn": "Sign In",
+  "signOut": "Sign Out",
+  "register": "Register",
+  "HomePage": {
+    "title": "Fast job search on Work-E",
+    "subtitle": "For everyone who works in IT",
+    "stats": {
+      "candidates": "potential candidates",
+      "companies": "IT companies",
+      "automation": "process automation"
+    },
+    "description": "Tell us about your experience and job expectations. We will help you create the perfect resume and cover letter, as well as find the best job openings. All in just a few minutes.",
+    "faq": {
+      "1": {
+        "question": "Why choose <br/> Work-e?",
+        "answer": "With the help of AI, create the perfect resume and cover letter, and find job openings that suit you."
+      },
+      "2": {
+        "question": "How quickly will I receive job openings?",
+        "answer": "It depends on your experience, <br/> but our AI will quickly find the best options."
+      },
+      "3": {
+        "question": "Can I remain <br/> anonymous?",
+        "answer": "Your data is protected. You can <br/> choose when and to whom to show your contacts."
+      }
+    }
+  }
+}

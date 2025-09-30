@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
+import { startTransition, useEffect } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/Button";
+
+import { ROUTES } from "@/lib/constants";
 
 export const metadata = {
   title: "500 – Щось пішло не так",
@@ -16,10 +19,18 @@ interface Props {
   reset: () => void;
 }
 
-export default function GlobalError({ error, reset }: Props) {
+export default function ErrorBoundary({ error, reset }: Props) {
+  const router = useRouter();
   useEffect(() => {
     console.error(error);
   }, [error]);
+
+  const reload = () => {
+    startTransition(() => {
+      router.refresh();
+      reset();
+    });
+  };
 
   return (
     <main className="center-page">
@@ -47,10 +58,10 @@ export default function GlobalError({ error, reset }: Props) {
             </div>
 
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Link href="/" className="flex-1">
+              <Link href={ROUTES.home} className="flex-1">
                 <Button variant="secondary">Повернутись на головну</Button>
               </Link>
-              <Button onClick={() => reset()}>Оновити сторінку</Button>
+              <Button onClick={reload}>Оновити сторінку</Button>
             </div>
           </div>
         </div>

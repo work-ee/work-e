@@ -12,10 +12,10 @@ export const useAutoProfile = () => {
         const data = await res.json();
         if (data && data.userData) {
           updatePersonalInfo({
-            id: data.userData.id,
-            firstName: data.first_name,
-            lastName: data.last_name,
-            email: data.userData.email,
+            id: data.user.id,
+            firstName: data.user.first_name,
+            lastName: data.user.last_name,
+            email: data.user.email,
             country: data.country,
             city: data.city,
           });

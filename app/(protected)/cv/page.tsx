@@ -16,7 +16,7 @@ import { FormValues, cvSchema } from "@/lib/validation/cvSchema";
 
 import { useDebouncedCallback } from "@/hooks/useDebouncedCallback";
 
-import { updateUserProfile } from "@/actions/server/user";
+import { UserService } from "@/actions/client/user-service";
 import { useProfileStore } from "@/stores/profileStore";
 import { Language, UserProfile } from "@/types/profile";
 
@@ -166,7 +166,7 @@ export default function CVForm() {
         throw new Error("User ID не знайдено. Дані профілю не завантажені.");
       }
 
-      const result = await updateUserProfile(userPayload, Number(userId));
+      const result = await UserService.updateProfile(userPayload, Number(userId));
 
       if (result.success) {
         setMessage("✅ Дані збережено успішно");

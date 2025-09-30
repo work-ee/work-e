@@ -3,20 +3,21 @@ import type { Provider } from "next-auth/providers";
 import GoogleProvider from "next-auth/providers/google";
 import LinkedinProvider from "next-auth/providers/linkedin";
 
+import { clearAuthCookies } from "../utils/clear-auth-cookies";
 import { handleGoogleLogin, handleLinkedInLogin } from "./auth-callbacks";
 
 const providers: Provider[] = [
   GoogleProvider({
     clientId: process.env.GOOGLE_CLIENT_ID!,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    authorization: {
-      params: {
-        prompt: "consent",
-        access_type: "offline",
-        response_type: "code",
-        scope: "openid email profile",
-      },
-    },
+    // authorization: {
+    //   params: {
+    //     prompt: "consent",
+    //     access_type: "offline",
+    //     response_type: "code",
+    //     scope: "openid email profile",
+    //   },
+    // },
   }),
   LinkedinProvider({
     clientId: process.env.LINKEDIN_CLIENT_ID!,
@@ -36,10 +37,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     error: "/auth/error",
     signIn: "/sign-in",
   },
+  cookies: {
+    pkceCodeVerifier: {
+      name: "authjs.pkce.code_verifier",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 60 * 15, // 15 minutes
+      },
+    },
+  },
   // debug: process.env.NODE_ENV === "development",
   callbacks: {
     async signIn({ user, account }) {
       try {
+        clearAuthCookies();
         if (account?.provider === "google") {
           return await handleGoogleLogin({ user, account });
         }
@@ -49,6 +63,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
         return true;
       } catch (error) {
+        clearAuthCookies();
         console.error("Error during sign in:", error);
         return false;
       }

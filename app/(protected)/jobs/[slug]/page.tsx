@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import clsx from "clsx";
@@ -5,12 +6,19 @@ import clsx from "clsx";
 import { AsideCheckSkills } from "@/components/jobs/AsideCheckSkills";
 import { JobApplication } from "@/components/jobs/JobApplication";
 
-import { getJobBySlug } from "@/actions/server/jobs";
+import { getJobBySlug, getJobsData } from "@/actions/server/jobs";
 
 interface Props {
   params: Promise<{
     slug: string;
   }>;
+}
+
+export const dynamicParameters = false;
+
+export async function generateStaticParams() {
+  const jobs = await getJobsData();
+  return jobs.map((job) => ({ slug: job.slug }));
 }
 
 export default async function JobArticlePage({ params }: Props) {
@@ -19,7 +27,8 @@ export default async function JobArticlePage({ params }: Props) {
 
   const { body, jobFormat, isApplied } = job || {};
 
-  if (!job) {
+  if (!job || !body) {
+    console.error(`Job not found for slug: ${slug}`);
     notFound();
   }
 
@@ -112,14 +121,14 @@ export default async function JobArticlePage({ params }: Props) {
                 {body?.url && (
                   <div className="mt-6 text-sm text-gray-500">
                     <span className="font-semibold">Source:</span>{" "}
-                    <a
+                    <Link
                       href={body.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline"
                     >
                       {body.url}
-                    </a>
+                    </Link>
                   </div>
                 )}
               </div>

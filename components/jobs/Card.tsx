@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ROUTES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 import { IJob } from "@/types/jobs";
@@ -14,7 +15,7 @@ export const Card = ({ id, slug, jobFormat, isApplied, body }: Props) => {
   return (
     <li className="flex h-full items-stretch">
       <Link
-        href={`/jobs/${slug}`}
+        href={ROUTES.job(slug)}
         id={`job-${id}`}
         className={cn(
           "flex flex-col gap-1 rounded-2xl px-8 py-8 transition",

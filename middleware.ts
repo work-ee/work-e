@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { auth } from "@/lib/auth";
+import { COOKIE_NAME } from "@/lib/constants";
 
 // Define protected and auth routes for better maintainability
 const protectedRoutes = ["/onboarding", "/profile", "/jobs", "/jobs/[slug]", "/uiKit"];
@@ -11,6 +12,10 @@ export default async function middleware(req: NextRequest) {
   const session = await auth();
   const { pathname } = req.nextUrl;
   const isLoggedIn = !!session?.user;
+
+  const locale = req.cookies.get(COOKIE_NAME)?.value || req.headers.get("accept-language")?.split(",")[0] || "uk";
+  const res = NextResponse.next();
+  res.headers.set("x-locale", locale);
 
   // Redirect authenticated users from home to onboarding
   if (isLoggedIn && pathname === "/") {
@@ -27,7 +32,7 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
   }
 
-  return NextResponse.next();
+  return res;
 }
 
 export const config = {
