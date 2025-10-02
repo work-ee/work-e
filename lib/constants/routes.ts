@@ -18,5 +18,5 @@ export const ROUTES = {
 
   // Account
   profile: "/profile",
-  cv: "/profile/cv",
+  cv: "/cv",
 };

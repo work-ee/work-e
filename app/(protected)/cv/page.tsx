@@ -12,11 +12,11 @@ import { Button, Input } from "@/components/ui";
 
 import { handleGenerateClick } from "@/lib/actions/handleGenerateClick";
 import { LEVEL_LANG_OPTIONS } from "@/lib/constants/languageLevels";
-import { FormValues, cvSchema } from "@/lib/validation/cvSchema";
+import { FormValues, cvSchema } from "@/lib/validations/cvSchema";
 
 import { useDebouncedCallback } from "@/hooks/useDebouncedCallback";
 
-import { UserService } from "@/actions/client/user-service";
+import { updateUser } from "@/actions/server/user";
 import { useProfileStore } from "@/stores/profileStore";
 import { Language, UserProfile } from "@/types/profile";
 
@@ -104,6 +104,7 @@ export default function CVForm() {
 
     function mapProfileToBackend(profile: UserProfile) {
       return {
+        // personal_info: `desired_position: ${profile.personalInfo?.desiredPosition}, first_name: ${profile.personalInfo?.firstName}, last_name: ${profile.personalInfo?.lastName}, email: ${profile.personalInfo?.email}, phone: ${profile.personalInfo?.phone}, country: ${profile.personalInfo?.country}, city: ${profile.personalInfo?.country}`,
         desired_position: profile.personalInfo?.desiredPosition,
         first_name: profile.personalInfo?.firstName,
         last_name: profile.personalInfo?.lastName,
@@ -166,7 +167,7 @@ export default function CVForm() {
         throw new Error("User ID не знайдено. Дані профілю не завантажені.");
       }
 
-      const result = await UserService.updateProfile(userPayload, Number(userId));
+      const result = await updateUser(userPayload, Number(userId));
 
       if (result.success) {
         setMessage("✅ Дані збережено успішно");

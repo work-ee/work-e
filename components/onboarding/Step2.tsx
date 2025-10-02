@@ -24,7 +24,13 @@ export const Step2 = ({ user, onCvUploadSuccess }: StepProps) => {
       />
 
       <div className="mt-8 flex justify-center gap-12">
-        <Link href={ROUTES.profile}>
+        {/* <Link href={ROUTES.profile}>
+          <Button>
+            <ProfileSvg />
+            Заповнити профіль
+          </Button>
+        </Link> */}
+        <Link href={ROUTES.cv}>
           <Button>
             <ProfileSvg />
             Заповнити профіль

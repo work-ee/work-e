@@ -8,7 +8,7 @@ import { AIControlledTextarea, Input, ResumeFormListItem } from "@/components/ui
 import { handleGenerateClick } from "@/lib/actions/handleGenerateClick";
 import { sectionsConfig } from "@/lib/constants/sectionsConfig";
 import { calculateDuration } from "@/lib/utils/dateUtils";
-import { FormValues } from "@/lib/validation/cvSchema";
+import { FormValues } from "@/lib/validations/cvSchema";
 
 interface Props {
   register: UseFormReturn<FormValues>["register"];

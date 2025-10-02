@@ -5,7 +5,7 @@ import { Controller, FieldError, UseFormReturn } from "react-hook-form";
 import { DropdownBlock, Input } from "@/components/ui";
 
 import { POSITION_OPTIONS } from "@/lib/constants/position";
-import { FormValues } from "@/lib/validation/cvSchema";
+import { FormValues } from "@/lib/validations/cvSchema";
 
 interface Props {
   control: UseFormReturn<FormValues>["control"];
