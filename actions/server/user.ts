@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { UserProfileSchema } from "@/lib/validations/user";
 
 import { UserService } from "@/actions/client/user-service";
+import type { UserBase } from "@/types/next-auth";
 
 export type UserState = {
   first_name?: string;
@@ -51,7 +52,7 @@ export async function updateUserProfile(userId: string, _prev: UserState, formDa
   if (!validationResult.success) {
     const errors: UserState["errors"] = {};
 
-    validationResult.error.errors.forEach((error) => {
+    validationResult.error.issues.forEach((error) => {
       const field = error.path[0] as keyof NonNullable<UserState["errors"]>;
       if (field && !errors![field]) {
         errors![field] = error.message;
@@ -91,6 +92,16 @@ export async function updateUserProfile(userId: string, _prev: UserState, formDa
       },
       ...rawData,
     };
+  }
+}
+
+export async function updateUser(userData: UserBase, userId: number) {
+  try {
+    const result = await UserService.updateProfile(userData, userId);
+    return result;
+  } catch (error) {
+    console.error("Error getting current user:", error);
+    return { success: false, error: "Failed to get current user" };
   }
 }
 

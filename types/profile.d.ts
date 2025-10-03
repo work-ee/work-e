@@ -1,4 +1,5 @@
 export interface PersonalInfo {
+  id?: number;
   desiredPosition?: string;
   firstName?: string;
   lastName?: string;
@@ -21,6 +22,7 @@ export interface Education {
   institution?: string;
   startDate?: string;
   endDate?: string;
+  description?: string;
 }
 
 export interface Course {
@@ -31,29 +33,28 @@ export interface Course {
   description?: string;
 }
 
-export interface Language {
-  name?: string;
-  level?: "Beginner" | "Intermediate" | "Advanced" | "Fluent" | "Native";
-}
+export type Language = {
+  name?: string | undefined;
+  level?: "beginner" | "intermediate" | "advanced" | "fluent" | "native";
+};
 
 export interface UserProfile {
   personalInfo?: PersonalInfo;
-  overview?: string;
+  overview?: string | null;
   experience?: Experience[];
   education?: Education[];
   courses?: Course[];
   programmingLanguages?: string[];
   skills?: string[];
   foreignLanguages?: Language[];
-  hobbies?: string;
-  motivationLetter?: string;
-  linkedin?: string;
-  github?: string;
-
-  ip?: string;
+  hobbies?: string | null;
+  motivationLetter?: string | null;
+  linkedin?: string | null;
+  github?: string | null;
 }
 
 interface ProfileState {
+  isProfileLoading: boolean;
   profile: UserProfile;
 
   setProfile: (profile: Partial<UserProfile>) => void;
@@ -86,4 +87,6 @@ interface ProfileState {
 
   setIp: (ip: string) => void;
   setUserAgent: (ua: string) => void;
+
+  fetchCurrentUser: () => Promise<void>;
 }

@@ -1,4 +1,4 @@
-import type { BackendUser, IUserFormData } from "@/types/next-auth";
+import type { BackendUser, UserBase } from "@/types/next-auth";
 
 import { apiClient } from "./api-client";
 
@@ -31,9 +31,9 @@ export class UserService {
     }
   }
 
-  static async updateProfile(userData: IUserFormData, userId: number): Promise<ApiResponse<BackendUser>> {
+  static async updateProfile(userData: UserBase, userId: number): Promise<ApiResponse<UserBase>> {
     try {
-      const data = await apiClient.patch<BackendUser>(`/api/users/${userId}/`, userData);
+      const data = await apiClient.patch<UserBase>(`/api/users/${userId}/`, userData);
       return { success: true, data };
     } catch (error) {
       console.error("Error updating profile:", error);

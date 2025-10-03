@@ -13,7 +13,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
   type?: string;
   error?: string;
-  success?: string;
+  success?: boolean | string;
   iconLeft?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
   iconRight?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
   errorIcon?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
@@ -26,10 +26,6 @@ export const Input: React.FC<InputProps> = ({
   id,
   label,
   name,
-  value,
-  onChange,
-  placeholder,
-  type = "text",
   error,
   success,
   iconLeft,
@@ -39,99 +35,53 @@ export const Input: React.FC<InputProps> = ({
   disabled = false,
   required,
   className,
+  type = "text",
   ...rest
 }) => {
-  const hasIcons = iconLeft || iconRight;
-  const isUnlabeled = !label;
-  const showPlaceholder = isUnlabeled && placeholder;
+  const isSuccess = Boolean(success);
+  const hasSuccessMessage = typeof success === "string" && success.trim().length > 0;
   const showErrorMessage = Boolean(error?.trim());
-  const showSuccessMessage = !showErrorMessage && Boolean(success?.trim());
-  let contentColorClass: string;
-
-  if (error) {
-    contentColorClass = "text-error-main";
-  } else if (success) {
-    contentColorClass = "text-success-main";
-  } else if (disabled) {
-    contentColorClass = "text-neutral-200";
-  } else if (isUnlabeled) {
-    contentColorClass = value !== "" ? "text-secondary-200" : "text-secondary-100";
-  } else {
-    contentColorClass = "text-secondary-100";
-  }
-
-  let borderColorClass: string;
-
-  if (error) {
-    borderColorClass = "border-error-main";
-  } else if (success) {
-    borderColorClass = "border-success-main";
-  } else if (disabled) {
-    borderColorClass = "border-neutral-200";
-  } else if (isUnlabeled) {
-    borderColorClass = value !== "" ? "border-secondary-200" : "border-secondary-100 focus:border-secondary-500";
-  } else {
-    borderColorClass = "border-secondary-100";
-  }
-
-  let iconBgClass: string;
-
-  if (error) {
-    iconBgClass = "bg-error-bg";
-  } else if (success) {
-    iconBgClass = "bg-success-bg";
-  } else if (disabled) {
-    iconBgClass = "bg-neutral-100";
-  } else {
-    iconBgClass = "bg-secondary-50";
-  }
-
-  const unlabeledInputShadowClass =
-    isUnlabeled && !disabled && !error && !success ? "input-unlabeled-shadow-styles" : "";
+  const showSuccessMessage = isSuccess && hasSuccessMessage;
 
   const inputContainerClasses = clsx(
     "relative flex items-stretch rounded-[8px] overflow-hidden border",
-    borderColorClass,
-    contentColorClass,
-    unlabeledInputShadowClass,
+    {
+      "border-error-main text-error-main": error,
+      "border-success-main text-success-main": isSuccess && hasSuccessMessage,
+      "border-neutral-200 text-neutral-200": disabled,
+      "border-secondary-900 text-secondary-900":
+        (!isSuccess || (isSuccess && !hasSuccessMessage)) && !error && !disabled,
+      "focus-within:border-secondary-500 focus-within:shadow-[0px_0px_8px_0px_rgba(120,170,227,0.6)]": !disabled,
+    },
     className
   );
 
   const inputClasses = clsx(
-    "appearance-none outline-none flex-grow py-[10px] px-[32px] leading-tight",
-    "bg-neutral-50",
-    "input-text",
-    "text-current",
-    "placeholder-current",
-    "appearance-none",
-    "[&::-webkit-inner-spin-button]:appearance-none",
-    "[&::-webkit-outer-spin-button]:appearance-none",
-    "[&::-webkit-inner-spin-button]:m-0",
-    !disabled && "border-secondary-600 text-secondary-600",
-    !disabled &&
-      "hover:text-secondary-400 hover:border-secondary-400 hover:shadow-[0px_0px_8px_0px_rgba(120,170,227,0.4)]",
-    !disabled &&
-      "active:text-secondary-500 active:border-secondary-500 active:shadow-[0px_0px_8px_0px_rgba(120,170,227,0.6)]",
-    "focus:outline-none",
-    "focus:text-secondary-500 focus:border-secondary-500 focus:shadow-[0px_0px_8px_0px_rgba(120,170,227,0.6)]",
-    disabled && "cursor-not-allowed border-neutral-400 text-neutral-400",
+    "flex-grow py-[10px] px-[12px] rounded-[8px] outline-none bg-neutral-50 text-current",
+    "placeholder:text-current",
+    "appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0",
     {
-      "rounded-r-[8px]": iconLeft,
-      "rounded-l-[8px]": iconRight,
-      "rounded-[8px]": !hasIcons,
+      "cursor-not-allowed": disabled,
+      "rounded-r-none": iconLeft,
+      "rounded-l-none": iconRight,
+    },
+    {
+      "[&::-webkit-calendar-picker-indicator]:opacity-0": type === "date",
+      "[&::-webkit-calendar-picker-indicator]:absolute": type === "date",
+      "[&::-webkit-calendar-picker-indicator]:w-full": type === "date",
+      "[&::-webkit-calendar-picker-indicator]:h-full": type === "date",
+      "[&::-webkit-calendar-picker-indicator]:cursor-pointer": type === "date",
+      "[&::-webkit-calendar-picker-indicator]:right-0": type === "date",
     }
   );
 
-  const iconSectionClasses = clsx(
-    "flex items-center justify-center w-[44px] pointer-events-none z-10",
-    iconBgClass,
-    borderColorClass,
-    contentColorClass,
-    {
-      "border-l": iconRight,
-      "border-r": iconLeft,
-    }
-  );
+  const iconSectionClasses = clsx("flex items-center justify-center w-[44px] pointer-events-none z-10 border-l", {
+    "border-error-main text-error-main bg-error-bg": error,
+    "border-success-main text-success-main bg-success-bg": isSuccess && hasSuccessMessage,
+    "border-neutral-200 text-neutral-200 bg-neutral-100": disabled,
+    "border-secondary-900 text-secondary-900 bg-secondary-50":
+      (!isSuccess || (isSuccess && !hasSuccessMessage)) && !error && !disabled,
+  });
 
   const renderMessageIcon = (
     iconProp: React.ReactElement<React.SVGProps<SVGSVGElement>> | undefined,
@@ -139,9 +89,8 @@ export const Input: React.FC<InputProps> = ({
   ) => {
     const messageIconClasses = clsx("h-4 w-4 mr-1", {
       "text-error-main": error,
-      "text-success-main": success,
+      "text-success-main": isSuccess && hasSuccessMessage,
     });
-
     if (iconProp) {
       const originalClassName = iconProp.props.className;
       return React.cloneElement(iconProp, {
@@ -154,36 +103,34 @@ export const Input: React.FC<InputProps> = ({
   return (
     <div className={className}>
       {label && (
-        <label htmlFor={id} className="label-text mb-2 block text-neutral-800">
+        <label htmlFor={id} className="label-text mb-2 block font-medium text-neutral-800">
           {label}
+          {isSuccess && !hasSuccessMessage && (
+            <SpriteSvg id="icon-double-check" className="text-success-main ml-1 inline-block h-4 w-4" />
+          )}
         </label>
       )}
-      <div className={inputContainerClasses} style={error ? { boxShadow: "0px 0px 8px 0px #DD111166" } : undefined}>
-        {iconLeft && <div className={clsx(iconSectionClasses, "rounded-l-[8px]")}>{iconLeft}</div>}
+      <div className={inputContainerClasses}>
+        {iconLeft && <div className={clsx(iconSectionClasses, "rounded-l-[8px] border-r border-l-0")}>{iconLeft}</div>}
         <input
           id={id}
           name={name}
-          type={type}
-          value={value}
-          onChange={onChange}
-          {...(showPlaceholder && { placeholder })}
-          className={inputClasses}
           disabled={disabled}
           required={required}
+          className={inputClasses}
+          type={type}
           {...rest}
         />
-        {iconRight && <div className={clsx(iconSectionClasses, "rounded-r-[8px]")}>{iconRight}</div>}
+        {iconRight && <div className={clsx(iconSectionClasses, "rounded-r-[8px] border-l")}>{iconRight}</div>}
       </div>
-
       {showErrorMessage && (
-        <p className="text-error-main text-micro mt-1 flex items-center">
+        <p className="text-error-main mt-1 flex items-center text-sm">
           {renderMessageIcon(errorIcon, "icon-danger")}
           {error}
         </p>
       )}
-
       {showSuccessMessage && (
-        <p className="text-success-main text-micro mt-1 flex items-center">
+        <p className="text-success-main mt-1 flex items-center text-sm">
           {renderMessageIcon(successIcon, "icon-check")}
           {success}
         </p>
