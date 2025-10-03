@@ -40,19 +40,17 @@ export type Language = {
 
 export interface UserProfile {
   personalInfo?: PersonalInfo;
-  overview?: string;
+  overview?: string | null;
   experience?: Experience[];
   education?: Education[];
   courses?: Course[];
   programmingLanguages?: string[];
   skills?: string[];
   foreignLanguages?: Language[];
-  hobbies?: string;
-  motivationLetter?: string;
-  linkedin?: string;
-  github?: string;
-
-  ip?: string;
+  hobbies?: string | null;
+  motivationLetter?: string | null;
+  linkedin?: string | null;
+  github?: string | null;
 }
 
 interface ProfileState {

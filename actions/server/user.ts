@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { UserProfileSchema } from "@/lib/validations/user";
 
 import { UserService } from "@/actions/client/user-service";
-import type { IUserFormData } from "@/types/next-auth";
+import type { UserBase } from "@/types/next-auth";
 
 export type UserState = {
   first_name?: string;
@@ -95,7 +95,7 @@ export async function updateUserProfile(userId: string, _prev: UserState, formDa
   }
 }
 
-export async function updateUser(userData: IUserFormData, userId: number) {
+export async function updateUser(userData: UserBase, userId: number) {
   try {
     const result = await UserService.updateProfile(userData, userId);
     return result;
