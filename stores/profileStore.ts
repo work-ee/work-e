@@ -206,8 +206,9 @@ export const useProfileStore = create<ProfileState>((set) => ({
           experience: user.data?.experience ? JSON.parse(user.data.experience) : [],
           education: user.data?.education ? JSON.parse(user.data.education) : [],
           courses: user.data?.courses ? JSON.parse(user.data.courses) : [],
-          programmingLanguages: user.data?.programming_languages?.split(", ") || [],
-          skills: user.data?.skills?.split(", ") || [],
+          programmingLanguages:
+            typeof user.data?.programming_languages === "string" ? user.data.programming_languages.split(", ") : [],
+          skills: typeof user.data?.skills === "string" ? user.data.skills.split(", ") : [],
           foreignLanguages: user.data?.foreign_languages ? JSON.parse(user.data.foreign_languages) : [],
           hobbies: user.data?.hobbies,
           motivationLetter: user.data?.motivation_letter,
