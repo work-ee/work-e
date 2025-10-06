@@ -24,7 +24,7 @@ export interface BackendUser {
   linkedin: string | null;
   github: string | null;
   ip: string | null;
-  programming_languages: string | nul;
+  programming_languages: string | null;
   skills: string | null;
   personal_info: number | null;
 
