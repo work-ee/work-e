@@ -59,6 +59,7 @@ export const Input: React.FC<InputProps> = ({
   const inputClasses = clsx(
     "flex-grow py-[10px] px-[12px] rounded-[8px] outline-none bg-neutral-50 text-current",
     "placeholder:text-current",
+    "placeholder:opacity-25",
     "appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0",
     {
       "cursor-not-allowed": disabled,
