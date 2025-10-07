@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Controller, FieldError, useFieldArray, useForm, useWatch } from "react-hook-form";
 
@@ -22,6 +22,41 @@ import { Language, UserProfile } from "@/types/profile";
 
 import { DynamicFormSection } from "./DynamicFormSection";
 import { PersonalInfoSection } from "./PersonalInfoSection";
+
+type WatchedFormValues = {
+  [K in keyof FormValues]?: FormValues[K] extends Array<infer U>
+    ? Array<Partial<U> | undefined>
+    : Partial<FormValues[K]>;
+};
+
+const transformWatchedFieldsToProfile = (
+  watchedFields: WatchedFormValues,
+  existingProfile: UserProfile
+): Partial<UserProfile> => {
+  return {
+    personalInfo: {
+      ...existingProfile.personalInfo,
+      ...watchedFields.personalInfo,
+    },
+    overview: watchedFields.overview,
+    experience: watchedFields.experience?.filter((item) => item !== undefined),
+    education: watchedFields.education?.filter((item) => item !== undefined),
+    courses: watchedFields.courses?.filter((item) => item !== undefined),
+    programmingLanguages: watchedFields.programmingLanguages
+      ?.map((item) => item?.name)
+      .filter((name): name is string => typeof name === "string" && name.trim() !== ""),
+    skills: watchedFields.skills
+      ?.map((item) => item?.name)
+      .filter((name): name is string => typeof name === "string" && name.trim() !== ""),
+    foreignLanguages: watchedFields.foreignLanguages
+      ?.filter((item): item is { name: string; level: Language["level"] } => Boolean(item?.name))
+      .map((lang) => ({
+        name: lang.name || "",
+        level: lang.level || "beginner",
+      })),
+    hobbies: watchedFields.hobbies,
+  };
+};
 
 export default function CVForm() {
   const { profile, setProfile, isProfileLoading, fetchCurrentUser } = useProfileStore();
@@ -64,38 +99,43 @@ export default function CVForm() {
   });
 
   const [message, setMessage] = useState<string | null>(null);
-  const debouncedSetProfile = useDebouncedCallback(setProfile, 1000);
+  const isUpdatingRef = useRef(false);
+
+  const updateProfile = useCallback(
+    (transformedData: Partial<UserProfile>) => {
+      if (!isUpdatingRef.current) {
+        isUpdatingRef.current = true;
+        setProfile(transformedData);
+        Promise.resolve().then(() => {
+          isUpdatingRef.current = false;
+        });
+      }
+    },
+    [setProfile]
+  );
+
+  const debouncedUpdateProfile = useDebouncedCallback(updateProfile, 500);
 
   const watchedFields = useWatch({ control });
 
-  useEffect(() => {
-    const transformedData: Partial<UserProfile> = {
-      ...profile,
-      personalInfo: {
-        ...profile.personalInfo,
-        ...watchedFields.personalInfo,
-      },
-      overview: watchedFields.overview,
-      experience: watchedFields.experience?.filter((item) => item !== undefined),
-      education: watchedFields.education?.filter((item) => item !== undefined),
-      courses: watchedFields.courses?.filter((item) => item !== undefined),
-      programmingLanguages: watchedFields.programmingLanguages
-        ?.map((item) => item?.name)
-        .filter((name): name is string => typeof name === "string"),
-      skills: watchedFields.skills
-        ?.map((item) => item?.name)
-        .filter((name): name is string => typeof name === "string"),
-      foreignLanguages: watchedFields.foreignLanguages
-        ?.filter((item): item is { name: string; level: Language["level"] } => Boolean(item?.name && item?.level))
-        .map((lang) => ({
-          name: lang.name || "",
-          level: lang.level || "beginner",
-        })),
-      hobbies: watchedFields.hobbies,
-    };
+  const prevWatchedFieldsRef = useRef(watchedFields);
 
-    debouncedSetProfile(transformedData);
-  }, [watchedFields, debouncedSetProfile, profile]);
+  useEffect(() => {
+    const hasWatchedFieldsChanged = JSON.stringify(prevWatchedFieldsRef.current) !== JSON.stringify(watchedFields);
+    if (!hasWatchedFieldsChanged) return;
+
+    prevWatchedFieldsRef.current = watchedFields;
+
+    const idleCallback = requestIdleCallback(
+      () => {
+        const transformedData = transformWatchedFieldsToProfile(watchedFields, profile);
+        debouncedUpdateProfile(transformedData);
+      },
+      { timeout: 1000 }
+    );
+
+    return () => cancelIdleCallback(idleCallback);
+  }, [watchedFields, debouncedUpdateProfile, profile]);
 
   const onSubmit = async (data: FormValues) => {
     setMessage(null);
@@ -104,7 +144,6 @@ export default function CVForm() {
 
     function mapProfileToBackend(profile: UserProfile) {
       return {
-        // personal_info: `desired_position: ${profile.personalInfo?.desiredPosition}, first_name: ${profile.personalInfo?.firstName}, last_name: ${profile.personalInfo?.lastName}, email: ${profile.personalInfo?.email}, phone: ${profile.personalInfo?.phone}, country: ${profile.personalInfo?.country}, city: ${profile.personalInfo?.country}`,
         desired_position: profile.personalInfo?.desiredPosition,
         first_name: profile.personalInfo?.firstName,
         last_name: profile.personalInfo?.lastName,
@@ -141,25 +180,8 @@ export default function CVForm() {
       };
     }
 
-    const transformedData: Partial<UserProfile> = {
-      ...profile,
-      personalInfo: {
-        ...profile.personalInfo,
-        ...data.personalInfo,
-      },
-      overview: data.overview,
-      experience: data.experience,
-      education: data.education,
-      courses: data.courses,
-      programmingLanguages: data.programmingLanguages
-        ?.map((item) => item?.name)
-        .filter((name): name is string => typeof name === "string"),
-      skills: data.skills?.map((item) => item?.name).filter((name): name is string => typeof name === "string"),
-      foreignLanguages: data.foreignLanguages,
-      hobbies: data.hobbies,
-    };
-
-    setProfile(transformedData);
+    const transformedData = transformWatchedFieldsToProfile(data, profile);
+    setProfile({ ...profile, ...transformedData });
     const userPayload = mapProfileToBackend(profile);
 
     try {
@@ -181,28 +203,35 @@ export default function CVForm() {
     }
   };
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     reset();
     setMessage("Форму скинуто");
-  };
+  }, [reset]);
 
-  const sectionTitles = [
-    "Особисті дані",
-    "Огляд",
-    "Досвід",
-    "Освіта",
-    "Курси",
-    "Мова програмування",
-    "Навички",
-    "Іноземна мова",
-    "Хобі",
-  ];
+  const sectionTitles = useMemo(
+    () => [
+      "Особисті дані",
+      "Огляд",
+      "Досвід",
+      "Освіта",
+      "Курси",
+      "Мова програмування",
+      "Навички",
+      "Іноземна мова",
+      "Хобі",
+    ],
+    []
+  );
 
   const [openSections, setOpenSections] = useState<{ [key: number]: boolean }>({ 0: true });
-  const toggleSection = (index: number) => setOpenSections((prev) => ({ ...prev, [index]: !prev[index] }));
+  const toggleSection = useCallback((index: number) => {
+    setOpenSections((prev) => ({ ...prev, [index]: !prev[index] }));
+  }, []);
 
   const [openItems, setOpenItems] = useState<{ [key: string]: boolean }>({});
-  const toggleItem = (id: string) => setOpenItems((prev) => ({ ...prev, [id]: !prev[id] }));
+  const toggleItem = useCallback((id: string) => {
+    setOpenItems((prev) => ({ ...prev, [id]: !prev[id] }));
+  }, []);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -213,9 +242,9 @@ export default function CVForm() {
   const skillsArray = useFieldArray({ control, name: "skills" });
   const foreignLangArray = useFieldArray({ control, name: "foreignLanguages" });
 
-  const isFieldSuccess = (value: string | undefined, error: FieldError | undefined) => {
+  const isFieldSuccess = useCallback((value: string | undefined, error: FieldError | undefined) => {
     return !error && !!value?.trim();
-  };
+  }, []);
 
   return (
     <main className="center-page">
@@ -534,7 +563,6 @@ export default function CVForm() {
                 type="submit"
                 disabled={isProfileLoading}
                 className="flex h-10 w-full items-center justify-center md:h-[62px] md:w-[356px]"
-                onClick={() => {}}
               >
                 {isProfileLoading ? "Завантаження..." : "Зберегти CV"}
               </Button>
