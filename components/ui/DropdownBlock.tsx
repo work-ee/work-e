@@ -75,10 +75,10 @@ export const DropdownBlock: FC<DropdownBlockProps> = ({
             "flex items-center justify-center"
           )}
         >
-          <div className="bg-secondary-900 absolute left-0 h-full w-px" />
+          <div className="bg-secondary-900 absolute left-0 h-full w-px cursor-pointer" />
           <SpriteSvg
             id={isOpen ? "icon-arrow-up" : "icon-arrow"}
-            className="fill-secondary-50 stroke-secondary-900 h-[24px] w-[24px]"
+            className="fill-secondary-50 stroke-secondary-900 h-[24px] w-[24px] cursor-pointer"
           />
         </div>
       </DropdownMenuTrigger>

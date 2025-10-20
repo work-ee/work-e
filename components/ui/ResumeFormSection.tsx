@@ -21,13 +21,17 @@ export const ResumeFormSection = ({
 }) => {
   return (
     <fieldset className={clsx("transition-all duration-300", isOpen ? "border-none" : "border-b border-neutral-900")}>
-      <legend className="flex w-full items-center justify-between py-4">
+      <legend
+        className="flex w-full cursor-pointer items-center justify-between py-4"
+        onClick={() => toggleSection(index)}
+        aria-expanded={isOpen}
+      >
         <span className="heading-h3">{title}</span>
-        <button type="button" onClick={() => toggleSection(index)} aria-expanded={isOpen}>
+        <button type="button">
           <SpriteSvg
             id="icon-arrow"
             className={clsx(
-              "h-6 w-6 fill-neutral-50 stroke-neutral-900 transition-transform duration-300",
+              "h-6 w-6 cursor-pointer fill-neutral-50 stroke-neutral-900 transition-transform duration-300",
               isOpen && "rotate-180"
             )}
           />
