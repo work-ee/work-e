@@ -25,8 +25,8 @@ export const handleGoogleLogin = async ({ user, account }: Props) => {
     const { data } = res;
 
     // -> Saving backend token and user data to the user object
-    user.backendToken = data.token;
-    user.backendUser = data.user;
+    // user.backendToken = data.token;
+    // user.backendUser = data.user;
     user.id = data.user.id.toString();
     user.email = data.user.email;
     user.name = `${data.user.first_name} ${data.user.last_name}`.trim();
@@ -63,8 +63,8 @@ export const handleLinkedInLogin = async ({ user, account }: Props) => {
     const { data } = res;
 
     // -> Saving backend token and user data to the user object
-    user.backendToken = data.token;
-    user.backendUser = data.user;
+    // user.backendToken = data.token;
+    // user.backendUser = data.user;
     user.id = data.user.id.toString();
     user.email = data.user.email;
     user.name = `${data.user.first_name} ${data.user.last_name}`.trim();
