@@ -8,7 +8,7 @@ const protectedRoutes = ["/onboarding", "/profile", "/jobs", "/jobs/[slug]", "/u
 const authRoutes = ["/sign-in", "/sign-up"];
 // const publicRoutes = ["/"];
 
-export default async function middleware(req: NextRequest) {
+export default async function proxy(req: NextRequest) {
   const session = await GetCachedAuth();
   const { pathname } = req.nextUrl;
   const isLoggedIn = !!session?.user;
