@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-import debounce from "lodash/debounce";
+import debounce from "lodash.debounce";
 
 export function useDebouncedCallback<Args extends unknown[]>(callback: (...args: Args) => void, delay: number) {
   const cb = useRef(callback);
