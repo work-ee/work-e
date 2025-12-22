@@ -4,7 +4,8 @@ import GoogleProvider from "next-auth/providers/google";
 import LinkedinProvider from "next-auth/providers/linkedin";
 
 import { clearAuthCookies } from "../utils/clear-auth-cookies";
-import { handleGoogleLogin, handleLinkedInLogin } from "./auth-callbacks";
+
+// import { handleGoogleLogin, handleLinkedInLogin } from "./auth-callbacks";
 
 const providers: Provider[] = [
   GoogleProvider({
@@ -51,16 +52,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   // debug: process.env.NODE_ENV === "development",
   callbacks: {
-    async signIn({ user, account }) {
+    // async signIn({ user, account }) {
+    async signIn() {
       try {
         clearAuthCookies();
-        if (account?.provider === "google") {
-          return await handleGoogleLogin({ user, account });
-        }
+        // if (account?.provider === "google") {
+        //   return await handleGoogleLogin({ user, account });
+        // }
 
-        if (account?.provider === "linkedin") {
-          return await handleLinkedInLogin({ user, account });
-        }
+        // if (account?.provider === "linkedin") {
+        //   return await handleLinkedInLogin({ user, account });
+        // }
         return true;
       } catch (error) {
         clearAuthCookies();

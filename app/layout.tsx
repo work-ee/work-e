@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 
-import AppInitializerWrapper from "@/components/initializer/AppInitializerWrapper";
+// import AppInitializerWrapper from "@/components/initializer/AppInitializerWrapper";
 import { Footer, Header } from "@/components/shared";
 import { Toaster } from "@/components/ui/shadcn/sonner";
 
@@ -30,7 +30,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${rubik.variable} ${nunitoSans.variable} antialiased`}>
-        <AppInitializerWrapper />
+        {/* <AppInitializerWrapper /> */}
 
         <AppProviders locale={locale} messages={messages} session={session}>
           <Header />
