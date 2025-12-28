@@ -1,36 +1,24 @@
 import { NextResponse } from "next/server";
 
-// The client you created from the Server-Side Auth instructions
+import { getBaseUrl } from "@/lib/http/get-base-url";
+import { getSafeNextPath } from "@/lib/http/get-safe-next-path";
 import { createSupabaseServerClient } from "@/lib/supabase/server-client";
 
 export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url);
-  const code = searchParams.get("code");
-  // if "next" is in param, use it as the redirect URL
-  let next = searchParams.get("next") ?? "/";
-  if (!next.startsWith("/")) {
-    // if "next" is not a relative URL, use the default
-    next = "/";
-  }
+  const url = new URL(request.url);
+  const code = url.searchParams.get("code");
+
+  const baseUrl = getBaseUrl(request);
+  const next = getSafeNextPath(url.searchParams, "/");
 
   if (code) {
     const supabase = await createSupabaseServerClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
+
     if (!error) {
-      const forwardedHost = request.headers.get("x-forwarded-host"); // original origin before load balancer
-      const forwardedProto = request.headers.get("x-forwarded-proto") ?? "https";
-      const isLocalEnv = process.env.NODE_ENV === "development";
-      if (isLocalEnv) {
-        // we can be sure that there is no load balancer in between, so no need to watch for X-Forwarded-Host
-        return NextResponse.redirect(`${origin}${next}`);
-      } else if (forwardedHost) {
-        return NextResponse.redirect(`${forwardedProto}://${forwardedHost}${next}`);
-      } else {
-        return NextResponse.redirect(`${origin}${next}`);
-      }
+      return NextResponse.redirect(new URL(next, baseUrl));
     }
   }
 
-  // return the user to an error page with instructions
-  return NextResponse.redirect(`${origin}/auth/auth-code-error`);
+  return NextResponse.redirect(new URL("/auth/auth-code-error", baseUrl));
 }
