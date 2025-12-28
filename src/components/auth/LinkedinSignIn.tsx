@@ -22,7 +22,7 @@ export const LinkedinSignIn = ({ children, ...props }: Props) => {
     await supabase.auth.signInWithOAuth({
       provider: "linkedin",
       options: {
-        redirectTo: `${window.location.origin}/api/auth/callback?next=/onboarding`,
+        redirectTo: `${window.location.origin}/api/auth/callback`,
         skipBrowserRedirect: false,
       },
     });

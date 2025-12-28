@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   const code = url.searchParams.get("code");
 
   const baseUrl = getBaseUrl(request);
-  const next = getSafeNextPath(url.searchParams, "/");
+  const next = getSafeNextPath(url.searchParams, "/onboarding");
 
   if (code) {
     const supabase = await createSupabaseServerClient();
