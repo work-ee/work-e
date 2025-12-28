@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { getCurrentUserData } from "@/lib/utils/user-utils";
+// import { getCurrentUserData } from "@/lib/utils/user-utils";
 
 export async function GET(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "0.0.0.0";
@@ -19,12 +19,12 @@ export async function GET(req: NextRequest) {
     console.error("Geo fetch failed:", e);
   }
 
-  let userData = {};
-  try {
-    userData = await getCurrentUserData();
-  } catch (e) {
-    console.error("Failed to fetch current user data:", e);
-  }
+  // let userData = {};
+  // try {
+  //   userData = await getCurrentUserData();
+  // } catch (e) {
+  //   console.error("Failed to fetch current user data:", e);
+  // }
 
   return NextResponse.json({
     ip,
@@ -32,6 +32,6 @@ export async function GET(req: NextRequest) {
     country,
     language: acceptLang,
     timezone,
-    ...userData,
+    // ...userData,
   });
 }

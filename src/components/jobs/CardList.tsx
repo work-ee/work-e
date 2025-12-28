@@ -1,10 +1,9 @@
 import { ArrowRightSvg } from "@/components/icons";
+import { Card } from "@/components/jobs";
 
 import { cn } from "@/lib/utils";
 
 import { IJobList } from "@/types/jobs";
-
-import { Card } from "./Card";
 
 export const CardList = ({ length = 6, muted = false, moreBtn = false, data, ...props }: IJobList) => {
   return (

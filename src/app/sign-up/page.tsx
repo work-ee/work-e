@@ -1,9 +1,7 @@
-import React from "react";
-
 import Link from "next/link";
 
 import { GoogleSignIn } from "@/components/auth/GoogleSignIn";
-import { LinkedinSignIn } from "@/components/auth/LinkedinSignIn";
+// import { LinkedinSignIn } from "@/components/auth/LinkedinSignIn";
 import { BuildingSvg, SearchJobSvg } from "@/components/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs";
 
@@ -16,14 +14,19 @@ export default async function Register() {
         <div className="container">
           <div className="flex min-h-105 flex-col items-center gap-8">
             <div className="flex flex-col text-center">
-              <h1 className="heading-h2">Зареєструватись на Work - E</h1>
+              <h1 className="heading-h2">
+                Зареєструватись на{" "}
+                <b className="logo">
+                  work-<i>e</i>
+                </b>
+              </h1>
             </div>
 
             <Tabs defaultValue="sign-in" className="gap-8">
               <TabsList className="flex h-auto justify-between gap-4 rounded-none bg-white p-0">
                 <TabsTrigger
                   value="sign-in"
-                  className="data-[state=active]:bg-secondary-50 data-[state=active]:text-primary-900 h-auto min-w-[18rem] cursor-pointer p-5 shadow-[0_0_0_2px_var(--color-neutral-100)] transition duration-300 data-[state=active]:shadow-[0_0_0_2px_var(--color-primary-100)]"
+                  className="data-[state=active]:bg-secondary-50 data-[state=active]:text-primary-900 h-auto min-w-[18rem] cursor-pointer p-5 shadow-[0_0_0_2px_var(--color-neutral-100)] transition duration-300 hover:shadow-[0_0_0_2px_var(--color-primary-100)] data-[state=active]:shadow-[0_0_0_2px_var(--color-primary-100)]"
                 >
                   <div className="flex flex-col items-center gap-3">
                     <SearchJobSvg className="size-12" />
@@ -33,7 +36,7 @@ export default async function Register() {
 
                 <TabsTrigger
                   value="sign-up"
-                  className="data-[state=active]:bg-secondary-50 data-[state=active]:text-primary-900 h-auto min-w-[18rem] cursor-pointer p-5 shadow-[0_0_0_2px_var(--color-neutral-100)] transition duration-300 data-[state=active]:shadow-[0_0_0_2px_var(--color-primary-100)]"
+                  className="data-[state=active]:bg-secondary-50 data-[state=active]:text-primary-900 h-auto min-w-[18rem] cursor-pointer p-5 shadow-[0_0_0_2px_var(--color-neutral-100)] transition duration-300 hover:shadow-[0_0_0_2px_var(--color-primary-100)] data-[state=active]:shadow-[0_0_0_2px_var(--color-primary-100)]"
                 >
                   <div className="flex flex-col items-center gap-3">
                     <BuildingSvg className="size-12" />
@@ -49,7 +52,7 @@ export default async function Register() {
                   <div className="my-4 flex flex-col gap-4 text-center">
                     <div className="flex flex-col gap-2 text-center">
                       <GoogleSignIn />
-                      <LinkedinSignIn />
+                      {/* <LinkedinSignIn /> */}
                     </div>
                   </div>
 

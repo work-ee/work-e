@@ -48,7 +48,7 @@ export const Input: React.FC<InputProps> = ({
     {
       "border-error-main text-error-main": error,
       "border-success-main text-success-main": isSuccess && hasSuccessMessage,
-      "border-neutral-200 text-neutral-200": disabled,
+      "border-neutral-200": disabled,
       "border-secondary-900 text-secondary-900":
         (!isSuccess || (isSuccess && !hasSuccessMessage)) && !error && !disabled,
       "focus-within:border-secondary-500 focus-within:shadow-[0px_0px_8px_0px_rgba(120,170,227,0.6)]": !disabled,
@@ -112,7 +112,7 @@ export const Input: React.FC<InputProps> = ({
         </label>
       )}
       <div className={inputContainerClasses}>
-        {iconLeft && <div className={clsx(iconSectionClasses, "rounded-l-[8px] border-r border-l-0")}>{iconLeft}</div>}
+        {iconLeft && <div className={clsx(iconSectionClasses, "rounded-l-xl border-r border-l-0")}>{iconLeft}</div>}
         <input
           id={id}
           name={name}
@@ -122,7 +122,7 @@ export const Input: React.FC<InputProps> = ({
           type={type}
           {...rest}
         />
-        {iconRight && <div className={clsx(iconSectionClasses, "rounded-r-[8px] border-l")}>{iconRight}</div>}
+        {iconRight && <div className={clsx(iconSectionClasses, "rounded-r-xl border-l")}>{iconRight}</div>}
       </div>
       {showErrorMessage && (
         <p className="text-error-main mt-1 flex items-center text-sm">

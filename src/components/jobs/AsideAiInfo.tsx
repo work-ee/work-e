@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 
-import { AlertInfo } from "../feedback/AlertInfo";
-import { MagicSvg } from "../icons";
-import { Button } from "../ui";
+import { AlertInfo } from "@/components/feedback/AlertInfo";
+import { MagicSvg } from "@/components/icons";
+import { Button } from "@/components/ui";
 
 export const AsideAiInfo = () => {
   const [toggleStates, setToggleStates] = useState({

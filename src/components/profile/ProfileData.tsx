@@ -1,20 +1,20 @@
 import { Input } from "@/components/ui";
 
-import { UserState } from "@/actions/server/user";
+import type { UserState } from "@/app/_actions/profile";
 
-interface ProfileProps {
+type ProfileProps = {
   state: UserState;
-  dataJoined: string;
+  dataJoined?: string;
+  lastSignInAt?: string;
   handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+};
 
-export const ProfileData = ({ state, dataJoined }: ProfileProps) => {
+export const ProfileData = ({ state }: ProfileProps) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="">
         <h2 className="heading-h3">Особисті дані</h2>
       </div>
-
       <div className="flex w-full flex-wrap gap-4">
         <div className="flex-1">
           <Input
@@ -40,7 +40,6 @@ export const ProfileData = ({ state, dataJoined }: ProfileProps) => {
           />
         </div>
       </div>
-
       <div className="flex w-full flex-wrap gap-4">
         <div className="flex-1">
           <Input
@@ -56,7 +55,6 @@ export const ProfileData = ({ state, dataJoined }: ProfileProps) => {
           />
         </div>
       </div>
-
       <div className="flex w-full flex-wrap gap-4">
         <div className="flex-1">
           <Input
@@ -71,7 +69,6 @@ export const ProfileData = ({ state, dataJoined }: ProfileProps) => {
           />
         </div>
       </div>
-
       <div className="flex w-full flex-wrap gap-4">
         <div className="flex-1">
           <Input
@@ -84,13 +81,6 @@ export const ProfileData = ({ state, dataJoined }: ProfileProps) => {
             placeholder="https://www.example.com/your-cv.pdf"
             error={state.errors?.cv}
           />
-        </div>
-      </div>
-
-      <div className="mt-2 flex flex-wrap justify-between gap-2">
-        <div className="flex gap-2">
-          <span className="text-neutral-500">Дата приєднання:</span>
-          <span className="text-neutral-800">{new Date(dataJoined).toLocaleDateString("uk-UA")}</span>
         </div>
       </div>
     </div>

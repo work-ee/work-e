@@ -1,17 +1,15 @@
 "use client";
 
+import type { User } from "@supabase/supabase-js";
+
 import { useEffect, useState } from "react";
 
 import { useSearchParams } from "next/navigation";
 
-import { User } from "next-auth";
-
-import { Step1, Step2, Step3, Step4, SvgProgressCircle } from "@/components/onboarding";
+import { CardList, Step1, Step2, Step3, Step4, SvgProgressCircle } from "@/components/onboarding";
 import { Button } from "@/components/ui";
 
 import { IJob } from "@/types/jobs";
-
-import { CardList } from "./CardList";
 
 type StepProps = {
   user?: User;
@@ -40,7 +38,6 @@ export function OnboardingMain({ user, jobs }: StepProps) {
 
   useEffect(() => {
     // clear query parameters after OAuth login Google or LinkedIn
-
     if (searchParams.get("state")) {
       const url = new URL(window.location.href);
       url.searchParams.delete("state");

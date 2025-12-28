@@ -1,13 +1,12 @@
 "use client";
 
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 import clsx from "clsx";
 
 import { SpriteSvg } from "@/components/icons/SpriteSvg";
-
-import { Button } from "../ui";
-import { Textarea } from "../ui/shadcn/textarea";
+import { Button } from "@/components/ui";
+import { Textarea } from "@/components/ui/shadcn/textarea";
 
 interface CoverLetterGoogleProps {
   jobDescription: string;

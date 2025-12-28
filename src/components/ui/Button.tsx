@@ -4,7 +4,7 @@ import clsx from "clsx";
 
 import { SpriteSvg } from "@/components/icons/SpriteSvg";
 
-export type Variant = "main" | "secondary";
+export type Variant = "main" | "secondary" | "link";
 type Props = {
   children: React.ReactNode;
   variant?: Variant;
@@ -25,7 +25,7 @@ export const Button = ({
   className,
 }: Props) => {
   const base =
-    "group rounded-[8px] py-3 px-8 btn inline-flex items-center gap-2 border-2 transition-colors duration-200 cursor-pointer ";
+    "group rounded-[8px] py-3 px-8 btn inline-flex items-center gap-2 border-2 transition-colors duration-200 cursor-pointer";
 
   const variants = {
     main: clsx(
@@ -42,6 +42,12 @@ export const Button = ({
       "active:text-primary-900 active:border-primary-900 active:shadow-[4px_4px_10px_0px_rgba(39,114,160,0.4)]",
       "disabled:text-neutral-300 disabled:border-neutral-200 disabled:cursor-not-allowed"
     ),
+    link: clsx(
+      "bg-transparent border-transparent text-primary-500 underline underline-offset-4",
+      !disabled && "hover:text-primary-700",
+      "active:text-primary-900",
+      "disabled:text-neutral-300 disabled:cursor-not-allowed"
+    ),
   };
 
   const fillClasses = {
@@ -56,6 +62,12 @@ export const Button = ({
       hover: !disabled ? "group-hover:fill-neutral-50" : "",
       active: "group-active:fill-neutral-50",
       disabled: "group-disabled:fill-neutral-50",
+    },
+    link: {
+      default: "fill-primary-500",
+      hover: !disabled ? "group-hover:fill-primary-700" : "",
+      active: "group-active:fill-primary-900",
+      disabled: "group-disabled:fill-neutral-300",
     },
   };
 

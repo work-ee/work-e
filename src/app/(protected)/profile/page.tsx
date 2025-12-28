@@ -1,16 +1,9 @@
 import { ProfileMain } from "@/components/profile";
 
-import { GetCachedAuth } from "@/lib/auth/get-session";
-import { getCurrentUserData } from "@/lib/utils/user-utils";
+import { getUser } from "@/lib/supabase/auth";
 
 export default async function ProfilePage() {
-  const session = await GetCachedAuth();
-
-  if (!session) {
-    throw new Error("User not authenticated");
-  }
-
-  const { user, first_name, last_name } = await getCurrentUserData();
+  const user = await getUser();
 
   return (
     <main className="center-page">
@@ -20,9 +13,24 @@ export default async function ProfilePage() {
             <h1 className="heading-h2">Мій профіль</h1>
             <div className="flex items-center gap-2">
               <span className="text-neutral-500 italic">Welcome: </span>
-              <span className="heading-h4 text-primary">
-                {first_name} {last_name}
-              </span>
+              <span className="heading-h4 text-primary">{user?.user_metadata?.full_name || "User"}</span>
+            </div>
+
+            <div className="absolute top-0 right-0 flex flex-col items-end gap-2 p-2 text-base">
+              <div className="mt-2 flex flex-col items-end justify-between gap-1">
+                <div className="flex gap-2">
+                  <span className="text-neutral-500">Дата останнього входу:</span>
+                  <span className="text-neutral-800">
+                    {new Date(user?.last_sign_in_at || "").toLocaleDateString("uk-UA")}
+                  </span>
+                </div>
+                <div className="flex gap-2">
+                  <span className="text-neutral-500">Дата приєднання:</span>
+                  <span className="text-neutral-800">
+                    {new Date(user?.created_at || "").toLocaleDateString("uk-UA")}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 

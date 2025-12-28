@@ -1,7 +1,6 @@
 import { ProfileSvg } from "@/components/icons";
+import { Title } from "@/components/onboarding/Title";
 import { Button } from "@/components/ui";
-
-import { Title } from "./Title";
 
 export const Step3 = () => {
   return (

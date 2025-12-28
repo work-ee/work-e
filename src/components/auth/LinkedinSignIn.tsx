@@ -3,32 +3,29 @@
 import { useState } from "react";
 
 import clsx from "clsx";
-import { signIn } from "next-auth/react";
-import { toast } from "sonner";
 
 import { LinkedinSvg } from "@/components/icons";
 
+import { getSupabaseBrowserClient } from "@/lib/supabase/browser-client";
+
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: string;
   children?: React.ReactNode;
-  callbackUrl?: string;
 }
-export const LinkedinSignIn = ({ className = "", children, callbackUrl = "/onboarding", ...props }: Props) => {
+export const LinkedinSignIn = ({ children, ...props }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const supabase = getSupabaseBrowserClient();
 
   const handleLinkedinSignIn = async () => {
     setIsLoading(true);
 
-    try {
-      await signIn("linkedin", {
-        redirectTo: callbackUrl,
-      });
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Невідома помилка під час входу";
-      toast.error(`Помилка входу через LinkedIn: ${errorMessage}`);
-    } finally {
-      // setIsLoading(false);
-    }
+    await supabase.auth.signInWithOAuth({
+      provider: "linkedin",
+      options: {
+        redirectTo: `${window.location.origin}/api/auth/callback?next=/onboarding`,
+        skipBrowserRedirect: false,
+      },
+    });
   };
 
   return (
@@ -36,8 +33,7 @@ export const LinkedinSignIn = ({ className = "", children, callbackUrl = "/onboa
       onClick={handleLinkedinSignIn}
       disabled={isLoading}
       className={clsx(
-        "hover:border-primary-700 flex min-w-105 cursor-pointer items-center justify-center gap-3 rounded-md border border-neutral-200 px-4 py-3 transition-colors disabled:cursor-not-allowed disabled:opacity-50",
-        className
+        "hover:border-primary-700 flex min-w-105 cursor-pointer items-center justify-center gap-3 rounded-md border border-neutral-200 px-4 py-3 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
       )}
       {...props}
     >

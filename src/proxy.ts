@@ -1,21 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { GetCachedAuth } from "@/lib/auth/get-session";
 import { COOKIE_NAME } from "@/lib/constants";
+import { getUser } from "@/lib/supabase/auth";
 
 // Define protected and auth routes for better maintainability
-const protectedRoutes = ["/onboarding", "/profile", "/jobs", "/jobs/[slug]", "/uiKit"];
+const protectedRoutes = ["/onboarding", "/profile", "/jobs", "/jobs/[slug]", "/uiKit", "/cv"];
 const authRoutes = ["/sign-in", "/sign-up"];
-// const publicRoutes = ["/"];
 
 export default async function proxy(req: NextRequest) {
-  const session = await GetCachedAuth();
   const { pathname } = req.nextUrl;
-  const isLoggedIn = !!session?.user;
-
   const locale = req.cookies.get(COOKIE_NAME)?.value || req.headers.get("accept-language")?.split(",")[0] || "uk";
-  const res = NextResponse.next();
+  const res = NextResponse.next({
+    request: {
+      headers: req.headers,
+    },
+  });
   res.headers.set("x-locale", locale);
+
+  const user = await getUser();
+
+  const isLoggedIn = !!user;
 
   // Redirect authenticated users from home to onboarding
   if (isLoggedIn && pathname === "/") {
@@ -36,15 +40,5 @@ export default async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder files
-     */
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-  ],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
 };

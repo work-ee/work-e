@@ -3,10 +3,9 @@ import { notFound } from "next/navigation";
 
 import clsx from "clsx";
 
-import { AsideCheckSkills } from "@/components/jobs/AsideCheckSkills";
-import { JobApplication } from "@/components/jobs/JobApplication";
+import { AsideCheckSkills, JobApplication } from "@/components/jobs";
 
-import { getJobBySlug, getJobsData } from "@/actions/server/jobs";
+import { getJobBySlug, getJobsData } from "@/lib/data/jobs";
 
 interface Props {
   params: Promise<{

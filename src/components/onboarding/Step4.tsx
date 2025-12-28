@@ -1,8 +1,7 @@
 import { Search } from "lucide-react";
 
+import { Title } from "@/components/onboarding/Title";
 import { Button } from "@/components/ui";
-
-import { Title } from "./Title";
 
 export const Step4 = () => {
   return (

@@ -1,8 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/shadcn/dialog";
 
-import { Button } from "../ui";
 import { CVUploadTrigger } from "./CVUploadPopup/CVUploadTrigger";
 
 interface InfoDialogProps {

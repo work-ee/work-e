@@ -4,9 +4,13 @@ import { useState } from "react";
 
 import { Mail } from "lucide-react";
 
-import { AlertInfo } from "../feedback/AlertInfo";
-import { CoverLetterGoogle } from "../shared";
-import { Button, Input } from "../ui";
+import { AlertInfo } from "@/components/feedback/AlertInfo";
+// import { CoverLetterGoogle } from "@/components/shared";
+import { Button, Input } from "@/components/ui";
+
+interface Props {
+  haveApplied?: boolean;
+}
 
 const JobApplicationComponent = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -38,16 +42,11 @@ const JobApplicationComponent = () => {
                   }}
                 />
               </div>
-              {/* <div className="">
-            <Button className="btn-sm" variant="secondary">
-              Завантажити
-            </Button>
-          </div> */}
             </div>
           </div>
         </section>
 
-        <CoverLetterGoogle jobDescription="" />
+        {/* <CoverLetterGoogle jobDescription="" /> */}
 
         <Button type="button" onClick={handleSubmit} className="btn-sm mt-6 w-full">
           <Mail />
@@ -60,16 +59,12 @@ const JobApplicationComponent = () => {
         title="Супер!"
         text="Вітаю ти подався на вакансію. Чекай відповіді від HR"
         buttonText={"Надсилати автоматично"}
-        onButtonClick={() => alert('Done "Автоматична відправка CV"')}
+        onButtonClick={() => alert('Done "Автоматична відправлення CV"')}
         backdrop
       />
     </>
   );
 };
-
-interface Props {
-  haveApplied?: boolean;
-}
 
 export const JobApplication = ({ haveApplied }: Props) => {
   const [isApplied, setIsApplied] = useState(false);
@@ -78,6 +73,7 @@ export const JobApplication = ({ haveApplied }: Props) => {
     return (
       <div className="mt-8 flex items-center justify-between gap-4">
         <Button
+          type="button"
           className="btn-sm w-full"
           variant="secondary"
           disabled={haveApplied}

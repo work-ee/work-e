@@ -10,7 +10,7 @@ export default async function HomePage() {
       <section className="section">
         <div className="container">
           <div className="text-center">
-            {/* <h1 className="heading-h1 mb-4">Швидкий пошук роботи на Work - E</h1> */}
+            {/* <h1 className="heading-h1 mb-4">Швидкий пошук роботи на work-e</h1> */}
             {/* <p className="heading-h3 mb-4">Для всіх хто працює в IT</p> */}
             <h1 className="heading-h1 mb-4">{t("HomePage.title")}</h1>
             <p className="heading-h3 mb-4">{t("HomePage.subtitle")}</p>

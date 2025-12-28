@@ -3,18 +3,18 @@
 import { useEffect } from "react";
 
 import { LogOut } from "lucide-react";
-import { signOut } from "next-auth/react";
 import { useFormStatus } from "react-dom";
 
+import { SignOut } from "@/components/auth/SignOut";
 import { ModalAlertDelProfile } from "@/components/feedback";
 import { Button } from "@/components/ui";
 
 import { cn } from "@/lib/utils";
 
-interface ProfileActionsProps {
+type ProfileActionsProps = {
   message: { type: "success" | "error"; text: string } | null;
   setMessage: React.Dispatch<React.SetStateAction<{ type: "success" | "error"; text: string } | null>>;
-}
+};
 export function ProfileActions({ message, setMessage }: ProfileActionsProps) {
   const { pending } = useFormStatus();
 
@@ -46,15 +46,10 @@ export function ProfileActions({ message, setMessage }: ProfileActionsProps) {
       )}
 
       <div className="flex flex-col gap-1">
-        <button
-          type="button"
-          aria-label="Sign out"
-          className="input-text text-primary-500 flex cursor-pointer items-center gap-1 p-1"
-          onClick={() => signOut({ callbackUrl: "/sign-in" })}
-        >
+        <SignOut type="button" variant="link" className="input-text flex items-center gap-1 p-1!">
           <LogOut className="h-4 w-4" />
           <span>Вийти з акаунта</span>
-        </button>
+        </SignOut>
 
         <ModalAlertDelProfile />
       </div>

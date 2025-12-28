@@ -1,50 +1,36 @@
-"use server";
-
 import { cache } from "react";
 
 import fs from "fs/promises";
 import path from "path";
 
-import { IJob } from "@/types/jobs";
+import type { IJob } from "@/types/jobs";
+
+const jobsFilePath = path.join(process.cwd(), "public", "data", "jobs.json");
 
 // React cache for deduplication across the same request
 export const getJobsData = cache(async (): Promise<IJob[]> => {
-  try {
-    const filePath = path.join(process.cwd(), "public", "data", "jobs.json");
-    const file = await fs.readFile(filePath, "utf8");
-    const jobs: IJob[] = JSON.parse(file);
-    return jobs;
-  } catch (error) {
-    console.error("Error reading jobs data:", error);
-    throw new Error("Failed to load jobs data");
-  }
+  const file = await fs.readFile(jobsFilePath, "utf8");
+  return JSON.parse(file) as IJob[];
 });
 
 /**
  * Get a specific job by slug
  */
 export const getJobBySlug = cache(async (slug: string): Promise<IJob | null> => {
-  try {
-    const jobs = await getJobsData();
-    return jobs.find((job) => job.slug === slug) || null;
-  } catch (error) {
-    console.error("Error getting job by slug:", error);
-    return null;
-  }
+  const jobs = await getJobsData();
+  return jobs.find((job) => job.slug === slug) ?? null;
 });
 
 /**
  * Get all jobs
  */
 export const getAllJobs = cache(async (): Promise<IJob[]> => {
-  try {
-    return await getJobsData();
-  } catch (error) {
-    console.error("Error getting all jobs:", error);
-    return [];
-  }
+  return await getJobsData();
 });
 
+//////////////////////////////////////////////////////////////////////////////////
+//////////!  Other variants  !///////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 /**
  * Get jobs with pagination
  */

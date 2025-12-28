@@ -1,28 +1,21 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import type { User } from "@supabase/supabase-js";
 
-import { useSession } from "next-auth/react";
+import { useActionState, useEffect, useState } from "react";
 
 import { AlertInfo } from "@/components/feedback";
 import { ProfileActions, ProfileData, ProfileSettings, ProfileTabs } from "@/components/profile";
 import type { ToggleName } from "@/components/profile/ProfileSettings";
 import { TabsContent } from "@/components/ui/shadcn/tabs";
 
-import { updateUserProfile } from "@/actions/server/user";
-import type { BackendUser, IUserFormData } from "@/types/next-auth";
+import { type UserState, updateUserProfile } from "@/app/_actions/profile";
 
-export function ProfileMain({ user }: { user: BackendUser | null }) {
-  const { first_name, last_name, email, username, avatar_url, date_joined } = user || {
-    first_name: "Guest",
-    last_name: "User",
-    email: "guest@example.com",
-    username: "guest_user",
-    avatar_url: null,
-    date_joined: new Date().toLocaleDateString(),
-  };
+export function ProfileMain({ user }: { user: User | null }) {
+  const { email, last_sign_in_at, created_at } = user || {};
+  const { full_name, avatar_url } = user?.user_metadata || {};
+  // const { provider, providers } = user?.app_metadata || {};
 
-  const { update } = useSession();
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [toggleStates, setToggleStates] = useState<{
     [key in ToggleName]: boolean;
@@ -31,36 +24,19 @@ export function ProfileMain({ user }: { user: BackendUser | null }) {
     autoCompareJobs: false,
     emailNotifications: true,
   });
-  const [formData] = useState<IUserFormData>({
-    first_name: first_name || "",
-    last_name: last_name || "",
+
+  const formState: UserState = {
+    first_name: full_name?.split(" ")[0] || "",
+    last_name: full_name?.split(" ")[1] || "",
     email: email || "",
-    username: username || "",
+    avatar_url: avatar_url || "",
     linkedin_url: "",
     cv: "",
-    avatar_url: avatar_url || "",
-  });
+    errors: {},
+  };
 
-  const updateUserWithId = updateUserProfile.bind(null, user?.id?.toString() || "");
-  const [state, formAction, isPending] = useActionState(updateUserWithId, formData);
-
-  useEffect(() => {
-    if (state.errors && Object.keys(state.errors).length === 0 && !isPending) {
-      setMessage({ type: "success", text: "Профіль успішно оновлено!" });
-
-      update({
-        backendUser: {
-          ...user,
-          first_name: state.first_name,
-          last_name: state.last_name,
-          email: state.email,
-        },
-      });
-    } else if (state.errors && Object.keys(state.errors).length > 0 && !isPending) {
-      setMessage({ type: "error", text: state.errors._general || "Будь ласка, виправте помилки у формі" });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.errors, isPending]);
+  const updateUserWithId = updateUserProfile.bind(null, user?.id || "");
+  const [state, formAction] = useActionState(updateUserWithId, formState);
 
   const handleToggle = (name: ToggleName) => {
     setToggleStates((prev) => ({
@@ -76,6 +52,14 @@ export function ProfileMain({ user }: { user: BackendUser | null }) {
     }));
   };
 
+  useEffect(() => {
+    if (state.success) {
+      setMessage({ type: "success", text: "Профіль успішно оновлено!" });
+    } else if (state.errors && Object.keys(state.errors).length > 0) {
+      setMessage({ type: "error", text: state.errors._general || "Будь ласка, виправте помилки у формі" });
+    }
+  }, [state]);
+
   return (
     <ProfileTabs>
       <form className="flex flex-col gap-6" action={formAction} noValidate>
@@ -83,7 +67,7 @@ export function ProfileMain({ user }: { user: BackendUser | null }) {
           value="profile"
           className="data-[state=active]:animate-in data-[state=active]:fade-in data-[state=active]:zoom-in data-[state=inactive]:animate-fade-out data-[state=inactive]:fade-out data-[state=inactive]:zoom-out"
         >
-          <ProfileData state={state} dataJoined={date_joined} />
+          <ProfileData state={state} lastSignInAt={last_sign_in_at} dataJoined={created_at} />
         </TabsContent>
 
         <TabsContent
@@ -92,7 +76,6 @@ export function ProfileMain({ user }: { user: BackendUser | null }) {
         >
           <ProfileSettings handleToggle={handleToggle} toggleStates={toggleStates} />
         </TabsContent>
-
         <ProfileActions message={message} setMessage={setMessage} />
       </form>
 

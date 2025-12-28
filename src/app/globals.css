@@ -280,7 +280,10 @@
     @apply my-8;
   }
   .logo {
-    @apply inline-flex items-center justify-center;
+    @apply text-primary-900 inline-flex items-center justify-center font-black tracking-tighter;
+  }
+  .logo-letter {
+    @apply relative -translate-x-2 transform text-[1.2em];
   }
   .text-link {
     @apply text-primary-500 inline-flex cursor-pointer hover:underline;

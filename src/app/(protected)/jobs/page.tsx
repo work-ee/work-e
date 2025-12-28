@@ -2,9 +2,8 @@ import Image from "next/image";
 
 import { AsideAiInfo, AsideFilterList, CardList, Search } from "@/components/jobs";
 
+import { getAllJobs } from "@/lib/data/jobs";
 import { cn } from "@/lib/utils";
-
-import { getAllJobs } from "@/actions/server/jobs";
 
 export default async function ProfilePage() {
   const jobs = await getAllJobs();

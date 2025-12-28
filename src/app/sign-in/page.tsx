@@ -1,7 +1,8 @@
 import Link from "next/link";
 
 import { GoogleSignIn } from "@/components/auth/GoogleSignIn";
-import { LinkedinSignIn } from "@/components/auth/LinkedinSignIn";
+
+// import { LinkedinSignIn } from "@/components/auth/LinkedinSignIn";
 
 import { ROUTES } from "@/lib/constants";
 
@@ -12,12 +13,17 @@ const Page = async () => {
         <div className="container">
           <div className="flex flex-col items-center justify-center gap-6">
             <div className="flex flex-col text-center">
-              <h1 className="heading-h2">Увійти на Work - E</h1>
+              <h1 className="heading-h2">
+                Увійти на{" "}
+                <b className="logo">
+                  work-<i>e</i>
+                </b>
+              </h1>
             </div>
 
             <div className="flex flex-col gap-2 text-center">
               <GoogleSignIn />
-              <LinkedinSignIn />
+              {/* <LinkedinSignIn /> */}
             </div>
 
             <p>

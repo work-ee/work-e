@@ -1,14 +1,13 @@
-import Link from "next/link";
+import type { User } from "@supabase/supabase-js";
 
-import { User } from "next-auth";
+import Link from "next/link";
 
 import { CVUploadTrigger } from "@/components/feedback/CVUploadPopup/CVUploadTrigger";
 import { ProfileSvg } from "@/components/icons";
+import { Title } from "@/components/onboarding/Title";
 import { Button } from "@/components/ui";
 
 import { ROUTES } from "@/lib/constants";
-
-import { Title } from "./Title";
 
 interface StepProps {
   user?: User;

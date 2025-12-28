@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { getCurrentUser } from "@/actions/server/user";
+import { getCurrentUser } from "@/services/user-service";
 import { ProfileState } from "@/types/profile";
 
 export const useProfileStore = create<ProfileState>((set) => ({

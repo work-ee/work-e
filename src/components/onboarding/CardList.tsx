@@ -1,13 +1,12 @@
 import Link from "next/link";
 
 import { ArrowRightSvg } from "@/components/icons";
+import { Card } from "@/components/onboarding/Card";
 
 import { ROUTES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 import { IJobList } from "@/types/jobs";
-
-import { Card } from "./Card";
 
 export const CardList = ({ length = 3, muted = false, moreBtn = false, data = [], ...props }: IJobList) => {
   return (

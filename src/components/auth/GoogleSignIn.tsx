@@ -3,32 +3,29 @@
 import { useState } from "react";
 
 import clsx from "clsx";
-import { signIn } from "next-auth/react";
-import { toast } from "sonner";
 
 import { GoogleSvg } from "@/components/icons";
 
+import { getSupabaseBrowserClient } from "@/lib/supabase/browser-client";
+
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: string;
   children?: React.ReactNode;
-  callbackUrl?: string;
 }
-export const GoogleSignIn = ({ className = "", children, callbackUrl = "/onboarding", ...props }: Props) => {
+export const GoogleSignIn = ({ children, ...props }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const supabase = getSupabaseBrowserClient();
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
 
-    try {
-      await signIn("google", {
-        redirectTo: callbackUrl,
-      });
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Невідома помилка під час входу";
-      toast.error(`Помилка входу через Google: ${errorMessage}`);
-    } finally {
-      // setIsLoading(false);
-    }
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/api/auth/callback?next=/onboarding`,
+        skipBrowserRedirect: false,
+      },
+    });
   };
 
   return (
@@ -36,8 +33,7 @@ export const GoogleSignIn = ({ className = "", children, callbackUrl = "/onboard
       onClick={handleGoogleSignIn}
       disabled={isLoading}
       className={clsx(
-        "hover:border-primary-700 flex min-w-105 cursor-pointer items-center justify-center gap-3 rounded-md border border-neutral-200 px-4 py-3 transition-colors disabled:cursor-not-allowed disabled:opacity-50",
-        className
+        "hover:border-primary-700 flex min-w-105 cursor-pointer items-center justify-center gap-3 rounded-md border border-neutral-200 px-4 py-3 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
       )}
       {...props}
     >

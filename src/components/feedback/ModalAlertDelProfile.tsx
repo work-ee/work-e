@@ -17,10 +17,13 @@ export const ModalAlertDelProfile = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <button type="button" className="input-text text-error-main flex cursor-pointer items-center gap-1 p-1">
-          <Trash className="h-4 w-4" />
+        {/* <button type="button" className="input-text text-error-main flex cursor-pointer items-center gap-1 p-1">
           <span>Видалити акаунт</span>
-        </button>
+        </button> */}
+        <Button type="button" variant="link" className="input-text text-error-main! flex items-center gap-1 p-1!">
+          <Trash className="h-4 w-4" />
+          Видалити акаунт
+        </Button>
       </AlertDialogTrigger>
 
       <AlertDialogContent className="rounded-2xl bg-white transition-all hover:scale-[1.01] sm:max-w-sm">
@@ -39,7 +42,7 @@ export const ModalAlertDelProfile = () => {
             asChild
             className="h-13 flex-1 border-red-800 bg-red-500 text-xl hover:border-red-800 hover:bg-red-600"
           >
-            <Button onClick={() => alert('Done "ВИДАЛЕН"')}>Так</Button>
+            <Button onClick={() => alert('Done "ВИДАЛЕННЯ"')}>Так</Button>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
