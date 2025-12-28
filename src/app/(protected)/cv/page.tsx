@@ -16,7 +16,7 @@ import { FormValues, cvSchema } from "@/lib/validations/cvSchema";
 
 import { useDebouncedCallback } from "@/hooks/useDebouncedCallback";
 
-import { updateUser } from "@/actions/server/user";
+// import { updateUser } from "@/actions/server/user";
 import { useProfileStore } from "@/stores/profileStore";
 import { Language, UserProfile } from "@/types/profile";
 
@@ -59,7 +59,12 @@ const transformWatchedFieldsToProfile = (
 };
 
 export default function CVForm() {
-  const { profile, setProfile, isProfileLoading, fetchCurrentUser } = useProfileStore();
+  const {
+    profile,
+    setProfile,
+    isProfileLoading,
+    // fetchCurrentUser
+  } = useProfileStore();
 
   const {
     control,
@@ -140,67 +145,69 @@ export default function CVForm() {
   const onSubmit = async (data: FormValues) => {
     setMessage(null);
 
-    const userId = profile.personalInfo?.id;
+    // const userId = profile.personalInfo?.id;
 
-    function mapProfileToBackend(profile: UserProfile) {
-      return {
-        desired_position: profile.personalInfo?.desiredPosition,
-        first_name: profile.personalInfo?.firstName,
-        last_name: profile.personalInfo?.lastName,
-        email: profile.personalInfo?.email,
-        phone: profile.personalInfo?.phone,
-        country: profile.personalInfo?.country,
-        city: profile.personalInfo?.city,
-        overview: profile.overview,
-        experience: profile.experience
-          ?.map(
-            (exp) =>
-              `Position: ${exp.position || ""}, Company: ${exp.company || ""}, ` +
-              `Start: ${exp.startDate || ""}, End: ${exp.endDate || ""}, Description: ${exp.description || ""}`
-          )
-          .join(" | "),
-        education: profile.education
-          ?.map(
-            (edu) =>
-              `Specialization: ${edu.specialization || ""}, Institution: ${edu.institution || ""}, ` +
-              `Start: ${edu.startDate || ""}, End: ${edu.endDate || ""}, Description: ${edu.description || ""}`
-          )
-          .join(" | "),
-        courses: profile.courses
-          ?.map(
-            (course) =>
-              `Specialization: ${course.specialization || ""}, Institution: ${course.institution || ""}, ` +
-              `Start: ${course.startDate || ""}, End: ${course.endDate || ""}, Description: ${course.description || ""}`
-          )
-          .join(" | "),
-        programming_languages: profile.programmingLanguages?.join(", "),
-        skills: profile.skills?.join(", "),
-        foreign_languages: profile.foreignLanguages?.map((lang) => `${lang.name || ""}:${lang.level || ""}`).join(", "),
-        hobbies: profile.hobbies,
-      };
-    }
+    // function mapProfileToBackend(profile: UserProfile) {
+    //   return {
+    //     desired_position: profile.personalInfo?.desiredPosition,
+    //     first_name: profile.personalInfo?.firstName,
+    //     last_name: profile.personalInfo?.lastName,
+    //     email: profile.personalInfo?.email,
+    //     phone: profile.personalInfo?.phone,
+    //     country: profile.personalInfo?.country,
+    //     city: profile.personalInfo?.city,
+    //     overview: profile.overview,
+    //     experience: profile.experience
+    //       ?.map(
+    //         (exp) =>
+    //           `Position: ${exp.position || ""}, Company: ${exp.company || ""}, ` +
+    //           `Start: ${exp.startDate || ""}, End: ${exp.endDate || ""}, Description: ${exp.description || ""}`
+    //       )
+    //       .join(" | "),
+    //     education: profile.education
+    //       ?.map(
+    //         (edu) =>
+    //           `Specialization: ${edu.specialization || ""}, Institution: ${edu.institution || ""}, ` +
+    //           `Start: ${edu.startDate || ""}, End: ${edu.endDate || ""}, Description: ${edu.description || ""}`
+    //       )
+    //       .join(" | "),
+    //     courses: profile.courses
+    //       ?.map(
+    //         (course) =>
+    //           `Specialization: ${course.specialization || ""}, Institution: ${course.institution || ""}, ` +
+    //           `Start: ${course.startDate || ""}, End: ${course.endDate || ""}, Description: ${course.description || ""}`
+    //       )
+    //       .join(" | "),
+    //     programming_languages: profile.programmingLanguages?.join(", "),
+    //     skills: profile.skills?.join(", "),
+    //     foreign_languages: profile.foreignLanguages?.map((lang) => `${lang.name || ""}:${lang.level || ""}`).join(", "),
+    //     hobbies: profile.hobbies,
+    //   };
+    // }
 
     const transformedData = transformWatchedFieldsToProfile(data, profile);
     setProfile({ ...profile, ...transformedData });
-    const userPayload = mapProfileToBackend(profile);
 
-    try {
-      if (!userId) {
-        throw new Error("User ID не знайдено. Дані профілю не завантажені.");
-      }
+    // const userPayload = mapProfileToBackend(profile);
 
-      const result = await updateUser(userPayload, Number(userId));
+    // ! TODO: Uncomment and implement updateUser function
+    // try {
+    //   if (!userId) {
+    //     throw new Error("User ID не знайдено. Дані профілю не завантажені.");
+    //   }
 
-      if (result.success) {
-        setMessage("✅ Дані збережено успішно");
-        await fetchCurrentUser();
-      } else {
-        setMessage("❌ Помилка при збереженні");
-      }
-    } catch (err) {
-      setMessage("❌ Сталася помилка");
-      console.error(err);
-    }
+    //   const result = await updateUser(userPayload, Number(userId))
+
+    //   if (result.success) {
+    //     setMessage("✅ Дані збережено успішно");
+    //     await fetchCurrentUser();
+    //   } else {
+    //     setMessage("❌ Помилка при збереженні");
+    //   }
+    // } catch (err) {
+    //   setMessage("❌ Сталася помилка");
+    //   console.error(err);
+    // }
   };
 
   const handleCancel = useCallback(() => {
