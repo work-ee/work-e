@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { COOKIE_NAME } from "@/lib/constants";
-import { getUser } from "@/lib/supabase/auth";
+import { getUserInMiddleware } from "@/lib/supabase/auth";
 
 // Define protected and auth routes for better maintainability
 const protectedRoutes = ["/onboarding", "/profile", "/jobs", "/jobs/[slug]", "/uiKit", "/cv"];
@@ -17,23 +17,38 @@ export default async function proxy(req: NextRequest) {
   });
   res.headers.set("x-locale", locale);
 
-  const user = await getUser();
+  const user = await getUserInMiddleware(req, res);
 
   const isLoggedIn = !!user;
 
   // Redirect authenticated users from home to onboarding
   if (isLoggedIn && pathname === "/") {
-    return NextResponse.redirect(new URL("/onboarding", req.url));
+    const redirectResponse = NextResponse.redirect(new URL("/onboarding", req.url));
+    // Copy cookies from the original response to preserve Supabase session
+    res.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie.name, cookie.value);
+    });
+    return redirectResponse;
   }
 
   // Redirect authenticated users away from auth pages
   if (isLoggedIn && authRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL("/onboarding", req.url));
+    const redirectResponse = NextResponse.redirect(new URL("/onboarding", req.url));
+    // Copy cookies from the original response to preserve Supabase session
+    res.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie.name, cookie.value);
+    });
+    return redirectResponse;
   }
 
   // Redirect unauthenticated users from protected routes
   if (!isLoggedIn && protectedRoutes.some((route) => pathname.startsWith(route))) {
-    return NextResponse.redirect(new URL("/sign-in", req.url));
+    const redirectResponse = NextResponse.redirect(new URL("/sign-in", req.url));
+    // Copy cookies from the original response to preserve Supabase session
+    res.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie.name, cookie.value);
+    });
+    return redirectResponse;
   }
 
   return res;
